@@ -85,7 +85,7 @@ export const Footer: React.FC = () => {
               Español (Latinoamérica)
             </button>
             <span>•</span>
-            <span>Versión 1.0</span>
+            <span>Versión 2.1</span>
           </div>
         </div>
 
