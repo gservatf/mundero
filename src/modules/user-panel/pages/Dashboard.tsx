@@ -19,7 +19,7 @@ import {
   FiShare,
   FiMoreHorizontal
 } from 'react-icons/fi';
-import { FaBuilding } from 'react-icons/fa';
+import { FaBuilding } from "react-icons/fa";
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
