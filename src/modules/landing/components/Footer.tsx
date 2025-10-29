@@ -6,7 +6,7 @@ export const Footer: React.FC = () => {
   return (
     <footer className="bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-700 transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-6 py-12">
-
+        
         {/* Main Footer Content */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-8">
           
@@ -83,3 +83,13 @@ export const Footer: React.FC = () => {
           <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-400">
             <button className="hover:text-blue-600 dark:hover:text-blue-400">
               Español (Latinoamérica)
+            </button>
+            <span>•</span>
+            <span>Versión 1.0</span>
+          </div>
+        </div>
+
+      </div>
+    </footer>
+  );
+};
