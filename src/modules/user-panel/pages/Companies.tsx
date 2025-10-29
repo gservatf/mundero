@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   FiPlus, 
-  FiBuilding, 
   FiUsers, 
   FiSettings, 
   FiExternalLink,
   FiEdit3,
   FiTrash2
 } from 'react-icons/fi';
+import { FaBuilding } from 'react-icons/fa';
 
 export const Companies: React.FC = () => {
   const [showCreateForm, setShowCreateForm] = useState(false);
@@ -151,7 +151,7 @@ export const Companies: React.FC = () => {
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center space-x-3">
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <FiBuilding className="w-6 h-6 text-blue-600" />
+                  <FaBuilding className="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900">{company.name}</h3>

@@ -12,7 +12,6 @@ import { Settings } from './Settings';
 import { 
   FiTrendingUp, 
   FiUsers, 
-  FiBuilding, 
   FiDollarSign,
   FiPlus,
   FiMessageSquare,
@@ -20,6 +19,7 @@ import {
   FiShare,
   FiMoreHorizontal
 } from 'react-icons/fi';
+import { FaBuilding } from 'react-icons/fa';
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
@@ -104,7 +104,7 @@ const Dashboard: React.FC = () => {
                     <p className="text-2xl font-bold text-gray-900">{stats.companies}</p>
                   </div>
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <FiBuilding className="w-6 h-6 text-blue-600" />
+                    <FaBuilding className="w-6 h-6 text-blue-600" />
                   </div>
                 </div>
               </motion.div>

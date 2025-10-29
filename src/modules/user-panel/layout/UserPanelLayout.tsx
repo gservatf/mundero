@@ -4,7 +4,6 @@ import { useAuth } from '@/hooks/useAuth';
 import { 
   FiHome, 
   FiUser, 
-  FiBuilding, 
   FiUsers, 
   FiGrid, 
   FiTarget, 
@@ -13,6 +12,7 @@ import {
   FiBell,
   FiLogOut
 } from 'react-icons/fi';
+import { FaBuilding } from 'react-icons/fa';
 
 interface UserPanelLayoutProps {
   children: React.ReactNode;
@@ -30,7 +30,7 @@ export const UserPanelLayout: React.FC<UserPanelLayoutProps> = ({
   const navigationItems = [
     { id: 'dashboard', label: 'Dashboard', icon: FiHome },
     { id: 'profile', label: 'Mi Perfil', icon: FiUser },
-    { id: 'companies', label: 'Mis Empresas', icon: FiBuilding },
+    { id: 'companies', label: 'Mis Empresas', icon: FaBuilding },
     { id: 'referrals', label: 'Referidos', icon: FiUsers },
     { id: 'applications', label: 'Aplicaciones', icon: FiGrid },
     { id: 'leads', label: 'Centro de Leads', icon: FiTarget },
