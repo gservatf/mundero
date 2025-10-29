@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import { useAuth } from "@/hooks/useAuth";
 
+// 🧩 Tipo de usuario en el chat
 export interface ChatParticipant {
   uid: string;
   displayName: string;
@@ -31,6 +32,7 @@ export function useChat() {
 
   const uid = (user as any)?.uid;
 
+  // 🧠 Escucha activa de los chats del usuario
   useEffect(() => {
     if (!uid) {
       console.warn("[useChat] UID no disponible, omitiendo listener.");
@@ -60,6 +62,7 @@ export function useChat() {
     return () => unsubscribe();
   }, [uid]);
 
+  // 📩 Enviar mensaje
   const sendMessage = async (chatId?: string, text?: string) => {
     if (!chatId || !text?.trim()) return;
     setSendingMessage(true);
@@ -78,6 +81,7 @@ export function useChat() {
     }
   };
 
+  // 🧩 Crear nuevo chat
   const createChat = async (otherUserId?: string): Promise<string | null> => {
     if (!otherUserId || !uid) return null;
     try {
@@ -92,10 +96,14 @@ export function useChat() {
     }
   };
 
-  // ✅ FIX: elimina duplicación del campo `uid`
+  // 🔍 Buscar usuarios (versión segura contra undefined)
   const searchUsers = async (term: string): Promise<ChatParticipant[]> => {
-    if (!term?.trim()) return [];
     try {
+      if (!term || typeof term !== "string" || term.trim().length < 2) {
+        console.warn("[useChat] Búsqueda omitida: término vacío o indefinido");
+        return [];
+      }
+
       const usersRef = collection(db, "users");
       const q = query(
         usersRef,
@@ -104,29 +112,31 @@ export function useChat() {
       );
 
       const snapshot = await getDocs(q);
-      const results: ChatParticipant[] = snapshot.docs.map((doc) => {
-        const rawData = doc.data();
-        const { uid: _ignored, ...cleanData } = rawData || {};
 
+      return snapshot.docs.map((doc) => {
+        const rawData = doc.data() || {};
+        const { uid: _ignored, ...cleanData } = rawData;
         return {
           uid: doc.id,
           ...(cleanData as Omit<ChatParticipant, "uid">),
         };
       });
-
-      return results;
     } catch (error) {
       console.error("[useChat] Error al buscar usuarios:", error);
       return [];
     }
   };
 
+  // 👥 Obtener el otro participante del chat
   const getOtherParticipant = (chat: any) =>
     Array.isArray(chat?.members)
       ? chat.members.find((m: string) => m !== uid)
       : null;
 
+  // 🔔 Placeholder para mensajes no leídos
   const hasUnreadMessages = (_chat: any) => false;
+
+  // ✏️ Placeholder para estado de escritura
   const setTyping = (_chatId?: string, _isTyping?: boolean) => {};
 
   return {
