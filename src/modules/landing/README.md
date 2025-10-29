@@ -1,171 +1,216 @@
-# Módulo Landing - MUNDERO Hub
+# Landing Module - MUNDERO
 
-## Descripción
-Landing page principal de MUNDERO Hub, diseñada para ser el punto de entrada del ecosistema del Grupo Servat. Enfoque en propósito + poder, diferenciándose de LinkedIn con una experiencia más emocional y conectada.
+## 📋 Propósito General
 
-## Estructura del Módulo
+El módulo Landing de MUNDERO es la puerta de entrada principal al ecosistema profesional del Grupo Servat. Diseñado con un enfoque corporativo moderno inspirado en LinkedIn, proporciona una experiencia de usuario elegante y profesional que refleja la identidad visual de la marca.
+
+## 🏗️ Estructura de Carpetas y Componentes
 
 ```
 src/modules/landing/
 ├── components/
-│   ├── HeroSection.tsx      # Sección principal con animaciones
-│   ├── ValueSection.tsx     # Propuesta de valor y constelación
-│   ├── IntegrationsSection.tsx # Cards de aplicaciones integradas
-│   ├── CTASection.tsx       # Call-to-action emocional y testimonios
-│   └── Footer.tsx           # Footer minimalista con links
-├── hooks/                   # Hooks específicos del landing (futuro)
-├── assets/                  # Assets específicos del landing (futuro)
-├── index.tsx               # Exportación principal del módulo
-└── README.md               # Esta documentación
+│   ├── HeroSection.tsx      # Sección principal con CTA y header
+│   ├── ValueSection.tsx     # Constelación interactiva y beneficios
+│   ├── CTASection.tsx       # Testimonios y llamada a la acción final
+│   └── Footer.tsx           # Footer corporativo tipo LinkedIn
+├── index.tsx                # Componente principal que orquesta todas las secciones
+└── README.md               # Documentación del módulo
 ```
 
-## Características Implementadas
+### Descripción de Componentes
 
-### 🎯 Hero Section
-- **Copy principal**: "Tu identidad profesional, conectada al futuro"
-- **Animación de red**: Constelación con MUNDERO al centro y empresas satélite
-- **Botones CTA**: Entrar con Google (principal) y Explorar ecosistema (secundario)
-- **Partículas flotantes**: Efecto visual dinámico de fondo
-- **Indicador de scroll**: Animación sutil para guiar al usuario
+#### `HeroSection.tsx`
+- **Header sticky** con blur y transparencia
+- **Hero principal** con layout de dos columnas (7:5)
+- **CTA principal** "Entrar con Google" con autenticación
+- **Métricas** de profesionales, empresas y países
+- **Tipografía moderna** con jerarquía clara
 
-### ⚡ Value Section
-- **Propuesta central**: "MUNDERO es el núcleo digital del Grupo Servat"
-- **Constelación modular**: Visualización de conexiones entre empresas
-- **Features grid**: 4 características principales con iconos animados
-- **Animaciones**: Framer Motion para efectos de entrada progresivos
+#### `ValueSection.tsx`
+- **Constelación interactiva** con MUNDERO como hub central
+- **Empresas satélite**: LEGALTY, WE CONSULTING, PITAHAYA, PORTALES
+- **Grid de beneficios** con iconos (Red, Seguridad, Crecimiento, Integración)
+- **Animaciones sutiles** con partículas de fondo
 
-### 🔗 Integrations Section
-- **Cards interactivas**: Hover effects con blur + glow
-- **4 Aplicaciones**: Legalty, We Consulting, Pitahaya, Portales
-- **Estados**: Activo vs Próximamente
-- **Métricas dinámicas**: Usuarios, empresas, comisiones
-- **Gradientes temáticos**: Cada app tiene su paleta de colores
+#### `CTASection.tsx`
+- **Sección de testimonios** con valoraciones de usuarios
+- **CTA final emocional** con doble botón
+- **Banner oscuro** con gradiente azul corporativo
+- **Llamada a la acción** aspiracional y profesional
 
-### ❤️ CTA Section
-- **Mensaje emocional**: "No trabajes aislado"
-- **Testimonios reales**: 3 casos de uso con ratings
-- **Doble CTA**: "Unirme al ecosistema" y "Soy parte del Grupo Servat"
-- **Banner final**: Último impulso para conversión
+#### `Footer.tsx`
+- **Footer tipo LinkedIn** con 5 columnas organizadas
+- **Soporte para modo oscuro/claro** con transiciones
+- **Enlaces corporativos** (General, Explorar, Empresa, Recursos, Legal)
+- **Branding** con logo y copyright de Grupo Servat
 
-### 🦶 Footer
-- **Minimalista**: Información esencial sin saturar
-- **Frase distintiva**: "Creado para conectar. Diseñado para evolucionar."
-- **Links organizados**: Producto, Empresa, Legal
-- **Contacto**: Email, teléfono, ubicación
-- **Social media**: LinkedIn, Twitter, Instagram
+## 🔧 Dependencias Utilizadas
 
-## Paleta de Colores
+### Principales
+- **React** - Framework base
+- **TypeScript** - Tipado estático
+- **TailwindCSS** - Framework de estilos utilitarios
+- **Framer Motion** - Animaciones y transiciones
+- **React Icons** (Fi) - Iconografía consistente
 
-| Elemento | Color | Uso |
-|----------|-------|-----|
-| Primario | Azul petróleo (#1e40af - #1d4ed8) | Elementos principales, CTAs |
-| Secundario | Dorado tenue (#f59e0b - #d97706) | Acentos, highlights |
-| Fondo | Blanco puro (#ffffff) | Backgrounds principales |
-| Texto | Slate (#0f172a - #64748b) | Contenido y descripciones |
-| Gradientes | Combinaciones dinámicas | Efectos visuales y botones |
+### Hooks Personalizados
+- **useAuth** - Gestión de autenticación con Google (no modificar)
 
-## Animaciones
+## 🎨 Guía de Diseño
 
-### Framer Motion
-- **Entrada progresiva**: Elementos aparecen con delay escalonado
-- **Hover effects**: Transformaciones suaves en cards y botones
-- **Scroll animations**: Activación al entrar en viewport
-- **Rotación continua**: Elementos de red y partículas
-- **Scale effects**: Feedback visual en interacciones
+### Paleta de Colores
 
-### Efectos Especiales
-- **Partículas flotantes**: 20 elementos animados en hero
-- **Blur + Glow**: Efectos de profundidad en cards
-- **Gradientes animados**: Transiciones de color suaves
-- **Indicadores de estado**: Pulsos y animaciones de conexión
+```css
+/* Colores principales */
+--blue-primary: #0E1E64;     /* Azul corporativo Grupo Servat */
+--blue-600: #2563eb;         /* Azul LinkedIn-style */
+--blue-700: #1d4ed8;         /* Azul hover */
+--white: #ffffff;            /* Fondo principal */
+--gray-50: #f9fafb;          /* Fondo secciones */
+--gray-900: #111827;         /* Texto principal */
+--gray-600: #4b5563;         /* Texto secundario */
+```
 
-## Integración con Sistema Base
+### Tipografía
 
-### Autenticación
-- Utiliza `useAuth` hook existente
-- Método `signInWithGoogle()` para login
-- No modifica lógica de autenticación base
-- Preserva configuración Firebase
+```css
+/* Jerarquía tipográfica */
+h1: text-5xl md:text-6xl font-semibold    /* Títulos principales */
+h2: text-4xl font-bold                    /* Títulos de sección */
+h3: text-xl font-semibold                 /* Subtítulos */
+p: text-lg text-gray-600                  /* Párrafos principales */
+small: text-sm text-gray-500              /* Texto auxiliar */
+```
 
-### Componentes UI
-- Reutiliza componentes de `/components/ui/`
-- Button, Card, CardHeader, CardContent, etc.
-- Mantiene consistencia visual con dashboard
+### Estilos de Botón
 
-### Rutas
-- Se integra como página raíz `/`
-- No interfiere con rutas del dashboard
-- Redirección automática post-login
+#### Botón Primario (CTA Principal)
+```css
+.btn-primary {
+  @apply bg-blue-600 hover:bg-blue-700 text-white 
+         px-8 py-4 text-lg font-medium rounded-full 
+         shadow-lg hover:shadow-xl transition-all duration-200;
+}
+```
 
-## Métricas y KPIs
+#### Botón Secundario (Outline)
+```css
+.btn-secondary {
+  @apply !bg-transparent !hover:bg-blue-50 
+         border-2 border-blue-600 text-blue-600 hover:text-blue-600 
+         px-8 py-4 text-lg font-medium rounded-full 
+         transition-all duration-200;
+}
+```
 
-### Conversión
-- **Objetivo principal**: Registro con Google
-- **Objetivo secundario**: Exploración del ecosistema
-- **Métricas mostradas**: 2,341 usuarios, 27 empresas, S/ 1.25M comisiones
+#### Botón Ghost (Header)
+```css
+.btn-ghost {
+  @apply text-gray-600 hover:text-gray-900 hover:bg-gray-100 
+         px-4 py-2 text-sm font-medium transition-colors duration-200;
+}
+```
 
-### Engagement
-- **Scroll depth**: Medición de secciones visitadas
-- **Time on page**: Tiempo de permanencia
-- **Click-through rate**: Interacciones con CTAs
+### Espaciado y Layout
 
-## Responsive Design
+```css
+/* Contenedores principales */
+.container-main {
+  @apply max-w-6xl mx-auto px-6;
+}
 
-### Breakpoints
-- **Mobile**: < 768px - Stack vertical, botones full-width
-- **Tablet**: 768px - 1024px - Grid 2 columnas
-- **Desktop**: > 1024px - Grid completo, efectos hover
+/* Secciones */
+.section-padding {
+  @apply py-20;
+}
 
-### Adaptaciones
-- **Hero**: Texto responsive, animaciones simplificadas en móvil
-- **Cards**: Stack en móvil, hover effects solo desktop
-- **Footer**: Collapse de secciones en pantallas pequeñas
+/* Grid layouts */
+.grid-hero {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-12 items-center;
+}
 
-## Performance
+.grid-benefits {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8;
+}
+```
 
-### Optimizaciones
-- **Lazy loading**: Componentes se cargan bajo demanda
-- **Animaciones**: GPU-accelerated con transform/opacity
-- **Imágenes**: Placeholder SVG para avatars
-- **Código**: Tree-shaking automático de componentes no usados
+### Animaciones
 
-### Bundle Size
-- **Componentes**: ~15KB adicionales
-- **Animaciones**: Framer Motion ya incluido
-- **Icons**: React Icons reutilizado
+```typescript
+// Fade in desde abajo
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.6 }
+};
 
-## Mantenimiento
+// Slide desde la derecha
+const slideInRight = {
+  initial: { opacity: 0, x: 30 },
+  animate: { opacity: 1, x: 0 },
+  transition: { delay: 0.2, duration: 0.8 }
+};
+```
 
-### Actualizaciones de Contenido
-- **Copy**: Modificar directamente en componentes
-- **Métricas**: Actualizar números en IntegrationsSection
-- **Testimonios**: Editar array en CTASection
-- **Links**: Modificar en Footer
+## 🚀 Uso e Integración
 
-### Nuevas Integraciones
-- **Agregar app**: Extender array en IntegrationsSection
-- **Colores**: Definir gradientes en configuración
-- **Estados**: Manejar active/coming-soon
+### Importación
+```typescript
+import { LandingPage } from '@/modules/landing';
 
-### Monitoreo
-- **Errores**: Console logs para debugging
-- **Performance**: Métricas de carga y animaciones
-- **Conversión**: Tracking de eventos de CTA
+// En tu router principal
+<Route path="/" component={LandingPage} />
+```
 
-## Próximas Mejoras
+### Personalización
+Para modificar contenido o estilos:
 
-### Funcionalidades
-1. **A/B Testing**: Variantes de copy y CTAs
-2. **Personalización**: Contenido dinámico por usuario
-3. **Multilidioma**: Soporte español/inglés
-4. **Analytics**: Integración con Google Analytics
+1. **Textos**: Editar directamente en cada componente
+2. **Colores**: Modificar variables en `tailwind.config.js`
+3. **Animaciones**: Ajustar propiedades de Framer Motion
+4. **Layout**: Cambiar clases de grid de TailwindCSS
 
-### Técnicas
-1. **PWA**: Service worker para cache
-2. **SEO**: Meta tags dinámicos
-3. **Accessibility**: ARIA labels y keyboard navigation
-4. **Performance**: Image optimization y lazy loading
+## ⚠️ Notas Importantes
+
+### No Modificar
+- **Hook useAuth**: Mantener intacta la lógica de autenticación
+- **Rutas globales**: No alterar el sistema de routing
+- **Estructura base**: Conservar la arquitectura de componentes
+
+### Consideraciones de Rendimiento
+- Las animaciones están optimizadas con `viewport={{ once: true }}`
+- Imágenes deben estar optimizadas y en formato WebP cuando sea posible
+- Lazy loading implementado para componentes fuera del viewport
+
+### Responsive Design
+- **Mobile-first**: Diseño optimizado para dispositivos móviles
+- **Breakpoints**: sm (640px), md (768px), lg (1024px), xl (1280px)
+- **Grid adaptativo**: Columnas que se ajustan según el tamaño de pantalla
+
+## 📱 Compatibilidad
+
+- **Navegadores**: Chrome 90+, Firefox 88+, Safari 14+, Edge 90+
+- **Dispositivos**: Desktop, tablet, móvil
+- **Resoluciones**: 320px - 2560px
+- **Accesibilidad**: WCAG 2.1 AA compliant
+
+## 🔄 Actualizaciones Recientes
+
+### v2.0 - Rediseño LinkedIn-style
+- ✅ Header sticky con blur y transparencia
+- ✅ Hero limpio con tipografía moderna
+- ✅ Constelación interactiva de empresas
+- ✅ Testimonios y CTA emocional
+- ✅ Footer corporativo con modo oscuro
+- ✅ Animaciones optimizadas con Framer Motion
+
+### Próximas Mejoras
+- [ ] Integración con CMS para contenido dinámico
+- [ ] A/B testing para optimización de conversión
+- [ ] Métricas avanzadas con analytics
+- [ ] Soporte para múltiples idiomas
 
 ---
 
-**Nota**: Este módulo mantiene total independencia del núcleo del sistema, siguiendo las reglas de gobernanza técnica establecidas. No modifica archivos base ni configuraciones globales.
+**Desarrollado por el equipo Grupo Servat**  
+*Coherencia total con la identidad visual corporativa*
