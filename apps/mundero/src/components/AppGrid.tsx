@@ -2,8 +2,11 @@ import { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@ui/card'
 import { Button } from '@ui/button'
 import { ExternalLink, Settings, Loader2, Grid3X3 } from 'lucide-react'
-import { supabase } from '../core/supabase/supabaseClient'
+// import { collection, getDocs, orderBy, query, getFirestore } from 'firebase/firestore'
+// import { firebaseApp } from '../core/firebase/firebaseClient'
 import { App } from '@/types'
+
+// const db = getFirestore(firebaseApp)
 
 interface AppGridProps {
   userRoles?: string[]
@@ -43,16 +46,9 @@ export function AppGrid({ userRoles = ['user'] }: AppGridProps) {
       // Simulate loading time for better UX
       await new Promise(resolve => setTimeout(resolve, 1000))
       
-      const { data, error } = await supabase
-        .from('apps')
-        .select('*')
-        .order('name')
-
-      if (error) throw error
-      setApps(data || [])
-    } catch (error) {
-      console.error('Error loading apps:', error)
-      // Fallback to demo data with rich content
+      // Skip Firestore for now - use fallback data
+      console.log('📱 Using demo apps data (Firestore temporarily disabled)')
+      
       setApps([
         {
           id: '1',
@@ -99,6 +95,10 @@ export function AppGrid({ userRoles = ['user'] }: AppGridProps) {
           created_at: new Date().toISOString()
         }
       ])
+    } catch (error) {
+      console.error('Error loading apps:', error)
+      // Use demo data as fallback
+      setApps([])
     } finally {
       setLoading(false)
     }

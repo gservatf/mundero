@@ -1,0 +1,164 @@
+// 🔒 Firestore Security Rules for MUNDERO AdminUsers Module
+// =============================================================
+// These rules provide granular security for the admin panel user management system.
+// They ensure role-based access control and data protection for the MUNDERO ecosystem.
+//
+// 🚨 CRITICAL: Deploy these rules to Firebase Console after review
+// Firebase Console > Firestore Database > Rules > Copy and deploy these rules
+//
+// Last Updated: December 2024
+// Version: 1.0.0
+// =============================================================
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 👤 User Profiles Collection
+    // Allow users to read their own profile, admins to manage all profiles
+    match /userProfiles/{userId} {
+      // Users can read and update their own profile
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // Admins can read all profiles
+      allow read: if request.auth != null && 
+        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/userProfiles/$(request.auth.uid)).data.role in ['super_admin', 'admin', 'manager'];
+      
+      // Super admins can write/update any profile
+      allow write: if request.auth != null && 
+        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/userProfiles/$(request.auth.uid)).data.role == 'super_admin';
+      
+      // Admins can update specific fields (not roles)
+      allow update: if request.auth != null && 
+        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/userProfiles/$(request.auth.uid)).data.role in ['admin', 'manager'] &&
+        !('role' in request.resource.data.diff(resource.data).affectedKeys());
+    }
+    
+    // 🏢 Companies Collection
+    // Company data access for admin panel
+    match /companies/{companyId} {
+      // Admins can read all company data
+      allow read: if request.auth != null && 
+        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/userProfiles/$(request.auth.uid)).data.role in ['super_admin', 'admin', 'manager', 'analyst'];
+      
+      // Super admins can modify company data
+      allow write: if request.auth != null && 
+        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/userProfiles/$(request.auth.uid)).data.role == 'super_admin';
+      
+      // Company users can read their own company
+      allow read: if request.auth != null && 
+        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/userProfiles/$(request.auth.uid)).data.companyId == companyId;
+    }
+    
+    // 📊 Admin Actions Log Collection
+    // Audit trail for admin panel activities
+    match /adminActions/{actionId} {
+      // Only admins can read action logs
+      allow read: if request.auth != null && 
+        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/userProfiles/$(request.auth.uid)).data.role in ['super_admin', 'admin', 'manager'];
+      
+      // System can create action logs (server-side)
+      allow create: if request.auth != null && 
+        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/userProfiles/$(request.auth.uid)).data.role in ['super_admin', 'admin', 'manager'] &&
+        request.resource.data.adminId == request.auth.uid &&
+        request.resource.data.timestamp == request.time;
+    }
+    
+    // 📈 Analytics and Stats Collections
+    // Read-only access for dashboard data
+    match /analytics/{document=**} {
+      allow read: if request.auth != null && 
+        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/userProfiles/$(request.auth.uid)).data.role in ['super_admin', 'admin', 'manager', 'analyst'];
+    }
+    
+    match /userStats/{document=**} {
+      allow read: if request.auth != null && 
+        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/userProfiles/$(request.auth.uid)).data.role in ['super_admin', 'admin', 'manager', 'analyst'];
+    }
+    
+    // 💬 Chat and Communication Collections
+    // Basic security for chat system
+    match /chatRooms/{roomId} {
+      // Users can read rooms they're part of
+      allow read: if request.auth != null && 
+        request.auth.uid in resource.data.participants;
+      
+      // Users can create rooms
+      allow create: if request.auth != null && 
+        request.auth.uid in request.resource.data.participants;
+    }
+    
+    match /chatMessages/{messageId} {
+      // Users can read messages in their rooms
+      allow read: if request.auth != null;
+      
+      // Users can create their own messages
+      allow create: if request.auth != null && 
+        request.resource.data.senderId == request.auth.uid;
+    }
+    
+    // 🔐 Security Functions
+    // Helper functions for role validation
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function getUserRole() {
+      return get(/databases/$(database)/documents/userProfiles/$(request.auth.uid)).data.role;
+    }
+    
+    function isSuperAdmin() {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
+        getUserRole() == 'super_admin';
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
+        getUserRole() in ['super_admin', 'admin'];
+    }
+    
+    function isManager() {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
+        getUserRole() in ['super_admin', 'admin', 'manager'];
+    }
+    
+    function canAccessAnalytics() {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
+        getUserRole() in ['super_admin', 'admin', 'manager', 'analyst'];
+    }
+    
+    // 🚫 Default Deny
+    // Deny all other operations not explicitly allowed
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
+// 📋 DEPLOYMENT CHECKLIST
+// ======================
+// 1. Review all rules carefully
+// 2. Test with Firebase Emulator first
+// 3. Deploy to Firebase Console > Firestore Database > Rules
+// 4. Verify admin panel functionality
+// 5. Monitor Firebase Console for rule violations
+// 6. Update version number and date when modified
+//
+// 🔗 Related Documentation:
+// - Firebase Security Rules: https://firebase.google.com/docs/firestore/security/rules
+// - AdminUsers Module: src/modules/admin-panel/users/README.md
+// - Permission Matrix: See AdminUsers documentation

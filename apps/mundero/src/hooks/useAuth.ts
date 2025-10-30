@@ -22,7 +22,11 @@ export function useAuth() {
   useEffect(() => {
     const auth = getAuth(firebaseApp)
     
+    console.log('🔐 Configurando auth listener...')
+    
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      console.log('👤 Auth state changed:', user ? user.email : 'No user')
+      
       if (user) {
         try {
           const currentUser = await getCurrentUser()

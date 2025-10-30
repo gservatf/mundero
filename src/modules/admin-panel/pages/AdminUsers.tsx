@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
 import { Button } from '../../../components/ui/button';
 import { Input } from '../../../components/ui/input';
@@ -12,82 +12,243 @@ import {
   FiUserX, 
   FiUserCheck,
   FiRefreshCw,
-  FiMoreVertical
+  FiMoreVertical,
+  FiInfo,
+  FiAlertCircle,
+  FiCheckCircle
 } from 'react-icons/fi';
-import { adminUserService, AdminUser } from '../services/adminFirebase';
-import { useAdminAuth } from '../hooks/useAdminAuth';
+import { adminUserService, AdminUser, PaginatedUsers } from '../services/adminFirebase';
+import { useAdminAuth, getRoleDescription, getRoleBadgeColor } from '../hooks/useAdminAuth';
+
+// Tooltip Component
+const Tooltip: React.FC<{ content: string; children: React.ReactNode }> = ({ content, children }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  return (
+    <div className="relative inline-block">
+      <div
+        onMouseEnter={() => setIsVisible(true)}
+        onMouseLeave={() => setIsVisible(false)}
+      >
+        {children}
+      </div>
+      {isVisible && (
+        <div className="absolute z-10 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700 bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 whitespace-nowrap">
+          {content}
+          <div className="tooltip-arrow" data-popper-arrow></div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Confirmation Modal Component
+const ConfirmationModal: React.FC<{
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  title: string;
+  message: string;
+  type: 'warning' | 'danger' | 'info';
+}> = ({ isOpen, onClose, onConfirm, title, message, type }) => {
+  if (!isOpen) return null;
+
+  const getIcon = () => {
+    switch (type) {
+      case 'warning': return <FiAlertCircle className="w-6 h-6 text-yellow-600" />;
+      case 'danger': return <FiUserX className="w-6 h-6 text-red-600" />;
+      default: return <FiInfo className="w-6 h-6 text-blue-600" />;
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+        <div className="flex items-center space-x-3 mb-4">
+          {getIcon()}
+          <h3 className="text-lg font-medium text-gray-900">{title}</h3>
+        </div>
+        <p className="text-gray-600 mb-6">{message}</p>
+        <div className="flex space-x-3 justify-end">
+          <Button variant="outline" onClick={onClose}>
+            Cancelar
+          </Button>
+          <Button 
+            onClick={onConfirm}
+            className={type === 'danger' ? 'bg-red-600 hover:bg-red-700' : ''}
+          >
+            Confirmar
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export const AdminUsers: React.FC = () => {
-  const { canAccess } = useAdminAuth();
-  const [users, setUsers] = useState<AdminUser[]>([]);
+  const { canAccess, canEditRoles, canManageUserStatus, getRestrictionMessage, adminProfile } = useAdminAuth();
+  
+  // State management
+  const [paginatedData, setPaginatedData] = useState<PaginatedUsers>({
+    users: [],
+    hasMore: false,
+    total: 0
+  });
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRole, setSelectedRole] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
-  const [editingUser, setEditingUser] = useState<AdminUser | null>(null);
+  const [isSearching, setIsSearching] = useState(false);
+  
+  // Modal states
+  const [confirmModal, setConfirmModal] = useState<{
+    isOpen: boolean;
+    type: 'role' | 'status';
+    userId: string;
+    userEmail: string;
+    newValue: string;
+    oldValue: string;
+  } | null>(null);
 
+  // Load initial users
   useEffect(() => {
     if (canAccess('users')) {
       loadUsers();
     }
   }, [canAccess]);
 
-  const loadUsers = async () => {
+  const loadUsers = async (reset = true) => {
     try {
-      setLoading(true);
-      const result = await adminUserService.getUsers(100);
-      setUsers(result.users);
+      setLoading(reset);
+      const lastDoc = reset ? undefined : paginatedData.lastDoc;
+      const result = await adminUserService.getUsers(25, lastDoc);
+      
+      if (reset) {
+        setPaginatedData(result);
+      } else {
+        setPaginatedData(prev => ({
+          ...result,
+          users: [...prev.users, ...result.users]
+        }));
+      }
     } catch (error) {
       console.error('Error loading users:', error);
     } finally {
       setLoading(false);
+      setLoadingMore(false);
     }
   };
+
+  const loadMoreUsers = useCallback(async () => {
+    if (loadingMore || !paginatedData.hasMore || isSearching) return;
+    
+    setLoadingMore(true);
+    await loadUsers(false);
+  }, [loadingMore, paginatedData.hasMore, isSearching]);
 
   const handleSearch = async () => {
     if (searchTerm.trim()) {
       try {
         setLoading(true);
+        setIsSearching(true);
         const searchResults = await adminUserService.searchUsers(searchTerm);
-        setUsers(searchResults);
+        setPaginatedData({
+          users: searchResults,
+          hasMore: false,
+          total: searchResults.length
+        });
       } catch (error) {
         console.error('Error searching users:', error);
       } finally {
         setLoading(false);
       }
     } else {
+      setIsSearching(false);
       loadUsers();
     }
   };
 
-  const handleRoleChange = async (userId: string, newRole: string) => {
-    try {
-      await adminUserService.updateUserRole(userId, newRole);
-      await loadUsers();
-    } catch (error) {
-      console.error('Error updating user role:', error);
-    }
+  const clearSearch = () => {
+    setSearchTerm('');
+    setIsSearching(false);
+    loadUsers();
   };
 
-  const handleStatusChange = async (userId: string, newStatus: string) => {
+  const requestRoleChange = (userId: string, userEmail: string, currentRole: string, newRole: string) => {
+    if (!canEditRoles()) {
+      alert(getRestrictionMessage('cambiar roles de usuario'));
+      return;
+    }
+
+    setConfirmModal({
+      isOpen: true,
+      type: 'role',
+      userId,
+      userEmail,
+      newValue: newRole,
+      oldValue: currentRole
+    });
+  };
+
+  const requestStatusChange = (userId: string, userEmail: string, currentStatus: string, newStatus: string) => {
+    if (!canManageUserStatus()) {
+      alert(getRestrictionMessage('cambiar el estado de usuario'));
+      return;
+    }
+
+    setConfirmModal({
+      isOpen: true,
+      type: 'status',
+      userId,
+      userEmail,
+      newValue: newStatus,
+      oldValue: currentStatus
+    });
+  };
+
+  const handleConfirmChange = async () => {
+    if (!confirmModal || !adminProfile) return;
+
     try {
-      await adminUserService.updateUserStatus(userId, newStatus);
-      await loadUsers();
+      if (confirmModal.type === 'role') {
+        await adminUserService.updateUserRole(
+          confirmModal.userId, 
+          confirmModal.newValue,
+          { uid: adminProfile.uid, email: adminProfile.email }
+        );
+      } else {
+        await adminUserService.updateUserStatus(
+          confirmModal.userId, 
+          confirmModal.newValue,
+          { uid: adminProfile.uid, email: adminProfile.email }
+        );
+      }
+      
+      // Reload users to reflect changes
+      if (isSearching) {
+        handleSearch();
+      } else {
+        loadUsers();
+      }
     } catch (error) {
-      console.error('Error updating user status:', error);
+      console.error('Error updating user:', error);
+      alert('Error al actualizar usuario. Inténtalo de nuevo.');
+    } finally {
+      setConfirmModal(null);
     }
   };
 
   const exportUsers = () => {
     const csvContent = [
       ['UID', 'Email', 'Nombre', 'Rol', 'Estado', 'Empresa', 'País', 'Fecha Registro'].join(','),
-      ...users.map(user => [
+      ...paginatedData.users.map((user: AdminUser) => [
         user.uid,
         user.email,
         user.displayName || '',
         user.role,
         user.status,
-        user.companyId || '',
+        user.companyName || user.companyId || '',
         user.country || '',
         user.createdAt?.toDate?.()?.toLocaleDateString() || ''
       ].join(','))
@@ -102,7 +263,7 @@ export const AdminUsers: React.FC = () => {
     window.URL.revokeObjectURL(url);
   };
 
-  const filteredUsers = users.filter(user => {
+  const filteredUsers = paginatedData.users.filter((user: AdminUser) => {
     const matchesSearch = !searchTerm || 
       user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.displayName?.toLowerCase().includes(searchTerm.toLowerCase());
@@ -157,7 +318,7 @@ export const AdminUsers: React.FC = () => {
             <FiDownload className="mr-2 h-4 w-4" />
             Exportar CSV
           </Button>
-          <Button onClick={loadUsers} disabled={loading}>
+          <Button onClick={() => loadUsers()} disabled={loading}>
             <FiRefreshCw className={`mr-2 h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
             Actualizar
           </Button>
@@ -205,8 +366,25 @@ export const AdminUsers: React.FC = () => {
               <option value="pending">Pendiente</option>
             </select>
             
-            <div className="text-sm text-gray-500 flex items-center">
-              {filteredUsers.length} de {users.length} usuarios
+            <div className="flex items-center justify-between">
+              <div className="text-sm text-gray-500 flex items-center space-x-4">
+                <span>{filteredUsers.length} de {paginatedData.users.length} usuarios</span>
+                {isSearching && (
+                  <Button variant="outline" size="sm" onClick={clearSearch}>
+                    Limpiar búsqueda
+                  </Button>
+                )}
+              </div>
+              {!isSearching && paginatedData.hasMore && (
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={loadMoreUsers}
+                  disabled={loadingMore}
+                >
+                  {loadingMore ? 'Cargando...' : 'Cargar más'}
+                </Button>
+              )}
             </div>
           </div>
         </CardContent>
@@ -276,32 +454,42 @@ export const AdminUsers: React.FC = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <select
-                          value={user.role}
-                          onChange={(e) => handleRoleChange(user.uid, e.target.value)}
-                          className={`text-xs px-2 py-1 rounded-full border-0 ${getRoleBadgeColor(user.role)}`}
-                        >
-                          <option value="client">Client</option>
-                          <option value="affiliate">Affiliate</option>
-                          <option value="analyst">Analyst</option>
-                          <option value="manager">Manager</option>
-                          <option value="admin">Admin</option>
-                          <option value="super_admin">Super Admin</option>
-                        </select>
+                        <Tooltip content={getRoleDescription(user.role)}>
+                          <select
+                            value={user.role}
+                            onChange={(e) => requestRoleChange(user.uid, user.email, user.role, e.target.value)}
+                            disabled={!canEditRoles()}
+                            className={`text-xs px-2 py-1 rounded-full border ${getRoleBadgeColor(user.role)} ${
+                              canEditRoles() ? 'cursor-pointer hover:shadow-sm' : 'cursor-not-allowed opacity-60'
+                            }`}
+                          >
+                            <option value="client">Client</option>
+                            <option value="affiliate">Affiliate</option>
+                            <option value="analyst">Analyst</option>
+                            <option value="manager">Manager</option>
+                            <option value="admin">Admin</option>
+                            <option value="super_admin">Super Admin</option>
+                          </select>
+                        </Tooltip>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <select
-                          value={user.status}
-                          onChange={(e) => handleStatusChange(user.uid, e.target.value)}
-                          className={`text-xs px-2 py-1 rounded-full border-0 ${getStatusBadgeColor(user.status)}`}
-                        >
-                          <option value="active">Activo</option>
-                          <option value="suspended">Suspendido</option>
-                          <option value="pending">Pendiente</option>
-                        </select>
+                        <Tooltip content={`Estado: ${user.status === 'active' ? 'Usuario activo' : user.status === 'suspended' ? 'Usuario suspendido' : 'Pendiente de activación'}`}>
+                          <select
+                            value={user.status}
+                            onChange={(e) => requestStatusChange(user.uid, user.email, user.status, e.target.value)}
+                            disabled={!canManageUserStatus()}
+                            className={`text-xs px-2 py-1 rounded-full border ${getStatusBadgeColor(user.status)} ${
+                              canManageUserStatus() ? 'cursor-pointer hover:shadow-sm' : 'cursor-not-allowed opacity-60'
+                            }`}
+                          >
+                            <option value="active">Activo</option>
+                            <option value="suspended">Suspendido</option>
+                            <option value="pending">Pendiente</option>
+                          </select>
+                        </Tooltip>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {user.companyId || 'Sin empresa'}
+                        {user.companyName || user.companyId || 'Sin empresa'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {user.createdAt?.toDate?.()?.toLocaleDateString() || 'N/A'}
@@ -331,6 +519,24 @@ export const AdminUsers: React.FC = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={confirmModal?.isOpen || false}
+        onClose={() => setConfirmModal(null)}
+        onConfirm={handleConfirmChange}
+        title={
+          confirmModal?.type === 'role' 
+            ? 'Confirmar cambio de rol' 
+            : 'Confirmar cambio de estado'
+        }
+        message={
+          confirmModal 
+            ? `¿Estás seguro que deseas cambiar ${confirmModal.type === 'role' ? 'el rol' : 'el estado'} de ${confirmModal.userEmail} de "${confirmModal.oldValue}" a "${confirmModal.newValue}"?`
+            : ''
+        }
+        type={confirmModal?.type === 'status' && confirmModal?.newValue === 'suspended' ? 'danger' : 'warning'}
+      />
     </div>
   );
 };

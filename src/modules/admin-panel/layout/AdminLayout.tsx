@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
-import { useAdminAuth } from '../hooks/useAdminAuth';
+import { useAdminAuth, AdminPermissions } from '../hooks/useAdminAuth';
 import { Button } from '../../../components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '../../../components/ui/avatar';
 import { Badge } from '../../../components/ui/badge';
@@ -55,67 +55,67 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       name: 'Dashboard',
       href: '/admin',
       icon: FiHome,
-      section: 'dashboard'
+      section: 'dashboard' as keyof AdminPermissions
     },
     {
       name: 'Mensajes',
       href: '/admin/messages',
       icon: FiMessageCircle,
-      section: 'messages'
+      section: 'messages' as keyof AdminPermissions
     },
     {
       name: 'Usuarios y Roles',
       href: '/admin/users',
       icon: FiUsers,
-      section: 'users'
+      section: 'users' as keyof AdminPermissions
     },
     {
       name: 'Empresas',
       href: '/admin/companies',
       icon: FiGrid,
-      section: 'companies'
+      section: 'companies' as keyof AdminPermissions
     },
     {
       name: 'API Manager',
       href: '/admin/apps',
       icon: FiGrid,
-      section: 'apps'
+      section: 'apps' as keyof AdminPermissions
     },
     {
       name: 'Referidos',
       href: '/admin/referrals',
       icon: FiUserCheck,
-      section: 'referrals'
+      section: 'referrals' as keyof AdminPermissions
     },
     {
       name: 'Leads CRM',
       href: '/admin/leads',
       icon: FiTarget,
-      section: 'leads'
+      section: 'leads' as keyof AdminPermissions
     },
     {
       name: 'Seguridad',
       href: '/admin/security',
       icon: FiShield,
-      section: 'security'
+      section: 'security' as keyof AdminPermissions
     },
     {
       name: 'Configuración',
       href: '/admin/config',
       icon: FiSettings,
-      section: 'config'
+      section: 'config' as keyof AdminPermissions
     },
     {
       name: 'Notificaciones',
       href: '/admin/notifications',
       icon: FiBell,
-      section: 'notifications'
+      section: 'notifications' as keyof AdminPermissions
     },
     {
       name: 'Analítica',
       href: '/admin/analytics',
       icon: FiBarChart,
-      section: 'analytics'
+      section: 'analytics' as keyof AdminPermissions
     }
   ].filter(item => canAccess(item.section));
 
