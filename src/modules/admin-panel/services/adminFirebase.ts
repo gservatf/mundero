@@ -13,7 +13,8 @@ import {
   getDoc,
   serverTimestamp,
   DocumentSnapshot,
-  QueryDocumentSnapshot
+  QueryDocumentSnapshot,
+  FieldValue
 } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
 
@@ -38,11 +39,14 @@ export interface AdminUser {
 export interface AdminCompany {
   id: string;
   name: string;
-  type: string;
-  country: string;
-  status: string;
-  createdAt: Timestamp;
-  usersCount: number;
+  type?: string;
+  country?: string;
+  status: 'pending' | 'active' | 'inactive';
+  usersCount?: number;
+  apps?: string[];
+  createdAt?: Timestamp;
+  updatedAt?: Timestamp | FieldValue;
+  inactiveReason?: string | null;
 }
 
 export interface AdminAction {
@@ -448,31 +452,243 @@ export const adminUserService = {
 };
 
 export const adminCompanyService = {
-  async getCompanies(limitCount: number = 100): Promise<{ companies: AdminCompany[], total: number }> {
+  // CREATE
+  async createCompany(data: Partial<AdminCompany>): Promise<string> {
     try {
-      const companiesRef = collection(db, 'companies');
-      const q = query(
-        companiesRef,
-        orderBy('createdAt', 'desc'),
-        limit(limitCount)
-      );
+      console.log('🏢 Creating company...', data);
+      const ref = collection(db, 'companies');
+      const docRef = await addDoc(ref, {
+        name: data.name || '',
+        type: data.type || '',
+        country: data.country || '',
+        status: (data.status as AdminCompany['status']) || 'pending',
+        apps: data.apps || [],
+        usersCount: data.usersCount || 0,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        nameLower: (data.name || '').toLowerCase(), // Para búsqueda case-insensitive
+      });
+      console.log('✅ Company created successfully:', docRef.id);
+      return docRef.id;
+    } catch (error) {
+      console.error('❌ Error creating company:', error);
+      throw new Error('Error al crear empresa');
+    }
+  },
 
-      const snapshot = await getDocs(q);
-      const companies: AdminCompany[] = [];
+  // UPDATE (merge parcial)
+  async updateCompany(companyId: string, data: Partial<AdminCompany>): Promise<void> {
+    try {
+      console.log('🔄 Updating company...', { companyId, data });
+      const ref = doc(db, 'companies', companyId);
+      const updateData: any = {
+        ...data,
+        updatedAt: serverTimestamp(),
+      };
+      
+      // Actualizar nameLower si se cambia el name
+      if (data.name) {
+        updateData.nameLower = data.name.toLowerCase();
+      }
+      
+      await updateDoc(ref, updateData);
+      console.log('✅ Company updated successfully');
+    } catch (error) {
+      console.error('❌ Error updating company:', error);
+      throw new Error('Error al actualizar empresa');
+    }
+  },
 
-      snapshot.forEach((doc) => {
-        const companyData = doc.data();
-        companies.push({
-          id: doc.id,
-          name: companyData.name || '',
-          type: companyData.type || '',
-          country: companyData.country || '',
-          status: companyData.status || 'active',
-          createdAt: companyData.createdAt || Timestamp.now(),
-          usersCount: companyData.usersCount || 0
-        });
+  // CHANGE STATUS (con motivo opcional + logging)
+  async changeCompanyStatus(
+    companyId: string,
+    newStatus: AdminCompany['status'],
+    reason?: string,
+    admin?: { uid: string; email: string }
+  ): Promise<void> {
+    try {
+      console.log('🔄 Changing company status...', { companyId, newStatus, reason });
+      const ref = doc(db, 'companies', companyId);
+      const snap = await getDoc(ref);
+      
+      if (!snap.exists()) {
+        throw new Error('Empresa no encontrada');
+      }
+
+      const before = snap.data() as AdminCompany;
+      await updateDoc(ref, {
+        status: newStatus,
+        inactiveReason: newStatus === 'inactive' ? (reason || '') : null,
+        updatedAt: serverTimestamp(),
       });
 
+      // Log admin action if admin is provided
+      if (admin && typeof adminUserService?.logAdminAction === 'function') {
+        await adminUserService.logAdminAction({
+          adminUid: admin.uid,
+          adminEmail: admin.email,
+          action: 'update_company_status',
+          targetUserId: companyId,
+          oldValue: before.status,
+          newValue: newStatus,
+          timestamp: serverTimestamp(),
+          metadata: { reason: reason || null, companyName: before.name },
+        });
+      }
+
+      console.log('✅ Company status changed successfully');
+    } catch (error) {
+      console.error('❌ Error changing company status:', error);
+      throw new Error('Error al cambiar estado de empresa');
+    }
+  },
+
+  // SEARCH by name (prefijo case-insensitive)
+  async searchCompanies(term: string, limitCount = 30): Promise<AdminCompany[]> {
+    try {
+      console.log('🔍 Searching companies...', { term, limitCount });
+      const normalizedTerm = term.toLowerCase().trim();
+      
+      const q = query(
+        collection(db, 'companies'),
+        where('nameLower', '>=', normalizedTerm),
+        where('nameLower', '<=', normalizedTerm + '\uf8ff'),
+        orderBy('nameLower'),
+        limit(limitCount)
+      );
+      
+      const snap = await getDocs(q);
+      const companies = snap.docs.map((d) => {
+        const data = d.data() as Omit<AdminCompany, 'id'>;
+        return { 
+          id: d.id, 
+          ...data
+        };
+      });
+      
+      console.log('✅ Companies search completed', { results: companies.length });
+      return companies;
+    } catch (error) {
+      console.error('❌ Error searching companies:', error);
+      throw new Error('Error al buscar empresas');
+    }
+  },
+
+  // PAGINATION (por createdAt desc)
+  async getCompaniesPaged(
+    limitCount = 30,
+    lastDoc?: QueryDocumentSnapshot
+  ): Promise<{ companies: AdminCompany[]; lastDoc?: QueryDocumentSnapshot; hasMore: boolean }> {
+    try {
+      console.log('📄 Loading companies with pagination...', { limitCount });
+      
+      let qBase = query(
+        collection(db, 'companies'), 
+        orderBy('createdAt', 'desc'), 
+        limit(limitCount)
+      );
+      
+      if (lastDoc) {
+        qBase = query(qBase, startAfter(lastDoc));
+      }
+      
+      const snap = await getDocs(qBase);
+      const companies = snap.docs.map((d) => {
+        const data = d.data() as Omit<AdminCompany, 'id'>;
+        return { 
+          id: d.id, 
+          ...data
+        };
+      });
+      
+      const next = snap.docs[snap.docs.length - 1];
+      const hasMore = snap.docs.length === limitCount;
+      
+      console.log('✅ Companies loaded with pagination', { count: companies.length, hasMore });
+      return { companies, lastDoc: next, hasMore };
+    } catch (error) {
+      console.error('❌ Error loading companies with pagination:', error);
+      throw new Error('Error al cargar empresas');
+    }
+  },
+
+  // Vincular app
+  async linkApp(companyId: string, appId: string): Promise<void> {
+    try {
+      console.log('🔗 Linking app to company...', { companyId, appId });
+      const ref = doc(db, 'companies', companyId);
+      const snap = await getDoc(ref);
+      
+      if (!snap.exists()) {
+        throw new Error('Empresa no encontrada');
+      }
+      
+      const data = snap.data() as AdminCompany;
+      const nextApps = Array.from(new Set([...(data.apps || []), appId]));
+      
+      await updateDoc(ref, { 
+        apps: nextApps, 
+        updatedAt: serverTimestamp() 
+      });
+      
+      console.log('✅ App linked successfully');
+    } catch (error) {
+      console.error('❌ Error linking app:', error);
+      throw new Error('Error al vincular aplicación');
+    }
+  },
+
+  // Desvincular app
+  async unlinkApp(companyId: string, appId: string): Promise<void> {
+    try {
+      console.log('🔗 Unlinking app from company...', { companyId, appId });
+      const ref = doc(db, 'companies', companyId);
+      const snap = await getDoc(ref);
+      
+      if (!snap.exists()) {
+        throw new Error('Empresa no encontrada');
+      }
+      
+      const data = snap.data() as AdminCompany;
+      const nextApps = (data.apps || []).filter((a) => a !== appId);
+      
+      await updateDoc(ref, { 
+        apps: nextApps, 
+        updatedAt: serverTimestamp() 
+      });
+      
+      console.log('✅ App unlinked successfully');
+    } catch (error) {
+      console.error('❌ Error unlinking app:', error);
+      throw new Error('Error al desvincular aplicación');
+    }
+  },
+
+  // Obtener empresa específica
+  async getCompany(companyId: string): Promise<AdminCompany | null> {
+    try {
+      const ref = doc(db, 'companies', companyId);
+      const snap = await getDoc(ref);
+      
+      if (!snap.exists()) {
+        return null;
+      }
+      
+      const data = snap.data() as Omit<AdminCompany, 'id'>;
+      return { 
+        id: snap.id, 
+        ...data
+      };
+    } catch (error) {
+      console.error('❌ Error getting company:', error);
+      throw new Error('Error al obtener empresa');
+    }
+  },
+
+  // Legacy method for backward compatibility
+  async getCompanies(limitCount: number = 100): Promise<{ companies: AdminCompany[], total: number }> {
+    try {
+      const { companies } = await this.getCompaniesPaged(limitCount);
       return {
         companies,
         total: companies.length
