@@ -188,7 +188,7 @@ describe('AdminCompanies Service Integration', () => {
       expect(updateDoc).toHaveBeenCalledTimes(1);
       
       const callArgs = vi.mocked(updateDoc).mock.calls[0];
-      const data = callArgs[1];
+      const data = callArgs[1] as Partial<AdminCompany>;
       expect(data.apps).toEqual(['legality360', 'we-consulting']);
       expect(data).toHaveProperty('updatedAt');
     });
@@ -208,7 +208,7 @@ describe('AdminCompanies Service Integration', () => {
       expect(updateDoc).toHaveBeenCalledTimes(1);
       
       const callArgs = vi.mocked(updateDoc).mock.calls[0];
-      const data = callArgs[1];
+      const data = callArgs[1] as Partial<AdminCompany>;
       expect(data.apps).toEqual(['legality360', 'analytics-pro']);
       expect(data).toHaveProperty('updatedAt');
     });
@@ -228,7 +228,7 @@ describe('AdminCompanies Service Integration', () => {
       expect(updateDoc).toHaveBeenCalledTimes(1);
       
       const callArgs = vi.mocked(updateDoc).mock.calls[0];
-      const data = callArgs[1];
+      const data = callArgs[1] as Partial<AdminCompany>;
       expect(data.apps).toEqual(['legality360', 'we-consulting']); // No duplicates
       expect(data).toHaveProperty('updatedAt');
     });
