@@ -1,5 +1,47 @@
 # 📋 MUNDERO DEPLOYMENT LOG
 
+## ✅ MUNDERO v2.2.5 - FIREBASE INITIALIZATION FIXED & DEPLOYING
+**📅 Date:** October 31, 2025  
+**🕓 Time:** 22:45 UTC  
+**🌍 URL:** https://mundero360.web.app  
+**📦 Version:** v2.2.5  
+**🔄 Commit:** 578446c  
+**🚀 Deploy Method:** Automated CI/CD (GitHub Actions)  
+**✅ Status:** FIREBASE DOUBLE-INIT PREVENTION IMPLEMENTED
+
+### 🔥 **FIREBASE INITIALIZATION FIXES:**
+- **🚨 Project ID Error:** ✅ Fixed "Missing App configuration value: 'projectId'"
+- **🔄 Double Init Prevention:** ✅ Added `getApps().length` check to prevent multiple initializations
+- **⚙️ Config Stability:** ✅ Removed environment variable dependencies for reliable config
+- **📱 Mobile Meta:** ✅ Updated mobile web app meta tag
+- **🔧 Code Cleanup:** ✅ Simplified Firebase imports and exports
+
+### 🛠️ **Technical Implementation:**
+```typescript
+// Prevent double initialization (important for React + Vite)
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+```
+
+### 🎯 **Files Updated:**
+1. **apps/mundero/src/core/firebase/firebaseClient.ts:** Complete rewrite with stable config
+2. **src/lib/firebase.ts:** Added double-init prevention
+3. **package.json:** Version bump to v2.2.5
+
+### 📊 **Expected Results:**
+- **Firebase Apps:** ✅ Single initialization (firebase.apps.length = 1)
+- **Project ID:** ✅ Correctly configured and accessible
+- **Authentication:** ✅ Stable Google Auth without errors
+- **Storage/Firestore:** ✅ Full connectivity and functionality
+
+### 🔍 **Post-Deploy Verification:**
+After deployment, check in browser console:
+```javascript
+firebase.apps.length // Should return 1
+firebase.apps[0].options.projectId // Should return "mundero360"
+```
+
+---
+
 ## ✅ MUNDERO v2.2.4 - FIREBASE CONFIG FIXED & DEPLOYING
 **📅 Date:** October 31, 2025  
 **🕓 Time:** 22:30 UTC  

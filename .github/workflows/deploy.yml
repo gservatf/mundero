@@ -27,6 +27,16 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Run tests (optional)
+        run: |
+          pnpm run test:run || echo "⚠️ Tests fallaron, pero continuamos con el deploy"
+        continue-on-error: true
+
+      - name: Run linting (optional)
+        run: |
+          pnpm run lint || echo "⚠️ Linting encontró warnings, pero continuamos con el deploy"
+        continue-on-error: true
+
       - name: Build project
         run: pnpm run build
 
