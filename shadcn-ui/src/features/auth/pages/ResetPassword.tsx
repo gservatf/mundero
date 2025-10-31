@@ -8,7 +8,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, Shield, CheckCircle } from 'lucide-react';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { getAuth } from 'firebase/auth';
-import { app } from '@/core/firebase/firebaseClient';
+import { firebaseApp } from '@/core/firebase/firebaseClient';
 import { useHybridAuth } from '@/features/auth/hooks/useHybridAuth';
 
 export default function ResetPassword() {
@@ -31,7 +31,7 @@ export default function ResetPassword() {
     setIsSubmitting(true);
 
     try {
-      const auth = getAuth(app);
+      const auth = getAuth(firebaseApp);
       await sendPasswordResetEmail(auth, email);
       setIsSuccess(true);
     } catch (err: any) {
