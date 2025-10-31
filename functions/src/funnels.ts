@@ -12,6 +12,7 @@ if (!admin.apps.length) {
     admin.initializeApp();
 }
 const db = admin.firestore();
+const FieldValue = admin.firestore.FieldValue;
 
 // Types
 interface FunnelSubmission {
@@ -527,7 +528,7 @@ async function logWorkflowAction(
     };
 
     await db.collection('workflow_executions').doc(executionId).update({
-        logs: require('firebase-admin').firestore.FieldValue.arrayUnion(logEntry)
+        logs: FieldValue.arrayUnion(logEntry)
     });
 }
 

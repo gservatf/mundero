@@ -11,7 +11,8 @@ import {
   setDoc,
   getDoc,
   Timestamp,
-  writeBatch
+  writeBatch,
+  onSnapshot
 } from 'firebase/firestore';
 import { db } from '../../../../lib/firebase';
 import { useRealtimeGuard } from '../../../../hooks/useRealtimeGuard';
@@ -65,17 +66,23 @@ export const messageService = {
       orderBy('lastMessageTimestamp', 'desc')
     );
 
-    // Usar useRealtimeGuard internamente
-    const { user, firebaseUser } = require('../../../../hooks/useAuth').useAuth();
+    // TODO: Implementar autenticación sin hooks
+    // const { user, firebaseUser } = getCurrentUser();
     
-    return useRealtimeGuard(
+    // Usar realtime listener directamente por ahora
+    const unsubscribe = onSnapshot(
       q,
-      callback,
-      (error) => {
+      (snapshot) => {
+        const chats = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Chat[];
+        callback(chats);
+      },
+      (error: any) => {
         console.error('[messageService] Error in getUserChats:', error);
         callback([]);
       }
     );
+    
+    return unsubscribe;
   },
 
   // Obtener mensajes de un chat específico usando useRealtimeGuard
@@ -91,15 +98,20 @@ export const messageService = {
     const messagesRef = collection(db, 'chats', chatId, 'messages');
     const q = query(messagesRef, orderBy('timestamp', 'asc'));
 
-    // Usar useRealtimeGuard internamente
-    return useRealtimeGuard(
+    // Usar realtime listener directamente por ahora
+    const unsubscribe = onSnapshot(
       q,
-      callback,
-      (error) => {
+      (snapshot) => {
+        const messages = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Message[];
+        callback(messages);
+      },
+      (error: any) => {
         console.error('[messageService] Error in getChatMessages:', error);
         callback([]);
       }
     );
+    
+    return unsubscribe;
   },
 
   // Enviar mensaje

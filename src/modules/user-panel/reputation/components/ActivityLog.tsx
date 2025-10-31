@@ -270,7 +270,7 @@ export const ActivityLog: React.FC<ActivityLogProps> = ({
         // Calcular racha (días consecutivos con actividad)
         const today = new Date();
         let streakDays = 0;
-        let currentDate = new Date(today);
+        const currentDate = new Date(today);
 
         while (streakDays < 30) { // Máximo 30 días
             const dayStart = new Date(currentDate);

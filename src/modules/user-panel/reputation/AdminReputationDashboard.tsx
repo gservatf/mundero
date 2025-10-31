@@ -87,7 +87,7 @@ export const AdminReputationDashboard: React.FC = () => {
 
     // Filtrar usuarios
     useEffect(() => {
-        let filtered = users.filter(user =>
+        const filtered = users.filter(user =>
             (user.displayName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 user.userId.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 user.email?.toLowerCase().includes(searchTerm.toLowerCase())) &&

@@ -97,7 +97,7 @@ export const CompanyInsights: React.FC<CompanyInsightsProps> = ({
         const topCompanies = analytics.companyStats.slice(0, 5);
         const others = analytics.companyStats.slice(5);
 
-        let data = topCompanies.map((company, index) => ({
+        const data = topCompanies.map((company, index) => ({
             name: company.companyName,
             value: company.totalLikes + company.totalComments + company.totalShares,
             color: Object.values(colors)[index % Object.values(colors).length]

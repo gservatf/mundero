@@ -205,7 +205,7 @@ class MembershipService {
             // Si existe un analytics global lo usamos, si no, lo logeamos localmente.
             // Evitamos `window.analytics` directamente para no romper la compilación TS en entornos sin el tipo.
             // Preferible: conectar a analyticsService central cuando exista.
-            // eslint-disable-next-line no-console
+             
             console.log('Analytics event:', eventType, data);
         } catch (error) {
             console.error('Error emitting analytics event:', error);

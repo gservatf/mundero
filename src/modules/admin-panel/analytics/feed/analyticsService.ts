@@ -103,7 +103,7 @@ class FeedAnalyticsService {
     private getDateRange(period: AnalyticsPeriod): { startDate: Date; endDate: Date } {
         const now = new Date();
         const endDate = new Date(now);
-        let startDate = new Date(now);
+        const startDate = new Date(now);
 
         switch (period) {
             case 'daily':
