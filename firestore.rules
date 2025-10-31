@@ -1,18 +1,267 @@
-// 🔒 Firestore Security Rules for MUNDERO AdminUsers Module
+// 🔒 Firestore Security Rules for MUNDERO Complete System
 // =============================================================
-// These rules provide granular security for the admin panel user management system.
+// These rules provide granular security for the admin panel user management system
+// and the complete funnel system with organizations, workflows, and submissions.
 // They ensure role-based access control and data protection for the MUNDERO ecosystem.
 //
 // 🚨 CRITICAL: Deploy these rules to Firebase Console after review
 // Firebase Console > Firestore Database > Rules > Copy and deploy these rules
 //
 // Last Updated: December 2024
-// Version: 1.0.0
+// Version: 2.0.0 (Added Funnel System)
 // =============================================================
 
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    
+    // ==================== HELPER FUNCTIONS ====================
+    
+    // Check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Get user ID
+    function userId() {
+      return request.auth.uid;
+    }
+    
+    // Get user role from userProfiles (legacy admin system)
+    function getUserRole() {
+      return get(/databases/$(database)/documents/userProfiles/$(request.auth.uid)).data.role;
+    }
+    
+    // Check if user is member of organization
+    function isMember(orgId) {
+      return exists(/databases/$(database)/documents/org_members/$(orgId + '_' + userId())) &&
+             get(/databases/$(database)/documents/org_members/$(orgId + '_' + userId())).data.status == 'active';
+    }
+    
+    // Check if user is owner or admin of organization
+    function isOwnerOrAdmin(orgId) {
+      return exists(/databases/$(database)/documents/org_members/$(orgId + '_' + userId())) &&
+             get(/databases/$(database)/documents/org_members/$(orgId + '_' + userId())).data.role in ['owner', 'admin'] &&
+             get(/databases/$(database)/documents/org_members/$(orgId + '_' + userId())).data.status == 'active';
+    }
+    
+    // Check if user owns the organization
+    function isOwner(orgId) {
+      return exists(/databases/$(database)/documents/org_members/$(orgId + '_' + userId())) &&
+             get(/databases/$(database)/documents/org_members/$(orgId + '_' + userId())).data.role == 'owner' &&
+             get(/databases/$(database)/documents/org_members/$(orgId + '_' + userId())).data.status == 'active';
+    }
+    
+    // Legacy admin system functions
+    function isSuperAdmin() {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
+        getUserRole() == 'super_admin';
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
+        getUserRole() in ['super_admin', 'admin'];
+    }
+    
+    function isManager() {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
+        getUserRole() in ['super_admin', 'admin', 'manager'];
+    }
+    
+    function canAccessAnalytics() {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
+        getUserRole() in ['super_admin', 'admin', 'manager', 'analyst'];
+    }
+    
+    // ==================== ORGANIZATIONS ====================
+    
+    match /organizations/{orgId} {
+      // Read: Members can read organization data
+      allow read: if isAuthenticated() && isMember(orgId);
+      
+      // Create: Authenticated users can create organizations (they become owners)
+      allow create: if isAuthenticated() && 
+                   request.resource.data.ownerId == userId() &&
+                   request.resource.data.createdAt == request.time;
+      
+      // Update: Only owners and admins can update organization
+      allow update: if isAuthenticated() && isOwnerOrAdmin(orgId) &&
+                   request.resource.data.ownerId == resource.data.ownerId; // Can't change owner through this path
+      
+      // Delete: Only owners can delete organizations
+      allow delete: if isAuthenticated() && isOwner(orgId);
+    }
+    
+    // ==================== ORGANIZATION MEMBERS ====================
+    
+    match /org_members/{membershipId} {
+      // Read: Members can read all memberships of their organizations
+      allow read: if isAuthenticated() && isMember(resource.data.organizationId);
+      
+      // Create: Owners and admins can add members
+      allow create: if isAuthenticated() && 
+                   isOwnerOrAdmin(request.resource.data.organizationId) &&
+                   request.resource.data.createdAt == request.time;
+      
+      // Update: Owners and admins can update memberships, users can update their own profile
+      allow update: if isAuthenticated() && (
+        isOwnerOrAdmin(resource.data.organizationId) ||
+        (resource.data.userId == userId() && 
+         request.resource.data.role == resource.data.role && // Can't change own role
+         request.resource.data.status == resource.data.status) // Can't change own status
+      );
+      
+      // Delete: Owners and admins can remove members, users can leave
+      allow delete: if isAuthenticated() && (
+        isOwnerOrAdmin(resource.data.organizationId) ||
+        resource.data.userId == userId()
+      );
+    }
+    
+    // ==================== FUNNELS ====================
+    
+    match /funnels/{funnelId} {
+      // Read: Organization members can read funnels
+      allow read: if isAuthenticated() && isMember(resource.data.organizationId);
+      
+      // Create: Owners and admins can create funnels
+      allow create: if isAuthenticated() && 
+                   isOwnerOrAdmin(request.resource.data.organizationId) &&
+                   request.resource.data.createdBy == userId() &&
+                   request.resource.data.createdAt == request.time;
+      
+      // Update: Owners and admins can update funnels
+      allow update: if isAuthenticated() && 
+                   isOwnerOrAdmin(resource.data.organizationId) &&
+                   request.resource.data.organizationId == resource.data.organizationId; // Can't move between orgs
+      
+      // Delete: Owners and admins can delete funnels
+      allow delete: if isAuthenticated() && isOwnerOrAdmin(resource.data.organizationId);
+    }
+    
+    // ==================== FUNNEL SUBMISSIONS ====================
+    
+    match /funnel_submissions/{submissionId} {
+      // Read: Organization members can read submissions
+      allow read: if isAuthenticated() && isMember(resource.data.organizationId);
+      
+      // Create: Anyone can create submissions (public funnels)
+      allow create: if request.resource.data.submittedAt == request.time;
+      
+      // Update: Only organization members can update submissions (for status changes)
+      allow update: if isAuthenticated() && isMember(resource.data.organizationId);
+      
+      // Delete: Only owners and admins can delete submissions
+      allow delete: if isAuthenticated() && isOwnerOrAdmin(resource.data.organizationId);
+    }
+    
+    // ==================== WORKFLOWS ====================
+    
+    match /workflows/{workflowId} {
+      // Read: Organization members can read workflows
+      allow read: if isAuthenticated() && isMember(resource.data.organizationId);
+      
+      // Create: Owners and admins can create workflows
+      allow create: if isAuthenticated() && 
+                   isOwnerOrAdmin(request.resource.data.organizationId) &&
+                   request.resource.data.createdBy == userId() &&
+                   request.resource.data.createdAt == request.time;
+      
+      // Update: Owners and admins can update workflows
+      allow update: if isAuthenticated() && 
+                   isOwnerOrAdmin(resource.data.organizationId) &&
+                   request.resource.data.organizationId == resource.data.organizationId;
+      
+      // Delete: Owners and admins can delete workflows
+      allow delete: if isAuthenticated() && isOwnerOrAdmin(resource.data.organizationId);
+    }
+    
+    // ==================== WORKFLOW EXECUTIONS ====================
+    
+    match /workflow_executions/{executionId} {
+      // Read: Organization members can read executions
+      allow read: if isAuthenticated() && 
+                 exists(/databases/$(database)/documents/funnel_submissions/$(resource.data.submissionId)) &&
+                 isMember(get(/databases/$(database)/documents/funnel_submissions/$(resource.data.submissionId)).data.organizationId);
+      
+      // Create/Update: Only Cloud Functions can create and update executions
+      allow write: if false; // Cloud Functions have admin privileges
+    }
+    
+    // ==================== FUNNEL EVENTS (Analytics) ====================
+    
+    match /funnel_events/{eventId} {
+      // Read: Organization members can read events
+      allow read: if isAuthenticated() && isMember(resource.data.organizationId);
+      
+      // Create: Cloud Functions and authenticated users can create events
+      allow create: if resource.data.timestamp == request.time;
+      
+      // Update/Delete: No updates or deletes allowed
+      allow update, delete: if false;
+    }
+    
+    // ==================== NOTIFICATIONS ====================
+    
+    match /notifications/{notificationId} {
+      // Read: Organization members can read notifications
+      allow read: if isAuthenticated() && isMember(resource.data.organizationId);
+      
+      // Create: Cloud Functions and organization members can create notifications
+      allow create: if isAuthenticated() && 
+                   isMember(request.resource.data.organizationId) &&
+                   request.resource.data.createdAt == request.time;
+      
+      // Update: Organization members can mark notifications as read
+      allow update: if isAuthenticated() && 
+                   isMember(resource.data.organizationId) &&
+                   request.resource.data.organizationId == resource.data.organizationId;
+      
+      // Delete: Owners and admins can delete notifications
+      allow delete: if isAuthenticated() && isOwnerOrAdmin(resource.data.organizationId);
+    }
+    
+    // ==================== HR NOTIFICATIONS ====================
+    
+    match /hr_notifications/{notificationId} {
+      // Read: Organization members can read HR notifications
+      allow read: if isAuthenticated() && isMember(resource.data.organizationId);
+      
+      // Create: Only Cloud Functions can create HR notifications
+      allow create: if false; // Cloud Functions have admin privileges
+      
+      // Update: Organization members can update status and assignments
+      allow update: if isAuthenticated() && 
+                   isMember(resource.data.organizationId) &&
+                   request.resource.data.organizationId == resource.data.organizationId;
+      
+      // Delete: Owners and admins can delete HR notifications
+      allow delete: if isAuthenticated() && isOwnerOrAdmin(resource.data.organizationId);
+    }
+    
+    // ==================== SOLUTION INSTANCES ====================
+    
+    match /solution_instances/{instanceId} {
+      // Read: Organization members can read solution instances
+      allow read: if isAuthenticated() && isMember(resource.data.organizationId);
+      
+      // Create: Only Cloud Functions can create solution instances
+      allow create: if false; // Cloud Functions have admin privileges
+      
+      // Update: Organization members can update parameters and status
+      allow update: if isAuthenticated() && 
+                   isMember(resource.data.organizationId) &&
+                   request.resource.data.organizationId == resource.data.organizationId;
+      
+      // Delete: Owners and admins can delete solution instances
+      allow delete: if isAuthenticated() && isOwnerOrAdmin(resource.data.organizationId);
+    }
+    
+    // ==================== LEGACY ADMIN SYSTEM ====================
     
     // 👤 User Profiles Collection
     // Allow users to read their own profile, admins to manage all profiles
@@ -107,42 +356,54 @@ service cloud.firestore {
         request.resource.data.senderId == request.auth.uid;
     }
     
-    // 🔐 Security Functions
-    // Helper functions for role validation
-    function isAuthenticated() {
-      return request.auth != null;
+    // ==================== USER PROFILES (New System) ====================
+    
+    match /users/{userId} {
+      // Read: Users can read their own profile, organization members can read member profiles
+      allow read: if isAuthenticated() && (
+        userId == userId() ||
+        // Check if user is member of any organization where the profile owner is also a member
+        exists(/databases/$(database)/documents/org_members/$(userId + '_' + userId()))
+      );
+      
+      // Create: Users can create their own profile
+      allow create: if isAuthenticated() && 
+                   userId == userId() &&
+                   request.resource.data.createdAt == request.time;
+      
+      // Update: Users can update their own profile
+      allow update: if isAuthenticated() && userId == userId();
+      
+      // Delete: Users can delete their own profile
+      allow delete: if isAuthenticated() && userId == userId();
     }
     
-    function getUserRole() {
-      return get(/databases/$(database)/documents/userProfiles/$(request.auth.uid)).data.role;
+    // ==================== AUDIT LOGS ====================
+    
+    match /audit_logs/{logId} {
+      // Read: Organization owners and admins can read audit logs
+      allow read: if isAuthenticated() && isOwnerOrAdmin(resource.data.organizationId);
+      
+      // Create: Only Cloud Functions can create audit logs
+      allow create: if false; // Cloud Functions have admin privileges
+      
+      // Update/Delete: No updates or deletes allowed
+      allow update, delete: if false;
     }
     
-    function isSuperAdmin() {
-      return isAuthenticated() && 
-        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
-        getUserRole() == 'super_admin';
+    // ==================== SYSTEM SETTINGS ====================
+    
+    match /system_settings/{settingId} {
+      // Read: All authenticated users can read system settings
+      allow read: if isAuthenticated();
+      
+      // Write: Only super admins can write system settings (handled via Cloud Functions)
+      allow write: if false;
     }
     
-    function isAdmin() {
-      return isAuthenticated() && 
-        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
-        getUserRole() in ['super_admin', 'admin'];
-    }
+    // ==================== FALLBACK RULE ====================
     
-    function isManager() {
-      return isAuthenticated() && 
-        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
-        getUserRole() in ['super_admin', 'admin', 'manager'];
-    }
-    
-    function canAccessAnalytics() {
-      return isAuthenticated() && 
-        exists(/databases/$(database)/documents/userProfiles/$(request.auth.uid)) &&
-        getUserRole() in ['super_admin', 'admin', 'manager', 'analyst'];
-    }
-    
-    // 🚫 Default Deny
-    // Deny all other operations not explicitly allowed
+    // Deny all other operations
     match /{document=**} {
       allow read, write: if false;
     }
@@ -155,10 +416,12 @@ service cloud.firestore {
 // 2. Test with Firebase Emulator first
 // 3. Deploy to Firebase Console > Firestore Database > Rules
 // 4. Verify admin panel functionality
-// 5. Monitor Firebase Console for rule violations
-// 6. Update version number and date when modified
+// 5. Verify funnel system functionality
+// 6. Monitor Firebase Console for rule violations
+// 7. Update version number and date when modified
 //
 // 🔗 Related Documentation:
 // - Firebase Security Rules: https://firebase.google.com/docs/firestore/security/rules
 // - AdminUsers Module: src/modules/admin-panel/users/README.md
-// - Permission Matrix: See AdminUsers documentation
+// - Funnel System: docs/dev/fase-6.9-funnels.md
+// - Permission Matrix: See AdminUsers and Funnel documentation

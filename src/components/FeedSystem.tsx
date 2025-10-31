@@ -5,16 +5,18 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Badge } from './ui/badge';
 import { useAuth } from '../hooks/useAuth';
 import { mockApi } from '../lib/mockApi';
-import { 
-  FiHeart, 
-  FiMessageCircle, 
-  FiShare2, 
+import {
+  FiHeart,
+  FiMessageCircle,
+  FiShare2,
   FiMoreHorizontal,
   FiTrendingUp,
   FiUsers,
   FiActivity
 } from 'react-icons/fi';
 import { Post } from '../lib/types';
+// Integración de reputación (opcional, no intrusiva)
+import { reputationService, REPUTATION_ENABLED } from '../modules/user-panel/reputation/reputationService';
 
 export const FeedSystem: React.FC = () => {
   const { user } = useAuth();
@@ -70,22 +72,49 @@ export const FeedSystem: React.FC = () => {
   const handleLike = async (_postId: string) => {
     // Implementar lógica de like
     console.log('Like post:', _postId);
+
+    // Hook de reputación opcional (no bloquea el feed)
+    if (REPUTATION_ENABLED && user?.id) {
+      try {
+        await reputationService.logAction(user.id, 'post_like', { postId: _postId });
+      } catch (error) {
+        console.log('Reputation tracking failed (non-blocking):', error);
+      }
+    }
   };
 
   const handleComment = async (_postId: string) => {
     // Implementar lógica de comentario
     console.log('Comment on post:', _postId);
+
+    // Hook de reputación opcional (no bloquea el feed)
+    if (REPUTATION_ENABLED && user?.id) {
+      try {
+        await reputationService.logAction(user.id, 'post_comment', { postId: _postId });
+      } catch (error) {
+        console.log('Reputation tracking failed (non-blocking):', error);
+      }
+    }
   };
 
   const handleShare = async (_postId: string) => {
     // Implementar lógica de compartir
     console.log('Share post:', _postId);
+
+    // Hook de reputación opcional (no bloquea el feed)
+    if (REPUTATION_ENABLED && user?.id) {
+      try {
+        await reputationService.logAction(user.id, 'post_share', { postId: _postId });
+      } catch (error) {
+        console.log('Reputation tracking failed (non-blocking):', error);
+      }
+    }
   };
 
   const formatTimeAgo = (timestamp: number) => {
     const now = Date.now();
     const diffInMinutes = (now - timestamp) / (1000 * 60);
-    
+
     if (diffInMinutes < 60) {
       return `${Math.floor(diffInMinutes)}m`;
     } else if (diffInMinutes < 1440) {
@@ -132,7 +161,7 @@ export const FeedSystem: React.FC = () => {
             <p className="text-sm text-gray-600">Posts Activos</p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardContent className="p-4 text-center">
             <FiUsers className="w-8 h-8 mx-auto mb-2 text-green-600" />
@@ -140,7 +169,7 @@ export const FeedSystem: React.FC = () => {
             <p className="text-sm text-gray-600">Interacciones</p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardContent className="p-4 text-center">
             <FiActivity className="w-8 h-8 mx-auto mb-2 text-purple-600" />
@@ -167,7 +196,7 @@ export const FeedSystem: React.FC = () => {
                     <p className="text-sm text-gray-500">{formatTimeAgo(post.timestamp)}</p>
                   </div>
                 </div>
-                
+
                 <Button variant="ghost" size="sm">
                   <FiMoreHorizontal className="w-4 h-4" />
                 </Button>
@@ -176,7 +205,7 @@ export const FeedSystem: React.FC = () => {
               {/* Post Content */}
               <div className="mb-4">
                 <p className="text-gray-800 mb-3">{post.content}</p>
-                
+
                 {post.mediaUrl && (
                   <img
                     src={post.mediaUrl}
@@ -198,7 +227,7 @@ export const FeedSystem: React.FC = () => {
                     <FiHeart className="w-4 h-4" />
                     <span>{post.likes}</span>
                   </Button>
-                  
+
                   <Button
                     variant="ghost"
                     size="sm"
@@ -208,7 +237,7 @@ export const FeedSystem: React.FC = () => {
                     <FiMessageCircle className="w-4 h-4" />
                     <span>{post.comments}</span>
                   </Button>
-                  
+
                   <Button
                     variant="ghost"
                     size="sm"
@@ -219,7 +248,7 @@ export const FeedSystem: React.FC = () => {
                     <span>{post.shares}</span>
                   </Button>
                 </div>
-                
+
                 <Badge variant="secondary">
                   Empresarial
                 </Badge>

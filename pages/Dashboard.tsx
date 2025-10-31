@@ -12,10 +12,14 @@ import UserManagement from '../components/UserManagement';
 import { ChatList } from '../components/ChatList';
 import { ChatWindow } from '../components/ChatWindow';
 import { StoriesCarousel } from '../components/StoriesCarousel';
-import { 
-  FiUsers, 
-  FiSettings, 
-  FiLogOut, 
+// Onboarding System Components
+import { OnboardingFeedBanner, OnboardingTasksCard } from '../src/modules/user-panel/onboarding/OnboardingFeedBanner';
+import { OnboardingFeedContent } from '../src/modules/user-panel/onboarding/OnboardingFeedContent';
+import { useOnboardingProgress } from '../src/modules/user-panel/onboarding/useOnboardingProgress';
+import {
+  FiUsers,
+  FiSettings,
+  FiLogOut,
   FiGrid,
   FiMessageCircle,
   FiCamera,
@@ -36,9 +40,12 @@ export const Dashboard: React.FC = () => {
   const [showMobileChat, setShowMobileChat] = useState(false);
   const navigate = useNavigate();
 
+  // Onboarding System Integration
+  const { progress: onboardingProgress, loading: onboardingLoading } = useOnboardingProgress();
+
   // Determinar si el usuario es Super Admin
   const isSuperAdmin = user?.email === 'admin@mundero.net' || user?.email === 'superadmin@gruposervat.com' || user?.role === 'SUPER_ADMIN';
-  
+
   // Determinar si el usuario tiene acceso a integraciones profesionales
   const hasIntegrationsAccess = user?.integrations_access && user.integrations_access.length > 0;
 
@@ -70,14 +77,14 @@ export const Dashboard: React.FC = () => {
   const logoElement = () => {
     if (settings?.branding?.logoUrl) {
       return (
-        <img 
-          src={settings.branding.logoUrl} 
-          alt="MUNDERO Logo" 
+        <img
+          src={settings.branding.logoUrl}
+          alt="MUNDERO Logo"
           className="w-10 h-10 object-contain rounded-lg"
         />
       );
     }
-    
+
     return (
       <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
         <span className="text-lg font-bold text-white">M</span>
@@ -143,7 +150,7 @@ export const Dashboard: React.FC = () => {
                   <Badge className="bg-blue-100 text-blue-800">Nuevo</Badge>
                 </div>
               )}
-              
+
               {user?.integrations_access?.includes('we-consulting') && (
                 <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
                   <div className="flex items-center gap-3">
@@ -225,7 +232,7 @@ export const Dashboard: React.FC = () => {
                 <p className="text-sm text-gray-600 hidden sm:block">{welcomePhrase}</p>
               </div>
             </div>
-            
+
             <div className="flex items-center gap-4">
               <div className="hidden sm:flex items-center gap-2">
                 <span className="text-sm text-gray-600">Hola,</span>
@@ -243,11 +250,11 @@ export const Dashboard: React.FC = () => {
                   </Badge>
                 )}
               </div>
-              
+
               {hasAdminAccess && (
-                <Button 
-                  variant="outline" 
-                  size="sm" 
+                <Button
+                  variant="outline"
+                  size="sm"
                   onClick={() => navigate('/admin')}
                   className="flex items-center gap-2"
                 >
@@ -255,10 +262,10 @@ export const Dashboard: React.FC = () => {
                   <span className="hidden sm:inline">Panel Admin</span>
                 </Button>
               )}
-              
-              <Button 
-                variant="outline" 
-                size="sm" 
+
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={handleSignOut}
                 className="flex items-center gap-2"
               >
@@ -304,14 +311,23 @@ export const Dashboard: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
+              {/* Onboarding Banner - Solo mostrar si el progreso < 100% */}
+              {!onboardingLoading && onboardingProgress && onboardingProgress.completionPercentage < 100 && (
+                <OnboardingFeedBanner />
+              )}
+
               {/* Stories Carousel */}
               <StoriesCarousel />
-              
+
               {/* Feed principal */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
                 <div className="lg:col-span-2 space-y-6">
-                  {/* Professional Feed for users with integrations access */}
-                  {hasIntegrationsAccess ? renderProfessionalFeed() : (
+                  {/* Contenido según el estado del onboarding */}
+                  {!onboardingLoading && onboardingProgress && onboardingProgress.completionPercentage < 100 ? (
+                    <OnboardingFeedContent />
+                  ) : hasIntegrationsAccess ? (
+                    renderProfessionalFeed()
+                  ) : (
                     <Card>
                       <CardHeader>
                         <CardTitle className="flex items-center gap-2">
@@ -340,8 +356,13 @@ export const Dashboard: React.FC = () => {
                     </Card>
                   )}
                 </div>
-                
+
                 <div className="space-y-6">
+                  {/* Mini Tasks Card de Onboarding */}
+                  {!onboardingLoading && onboardingProgress && onboardingProgress.completionPercentage < 100 && (
+                    <OnboardingTasksCard />
+                  )}
+
                   <Card>
                     <CardHeader>
                       <CardTitle>Estadísticas</CardTitle>
@@ -412,7 +433,7 @@ export const Dashboard: React.FC = () => {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <Button 
+                    <Button
                       onClick={handleGoToAdminMessages}
                       className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
                     >
@@ -428,19 +449,19 @@ export const Dashboard: React.FC = () => {
                 {/* Lista de chats - oculta en móvil cuando hay chat seleccionado */}
                 <div className={`lg:col-span-1 ${showMobileChat ? 'hidden lg:block' : 'block'}`}>
                   <Card className="h-full">
-                    <ChatList 
+                    <ChatList
                       onChatSelect={handleChatSelect}
-                      selectedChatId={selectedChatId}
+                      selectedChatId={selectedChatId || undefined}
                     />
                   </Card>
                 </div>
-                
+
                 {/* Ventana de chat - se muestra en móvil cuando hay chat seleccionado */}
                 <div className={`lg:col-span-2 ${!showMobileChat ? 'hidden lg:block' : 'block'}`}>
                   <Card className="h-full">
                     {selectedChatId ? (
-                      <ChatWindow 
-                        chatId={selectedChatId} 
+                      <ChatWindow
+                        chatId={selectedChatId}
                         onBack={handleBackToChats}
                       />
                     ) : (
@@ -487,8 +508,8 @@ export const Dashboard: React.FC = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Button 
-                    className="w-full" 
+                  <Button
+                    className="w-full"
                     disabled={!hasIntegrationsAccess || !user?.integrations_access?.includes('legalty')}
                   >
                     {hasIntegrationsAccess && user?.integrations_access?.includes('legalty') ? 'Acceder' : 'Sin acceso'}
@@ -512,7 +533,7 @@ export const Dashboard: React.FC = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Button 
+                  <Button
                     className="w-full"
                     disabled={!hasIntegrationsAccess || !user?.integrations_access?.includes('we-consulting')}
                   >

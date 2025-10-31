@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  FiPlus, 
-  FiTarget, 
-  FiClock, 
-  FiCheck, 
+import { useAgreement } from '../hooks/useAgreement';
+import AgreementModal from '../components/AgreementModal';
+import {
+  FiPlus,
+  FiTarget,
+  FiClock,
+  FiCheck,
   FiX,
   FiEdit3,
   FiCalendar,
@@ -13,6 +15,13 @@ import {
 } from 'react-icons/fi';
 
 export const LeadCenter: React.FC = () => {
+  const { requiresAgreement } = useAgreement();
+
+  // Control de acceso - bloquear si requiere acuerdo
+  if (requiresAgreement) {
+    return <AgreementModal isOpen={true} onClose={() => { }} />;
+  }
+
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [newLead, setNewLead] = useState({
     company: '',

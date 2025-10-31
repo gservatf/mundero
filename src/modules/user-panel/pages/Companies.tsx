@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  FiPlus, 
-  FiUsers, 
-  FiSettings, 
+import { useAgreement } from '../hooks/useAgreement';
+import AgreementModal from '../components/AgreementModal';
+import {
+  FiPlus,
+  FiUsers,
+  FiSettings,
   FiExternalLink,
   FiEdit3,
   FiTrash2
@@ -11,7 +13,13 @@ import {
 import { FaBuilding } from 'react-icons/fa';
 
 export const Companies: React.FC = () => {
+  const { requiresAgreement } = useAgreement();
   const [showCreateForm, setShowCreateForm] = useState(false);
+
+  // Control de acceso - bloquear si requiere acuerdo
+  if (requiresAgreement) {
+    return <AgreementModal isOpen={true} onClose={() => { }} />;
+  }
   const [newCompany, setNewCompany] = useState({
     name: '',
     ruc: '',
@@ -167,7 +175,7 @@ export const Companies: React.FC = () => {
                 </button>
               </div>
             </div>
-            
+
             <div className="space-y-2 mb-4">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-gray-600">País:</span>

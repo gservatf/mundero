@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
+import { useAgreement } from '../hooks/useAgreement';
+import AgreementModal from '../components/AgreementModal';
 import { UserPanelLayout } from '../layout/UserPanelLayout';
 import { Profile } from './Profile';
 import { Companies } from './Companies';
 import { Referrals } from './Referrals';
 import { Applications } from './Applications';
 import { LeadCenter } from './LeadCenter';
-import { Messages } from './Messages';
+import Messages from './Messages';
 import { Settings } from './Settings';
-import { 
-  FiTrendingUp, 
-  FiUsers, 
+import {
+  FiTrendingUp,
+  FiUsers,
   FiDollarSign,
   FiPlus,
   FiMessageSquare,
@@ -23,8 +25,14 @@ import { FaBuilding } from "react-icons/fa";
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
+  const { requiresAgreement } = useAgreement();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [newPost, setNewPost] = useState('');
+
+  // Control de acceso - bloquear si requiere acuerdo
+  if (requiresAgreement) {
+    return <AgreementModal isOpen={true} onClose={() => { }} />;
+  }
 
   // Mock data - replace with real data from Firebase
   const stats = {
@@ -234,7 +242,7 @@ const Dashboard: React.FC = () => {
                           </button>
                         </div>
                         <p className="mt-3 text-gray-800">{post.content}</p>
-                        
+
                         {/* Post Actions */}
                         <div className="flex items-center space-x-6 mt-4 pt-4 border-t border-gray-100">
                           <button className="flex items-center space-x-2 text-gray-500 hover:text-blue-600 transition-colors">

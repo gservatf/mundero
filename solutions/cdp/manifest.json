@@ -1,0 +1,61 @@
+{
+    "key": "cdp_platform",
+    "name": "CDP - Customer Data Platform",
+    "version": "1.0.0",
+    "description": "Plataforma unificada de datos de clientes y analytics",
+    "author": "Mundero Team",
+    "category": "analytics",
+    "entryPoint": "./pages/Start.tsx",
+    "routes": [
+        {
+            "path": "/start",
+            "component": "./pages/Start.tsx",
+            "name": "Dashboard",
+            "protected": false
+        },
+        {
+            "path": "/setup",
+            "component": "./pages/Setup.tsx",
+            "name": "Configuración",
+            "protected": true
+        },
+        {
+            "path": "/analytics",
+            "component": "./pages/Analytics.tsx",
+            "name": "Analytics",
+            "protected": true
+        },
+        {
+            "path": "/segments",
+            "component": "./pages/Segments.tsx",
+            "name": "Segmentos",
+            "protected": true
+        }
+    ],
+    "permissions": [
+        "read",
+        "write",
+        "analyze"
+    ],
+    "config": {
+        "theme": {
+            "primaryColor": "#DC2626",
+            "secondaryColor": "#059669"
+        },
+        "features": {
+            "realTimeAnalytics": true,
+            "segmentation": true,
+            "dataExports": true
+        },
+        "dataConfig": {
+            "retentionDays": 365,
+            "sources": [
+                "web",
+                "mobile",
+                "email",
+                "crm"
+            ],
+            "updateFrequency": "realtime"
+        }
+    }
+}

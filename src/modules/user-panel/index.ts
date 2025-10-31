@@ -5,7 +5,7 @@ export { Companies } from './pages/Companies';
 export { Referrals } from './pages/Referrals';
 export { Applications } from './pages/Applications';
 export { LeadCenter } from './pages/LeadCenter';
-export { Messages } from './pages/Messages';
+export { default as Messages } from './pages/Messages';
 export { Settings } from './pages/Settings';
 
 // Main entry point

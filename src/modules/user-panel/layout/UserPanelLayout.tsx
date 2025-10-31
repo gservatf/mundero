@@ -1,18 +1,19 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
-import { 
-  FiHome, 
-  FiUser, 
-  FiUsers, 
-  FiGrid, 
-  FiTarget, 
-  FiMessageSquare, 
+import {
+  FiHome,
+  FiUser,
+  FiUsers,
+  FiGrid,
+  FiTarget,
+  FiMessageSquare,
   FiSettings,
   FiBell,
   FiLogOut
 } from 'react-icons/fi';
 import { FaBuilding } from 'react-icons/fa';
+import { HiUserGroup } from 'react-icons/hi';
 
 interface UserPanelLayoutProps {
   children: React.ReactNode;
@@ -30,6 +31,7 @@ export const UserPanelLayout: React.FC<UserPanelLayoutProps> = ({
   const navigationItems = [
     { id: 'dashboard', label: 'Dashboard', icon: FiHome },
     { id: 'profile', label: 'Mi Perfil', icon: FiUser },
+    { id: 'communities', label: 'Comunidades', icon: HiUserGroup },
     { id: 'companies', label: 'Mis Empresas', icon: FaBuilding },
     { id: 'referrals', label: 'Referidos', icon: FiUsers },
     { id: 'applications', label: 'Aplicaciones', icon: FiGrid },
@@ -107,16 +109,15 @@ export const UserPanelLayout: React.FC<UserPanelLayoutProps> = ({
                 {navigationItems.map((item) => {
                   const Icon = item.icon;
                   const isActive = activeTab === item.id;
-                  
+
                   return (
                     <li key={item.id}>
                       <button
                         onClick={() => onTabChange(item.id)}
-                        className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${
-                          isActive
+                        className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${isActive
                             ? 'bg-blue-50 text-blue-700 border border-blue-200'
                             : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                        }`}
+                          }`}
                       >
                         <Icon className={`w-5 h-5 ${isActive ? 'text-blue-600' : 'text-gray-400'}`} />
                         <span className="font-medium">{item.label}</span>

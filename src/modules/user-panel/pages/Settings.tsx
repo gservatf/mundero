@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
-import { 
-  FiUser, 
-  FiGlobe, 
-  FiShield, 
+import { useAgreement } from '../hooks/useAgreement';
+import AgreementModal from '../components/AgreementModal';
+import {
+  FiUser,
+  FiGlobe,
+  FiShield,
   FiLogOut,
   FiDownload,
   FiTrash2,
@@ -14,6 +16,12 @@ import {
 
 export const Settings: React.FC = () => {
   const { user, logout } = useAuth();
+  const { requiresAgreement } = useAgreement();
+
+  // Control de acceso - bloquear si requiere acuerdo
+  if (requiresAgreement) {
+    return <AgreementModal isOpen={true} onClose={() => { }} />;
+  }
   const [settings, setSettings] = useState({
     language: 'es',
     region: 'PE',
@@ -80,7 +88,7 @@ export const Settings: React.FC = () => {
               <FiUser className="w-5 h-5 text-gray-600" />
               <h3 className="font-semibold text-gray-900">Información de Cuenta</h3>
             </div>
-            
+
             <div className="space-y-4">
               <div className="flex items-center space-x-4">
                 <img
@@ -97,10 +105,10 @@ export const Settings: React.FC = () => {
                   </p>
                 </div>
               </div>
-              
+
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <p className="text-blue-800 text-sm">
-                  <strong>Nota:</strong> Tu información de perfil se sincroniza automáticamente 
+                  <strong>Nota:</strong> Tu información de perfil se sincroniza automáticamente
                   con tu cuenta de Google. Los cambios deben realizarse desde tu cuenta de Google.
                 </p>
               </div>
@@ -118,7 +126,7 @@ export const Settings: React.FC = () => {
               <FiGlobe className="w-5 h-5 text-gray-600" />
               <h3 className="font-semibold text-gray-900">Idioma y Región</h3>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -136,7 +144,7 @@ export const Settings: React.FC = () => {
                   ))}
                 </select>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Región
@@ -167,7 +175,7 @@ export const Settings: React.FC = () => {
               <FiShield className="w-5 h-5 text-gray-600" />
               <h3 className="font-semibold text-gray-900">Notificaciones</h3>
             </div>
-            
+
             <div className="space-y-4">
               {Object.entries(settings.notifications).map(([key, value]) => (
                 <div key={key} className="flex items-center justify-between">
@@ -193,14 +201,12 @@ export const Settings: React.FC = () => {
                         [key]: !value
                       }
                     }))}
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                      value ? 'bg-blue-600' : 'bg-gray-200'
-                    }`}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${value ? 'bg-blue-600' : 'bg-gray-200'
+                      }`}
                   >
                     <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                        value ? 'translate-x-6' : 'translate-x-1'
-                      }`}
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${value ? 'translate-x-6' : 'translate-x-1'
+                        }`}
                     />
                   </button>
                 </div>
@@ -266,7 +272,7 @@ export const Settings: React.FC = () => {
                   <p className="text-xs text-gray-500">Exportar información personal</p>
                 </div>
               </button>
-              
+
               <button
                 onClick={handleLogout}
                 className="w-full flex items-center space-x-3 p-3 text-left rounded-lg hover:bg-gray-50 transition-colors"
@@ -277,7 +283,7 @@ export const Settings: React.FC = () => {
                   <p className="text-xs text-gray-500">Salir de tu cuenta</p>
                 </div>
               </button>
-              
+
               <button
                 onClick={() => setShowDeleteConfirm(true)}
                 className="w-full flex items-center space-x-3 p-3 text-left rounded-lg hover:bg-red-50 transition-colors"
@@ -311,7 +317,7 @@ export const Settings: React.FC = () => {
                 ¿Eliminar cuenta?
               </h3>
               <p className="text-gray-600 mb-6">
-                Esta acción es irreversible. Se eliminarán todos tus datos, 
+                Esta acción es irreversible. Se eliminarán todos tus datos,
                 empresas, referidos y configuraciones.
               </p>
               <div className="flex space-x-3">

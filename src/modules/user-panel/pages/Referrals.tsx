@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  FiPlus, 
-  FiUsers, 
-  FiClock, 
-  FiCheck, 
+import { useAgreement } from '../hooks/useAgreement';
+import AgreementModal from '../components/AgreementModal';
+import {
+  FiPlus,
+  FiUsers,
+  FiClock,
+  FiCheck,
   FiX,
   FiDollarSign,
   FiCalendar
 } from 'react-icons/fi';
 
 export const Referrals: React.FC = () => {
+  const { requiresAgreement } = useAgreement();
+
+  // Control de acceso - bloquear si requiere acuerdo
+  if (requiresAgreement) {
+    return <AgreementModal isOpen={true} onClose={() => { }} />;
+  }
+
   const [showContractModal, setShowContractModal] = useState(false);
   const [contractSigned, setContractSigned] = useState(false);
   const [showCreateForm, setShowCreateForm] = useState(false);

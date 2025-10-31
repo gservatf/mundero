@@ -1,0 +1,607 @@
+[
+    {
+        "id": 1,
+        "text": "Me anticipo y tomo iniciativa antes de que otros me lo soliciten o exijan",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 2,
+        "text": "Persisto ante los obstáculos y no abandono fácilmente",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 3,
+        "text": "Cumple con los compromisos, sin importar los obstáculos personales",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 4,
+        "text": "Busco hacer las cosas mejor, más rápido o más barato",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 5,
+        "text": "Evito proyectos o situaciones que tengan riesgos moderados",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 6,
+        "text": "Prefiero situaciones que puedo controlar",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 7,
+        "text": "Busco información antes de tomar decisiones",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 8,
+        "text": "Planifico dividing grandes tareas en sub-tareas con fechas límite",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 9,
+        "text": "Confío principalmente en mis propias habilidades",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 10,
+        "text": "Tengo confianza en que puedo tener éxito",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 11,
+        "text": "Para mí es importante causar una buena primera impresión",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 12,
+        "text": "Hago cosas antes de que me las pidan",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 13,
+        "text": "Mantengo mi posición a pesar de la oposición o resultados inicialmente desalentadores",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 14,
+        "text": "Hago sacrificios personales o realizo esfuerzos extraordinarios para completar un trabajo",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 15,
+        "text": "Trato de hacer las cosas de manera que satisfagan o excedan las expectativas de los clientes",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 16,
+        "text": "Evalúo alternativas y calculo riesgos",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 17,
+        "text": "Me pongo metas que son desafiantes pero alcanzables",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 18,
+        "text": "Prefiero trabajar sin hacer demasiada investigación",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 19,
+        "text": "Cambio mis estrategias si es necesario para alcanzar mis metas",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 20,
+        "text": "Uso personas influyentes para alcanzar mis metas",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 21,
+        "text": "Confío en mi capacidad para resolver problemas",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 22,
+        "text": "Soy consciente de las consecuencias de lo que hago",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 23,
+        "text": "Tomo la iniciativa asegurándome de que el trabajo sea terminado",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 24,
+        "text": "Cambio mi enfoque o busco otras alternativas para superar obstáculos",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 25,
+        "text": "Acepto responsabilidad personal por los problemas de implementación",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 26,
+        "text": "Compruebo mi trabajo para asegurarme de que esté terminado apropiadamente",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 27,
+        "text": "Evito situaciones que puedan resultar en pérdidas importantes",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 28,
+        "text": "Establezco metas y objetivos que son importantes para mí y para la empresa",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 29,
+        "text": "Busco consejos de personas que son expertas en áreas donde tengo poca experiencia",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 30,
+        "text": "A menudo actúo sin considerar completamente las consecuencias",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 31,
+        "text": "Desarrollo o mantengo redes de contactos y las uso para alcanzar mis propios objetivos",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 32,
+        "text": "Tengo confianza en mis propias ideas, aún cuando otros las desaprueben",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 33,
+        "text": "Es importante para mí alcanzar o superar estándares de excelencia",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 34,
+        "text": "Trabajo energéticamente para terminar tareas a tiempo",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 35,
+        "text": "Busco formas nuevas o innovadoras de lograr mis metas",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 36,
+        "text": "Mantengo registros cuidadosos y detallados",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 37,
+        "text": "Busco riesgos calculados",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 38,
+        "text": "Establezco metas para lo que quiero lograr",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 39,
+        "text": "Busco información específica para alcanzar objetivos",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 40,
+        "text": "Hago planes y los reviso regularmente",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 41,
+        "text": "Cuento con mi propia habilidad y competencia",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 42,
+        "text": "Busco retroalimentación sobre mi desempeño",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 43,
+        "text": "Tengo confianza en que puedo desempeñarme bien en una variedad de tareas",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 44,
+        "text": "Me preocupo por el impacto de mis acciones en otros",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 45,
+        "text": "Busco hacer cosas que nunca se han hecho antes",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 46,
+        "text": "Acepto los desafíos y nuevas oportunidades",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 47,
+        "text": "Trabajo consistentemente - no me rindo cuando las cosas se ponen difíciles",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 48,
+        "text": "Encuentro formas de terminar el trabajo más rápido",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 49,
+        "text": "Busco proyectos que ofrecen ganancias y riesgos moderados",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 50,
+        "text": "Defino metas de largo plazo, claras y específicas",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 51,
+        "text": "Busco información de clientes sobre productos y servicios",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 52,
+        "text": "Cambio estrategias para alcanzar metas",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 53,
+        "text": "Busco y uso el consejo de expertos",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 54,
+        "text": "Siento que tengo control sobre mi propio éxito",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 55,
+        "text": "Me gusta que la gente vea lo bueno que soy en lo que hago",
+        "scale": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    }
+]

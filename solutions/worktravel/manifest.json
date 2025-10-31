@@ -1,0 +1,65 @@
+{
+    "key": "work_travel",
+    "name": "Work & Travel Manager",
+    "version": "1.0.0",
+    "description": "Plataforma de gestión para programas Work & Travel",
+    "author": "Mundero Team",
+    "category": "hr",
+    "entryPoint": "./pages/Start.tsx",
+    "routes": [
+        {
+            "path": "/start",
+            "component": "./pages/Start.tsx",
+            "name": "Bienvenida",
+            "protected": false
+        },
+        {
+            "path": "/application",
+            "component": "./pages/Application.tsx",
+            "name": "Solicitud",
+            "protected": true
+        },
+        {
+            "path": "/documents",
+            "component": "./pages/Documents.tsx",
+            "name": "Documentos",
+            "protected": true
+        },
+        {
+            "path": "/status",
+            "component": "./pages/Status.tsx",
+            "name": "Estado",
+            "protected": true
+        }
+    ],
+    "permissions": [
+        "read",
+        "write",
+        "upload"
+    ],
+    "config": {
+        "theme": {
+            "primaryColor": "#7C3AED",
+            "secondaryColor": "#F59E0B"
+        },
+        "features": {
+            "analytics": true,
+            "fileUpload": true,
+            "statusTracking": true
+        },
+        "programConfig": {
+            "countries": [
+                "USA",
+                "Canada",
+                "Australia"
+            ],
+            "minAge": 18,
+            "maxAge": 30,
+            "requiredDocuments": [
+                "passport",
+                "cv",
+                "english_cert"
+            ]
+        }
+    }
+}

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Toaster } from './components/ui/toaster';
 import { GoogleOnlyAuth } from './components/GoogleOnlyAuth';
 import { Dashboard } from './pages/Dashboard';
+import { FunnelPage } from './src/pages/FunnelPage';
 import { LandingPage } from './src/modules/landing';
 import { AdminLayout } from './src/modules/admin-panel/layout/AdminLayout';
 import { AdminDashboard } from './src/modules/admin-panel/pages/AdminDashboard';
@@ -29,22 +30,22 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route 
-            path="/" 
-            element={user ? <Navigate to="/dashboard" replace /> : <LandingPage />} 
+          <Route
+            path="/"
+            element={user ? <Navigate to="/dashboard" replace /> : <LandingPage />}
           />
-          <Route 
-            path="/auth" 
-            element={user ? <Navigate to="/dashboard" replace /> : <GoogleOnlyAuth />} 
+          <Route
+            path="/auth"
+            element={user ? <Navigate to="/dashboard" replace /> : <GoogleOnlyAuth />}
           />
-          <Route 
-            path="/dashboard" 
-            element={user ? <Dashboard /> : <Navigate to="/" replace />} 
+          <Route
+            path="/dashboard"
+            element={user ? <Dashboard /> : <Navigate to="/" replace />}
           />
-          
+
           {/* Admin Panel Routes */}
-          <Route 
-            path="/admin" 
+          <Route
+            path="/admin"
             element={user ? <AdminLayout /> : <Navigate to="/" replace />}
           >
             <Route index element={<AdminDashboard />} />
@@ -52,10 +53,16 @@ function App() {
             <Route path="companies" element={<AdminCompanies />} />
             <Route path="messages" element={<AdminMessages />} />
           </Route>
-          
-          <Route 
-            path="*" 
-            element={<Navigate to="/" replace />} 
+
+          {/* Funnel Public Routes - Organization/Funnel slug pattern */}
+          <Route
+            path="/:orgSlug/:funnelSlug"
+            element={<FunnelPage />}
+          />
+
+          <Route
+            path="*"
+            element={<Navigate to="/" replace />}
           />
         </Routes>
         <Toaster />
