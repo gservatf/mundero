@@ -1,5 +1,23 @@
 # 📋 MUNDERO DEPLOYMENT LOG
 
+## ✅ MUNDERO v2.2.2 - CI/CD PIPELINE FIXED AND AUTOMATED
+**📅 Date:** October 31, 2025  
+**🕓 Time:** 20:15 UTC  
+**🌍 URL:** https://mundero360.web.app  
+**📦 Version:** v2.2.2  
+**🔄 Commit:** 26c8c81  
+**🚀 Deploy Method:** Automated CI/CD (GitHub Actions)  
+**✅ Status:** PIPELINE REPAIRED AND FULLY OPERATIONAL
+
+### 🔧 **CI/CD FIXES IMPLEMENTED**
+- **📦 pnpm-lock.yaml:** Añadido lockfile requerido por pipeline (forzado en git)
+- **🚀 GitHub Actions:** Workflow deploy.yml creado con Node.js 20 y artifact v4
+- **🧪 Test Pipeline:** Actualizado a pnpm v10 y upload-artifact v4
+- **⚙️ Automation:** Deploy automático a Firebase Hosting en push a main
+- **🔄 Pipeline Flow:** Build → Test → Deploy completamente automatizado
+
+---
+
 ## ✅ MUNDERO v2.2.1 - HOT FIX DEPLOYED SUCCESSFULLY
 **📅 Date:** October 31, 2025  
 **🕓 Time:** 19:50 UTC  
