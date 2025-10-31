@@ -8,7 +8,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, Shield, CheckCircle } from 'lucide-react';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { getAuth } from 'firebase/auth';
-import { firebaseApp } from '@/core/firebase/firebaseClient';
+import firebaseApp from '@/core/firebase/firebaseClient';
 import { useHybridAuth } from '@/features/auth/hooks/useHybridAuth';
 
 export default function ResetPassword() {
