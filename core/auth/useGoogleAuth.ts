@@ -1,6 +1,6 @@
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut as firebaseSignOut } from 'firebase/auth'
 import { supabase } from '../core/supabase/supabaseClient'
-import { app } from '../core/firebase/firebaseClient'
+import { firebaseApp } from '../core/firebase/firebaseClient'
 
 export interface GoogleAuthResult {
   user: any
@@ -10,7 +10,7 @@ export interface GoogleAuthResult {
 
 export async function loginWithGoogle(): Promise<GoogleAuthResult> {
   try {
-    const auth = getAuth(app)
+    const auth = getAuth(firebaseApp)
     const provider = new GoogleAuthProvider()
     
     // Request additional scopes for profile information
@@ -77,7 +77,7 @@ export async function loginWithGoogle(): Promise<GoogleAuthResult> {
 
 export async function signOut(): Promise<void> {
   try {
-    const auth = getAuth(app)
+    const auth = getAuth(firebaseApp)
     
     // Sign out from both Firebase and Supabase
     await Promise.all([
@@ -91,7 +91,7 @@ export async function signOut(): Promise<void> {
 }
 
 export async function getCurrentUser() {
-  const auth = getAuth(app)
+  const auth = getAuth(firebaseApp)
   const firebaseUser = auth.currentUser
   
   if (!firebaseUser) return null
