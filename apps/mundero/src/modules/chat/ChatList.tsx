@@ -2,12 +2,12 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { collection, query, where, onSnapshot, getFirestore, DocumentData } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
-import { firebaseApp } from "../../core/firebase/firebaseClient";
+import { app } from "../../core/firebase/firebaseClient";
 
 // ⬇️ Si ya tienes un wrapper de Firebase, usa ese import:
 // import { db } from "@/lib/firebase";
-const db = getFirestore(firebaseApp);
-const auth = getAuth(firebaseApp);
+const db = getFirestore(app);
+const auth = getAuth(app);
 
 type Chat = {
   id: string;

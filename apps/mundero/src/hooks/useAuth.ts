@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { getAuth, onAuthStateChanged, User } from 'firebase/auth'
 import { loginWithGoogle, signOut, getCurrentUser } from '../core/auth/useGoogleAuth'
-import { firebaseApp } from '../core/firebase/firebaseClient'
+import { app } from '../core/firebase/firebaseClient'
 import { UserProfile } from '@/types'
 
 export interface AuthState {
@@ -20,7 +20,7 @@ export function useAuth() {
   })
 
   useEffect(() => {
-    const auth = getAuth(firebaseApp)
+    const auth = getAuth(app)
     
     console.log('🔐 Configurando auth listener...')
     

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { getAuth } from 'firebase/auth';
-import { firebaseApp } from '../../../core/firebase/firebaseClient';
+import { app } from '../../../core/firebase/firebaseClient';
 import ChatList from '../ChatList';
 import ChatWindow from '../ChatWindow';
 import ChatInput from '../ChatInput';
 import { FiMessageCircle } from 'react-icons/fi';
 
 const Messages: React.FC = () => {
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth(app);
   const firebaseUser = auth.currentUser;
   const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
 

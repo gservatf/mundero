@@ -3,10 +3,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@ui/card'
 import { Button } from '@ui/button'
 import { ExternalLink, Settings, Loader2, Grid3X3 } from 'lucide-react'
 // import { collection, getDocs, orderBy, query, getFirestore } from 'firebase/firestore'
-// import { firebaseApp } from '../core/firebase/firebaseClient'
+// import { app } from '../core/firebase/firebaseClient'
 import { App } from '@/types'
 
-// const db = getFirestore(firebaseApp)
+// const db = getFirestore(app)
 
 interface AppGridProps {
   userRoles?: string[]

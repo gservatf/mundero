@@ -9,11 +9,11 @@ import {
   DocumentData,
 } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
-import { firebaseApp } from "../../core/firebase/firebaseClient";
+import { app } from "../../core/firebase/firebaseClient";
 
 // Si tienes wrapper propio, puedes usar: import { db, auth } from "@/lib/firebase";
-const db = getFirestore(firebaseApp);
-const auth = getAuth(firebaseApp);
+const db = getFirestore(app);
+const auth = getAuth(app);
 
 type Message = {
   id: string;

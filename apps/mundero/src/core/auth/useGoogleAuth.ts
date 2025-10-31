@@ -1,9 +1,9 @@
 import { signInWithPopup, GoogleAuthProvider, signOut as firebaseSignOut, User } from 'firebase/auth'
 import { doc, getDoc, setDoc, getFirestore } from 'firebase/firestore'
-import { auth, firebaseApp } from '../firebase/firebaseClient'
+import { auth, app } from '../firebase/firebaseClient'
 import { UserProfile } from '@/types'
 
-const db = getFirestore(firebaseApp)
+const db = getFirestore(app)
 
 interface AuthResult {
   user?: User
