@@ -1,13 +1,36 @@
 # 📋 MUNDERO DEPLOYMENT LOG
 
-## ✅ MUNDERO v2.2.0 - Deployed Successfully
+## ✅ MUNDERO v2.2.1 - HOT FIX DEPLOYED SUCCESSFULLY
+**📅 Date:** October 31, 2025  
+**🕓 Time:** 19:50 UTC  
+**🌍 URL:** https://mundero360.web.app  
+**📦 Version:** v2.2.1  
+**🔄 Commit:** 1dc67fe  
+**🚀 Deploy Method:** Manual (Firebase CLI)  
+**✅ Status:** LIVE AND FULLY FUNCTIONAL
+
+### 🛠️ **CRITICAL FIXES APPLIED**
+- **🔧 Firebase Authentication:** Configuración corregida con variables de entorno
+- **🎨 Landing Page:** CSS completo restaurado (116.85 kB)
+- **⚡ Build Optimization:** Tailwind content optimizado para mejor performance
+- **🔑 Environment Variables:** Sistema seguro con .env (no versionado)
+- **📱 Google Auth Button:** Funcionando correctamente
+
+### 🔧 **Technical Corrections**
+1. **Firebase Config:** Migrado a `import.meta.env.VITE_*` variables
+2. **TypeScript Types:** Añadidos tipos Vite para `import.meta.env`
+3. **Export Fix:** `googleProvider` exportado correctamente
+4. **CSS Recovery:** Tailwind procesando `./src/**/*` completamente
+5. **Performance:** Eliminado patrón problemático `./apps/**/*`
+
+## ✅ MUNDERO v2.2.0 - Previous Release
 **📅 Date:** October 31, 2025  
 **🕓 Time:** 19:02 UTC  
 **🌍 URL:** https://mundero360.web.app  
 **📦 Version:** v2.2.0  
 **🔄 Commit:** b628c3f  
 **🚀 Deploy Method:** Manual (Firebase CLI)  
-**✅ Status:** LIVE AND VERIFIED  
+**✅ Status:** SUPERSEDED by v2.2.1  
 
 ### 🎯 Release Highlights
 - ✨ **Nueva Landing Page** - Diseño moderno y responsive completamente renovado
