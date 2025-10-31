@@ -1,6 +1,6 @@
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut as firebaseSignOut } from 'firebase/auth'
-import { supabase } from '../supabase/supabaseClient'
-import { app } from '../firebase/firebaseClient'
+import { supabase } from '../core/supabase/supabaseClient'
+import { app } from '../core/firebase/firebaseClient'
 
 export interface GoogleAuthResult {
   user: any
