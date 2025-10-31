@@ -1,83 +1,28 @@
-// -------------------------------------------------------------
-// 🌐 Firebase Configuration for MUNDERO360
-// -------------------------------------------------------------
-// This file initializes Firebase for the Mundero Hub ecosystem.
-// It includes Authentication, Firestore, Storage, and Analytics
-// with proper configuration for both local and production domains.
-// -------------------------------------------------------------
+// ✅ Firebase Configuración modular y segura para Mundero v2.2.1
 
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { 
-  getAuth, 
-  GoogleAuthProvider, 
-  setPersistence, 
-  browserLocalPersistence 
-} from "firebase/auth";
+import { getAnalytics } from "firebase/analytics";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
-import { getAnalytics, isSupported } from "firebase/analytics";
 
-// -------------------------------------------------------------
-// 🔧 Firebase Configuration
-// -------------------------------------------------------------
 const firebaseConfig = {
-  apiKey: "AIzaSyDH36xJWH3Xxmv7BsIrrHHP9ts3EOmOtK0",
-  authDomain: "mundero360.firebaseapp.com",
-  projectId: "mundero360",
-  storageBucket: "mundero360.appspot.com", // ✅ corregido (.app → .appspot.com)
-  messagingSenderId: "599385299146",
-  appId: "1:599385299146:web:2f1ac9b1cab370e6a4fc33",
-  measurementId: "G-X736D9JQGX"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
-// -------------------------------------------------------------
-// 🚀 Initialize Firebase App
-// -------------------------------------------------------------
 const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
-// -------------------------------------------------------------
-// 🔐 Authentication Setup
-// -------------------------------------------------------------
 export const auth = getAuth(app);
-export const googleProvider = new GoogleAuthProvider();
-
-// Optional: persist session between reloads
-setPersistence(auth, browserLocalPersistence).catch((err) => {
-  console.warn("[Firebase Auth] Persistence not set:", err);
-});
-
-// -------------------------------------------------------------
-// 🧠 Firestore Database
-// -------------------------------------------------------------
+export const provider = new GoogleAuthProvider();
+export const googleProvider = provider; // Alias para compatibilidad
 export const db = getFirestore(app);
-
-// -------------------------------------------------------------
-// ☁️ Cloud Storage
-// -------------------------------------------------------------
 export const storage = getStorage(app);
 
-// -------------------------------------------------------------
-// 📊 Analytics (only load in browser)
-// -------------------------------------------------------------
-let analytics: ReturnType<typeof getAnalytics> | null = null;
-
-if (typeof window !== "undefined") {
-  isSupported()
-    .then((supported) => {
-      if (supported) {
-        analytics = getAnalytics(app);
-        console.log("[Firebase] Analytics initialized for Mundero360");
-      } else {
-        console.warn("[Firebase] Analytics not supported in this environment");
-      }
-    })
-    .catch((err) => console.error("[Firebase] Analytics init error:", err));
-}
-
-export { analytics };
-
-// -------------------------------------------------------------
-// ✅ Default Export
-// -------------------------------------------------------------
 export default app;
