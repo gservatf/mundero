@@ -486,8 +486,6 @@ class FeedAnalyticsService {
         period: AnalyticsPeriod,
         callback: (analytics: FeedAnalytics) => void
     ): () => void {
-        let intervalId: NodeJS.Timeout;
-
         const updateAnalytics = async () => {
             try {
                 const analytics = await this.getFeedAnalytics(period);
@@ -501,7 +499,7 @@ class FeedAnalyticsService {
         updateAnalytics();
 
         // Set up periodic updates every 5 minutes
-        intervalId = setInterval(updateAnalytics, 5 * 60 * 1000);
+        const intervalId = setInterval(updateAnalytics, 5 * 60 * 1000);
 
         // Return cleanup function
         return () => {

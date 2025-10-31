@@ -14,12 +14,8 @@ import {
 
 export const Referrals: React.FC = () => {
   const { requiresAgreement } = useAgreement();
-
-  // Control de acceso - bloquear si requiere acuerdo
-  if (requiresAgreement) {
-    return <AgreementModal isOpen={true} onClose={() => { }} />;
-  }
-
+  
+  // Hooks siempre al nivel superior
   const [showContractModal, setShowContractModal] = useState(false);
   const [contractSigned, setContractSigned] = useState(false);
   const [showCreateForm, setShowCreateForm] = useState(false);
@@ -30,6 +26,11 @@ export const Referrals: React.FC = () => {
     opportunity: '',
     targetApp: 'LEGALTY'
   });
+
+  // Control de acceso - bloquear si requiere acuerdo
+  if (requiresAgreement) {
+    return <AgreementModal isOpen={true} onClose={() => { }} />;
+  }
 
   // Mock contract text
   const contractText = `CONTRATO DE REFERIDOS - MUNDERO

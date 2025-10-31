@@ -16,12 +16,8 @@ import {
 
 export const LeadCenter: React.FC = () => {
   const { requiresAgreement } = useAgreement();
-
-  // Control de acceso - bloquear si requiere acuerdo
-  if (requiresAgreement) {
-    return <AgreementModal isOpen={true} onClose={() => { }} />;
-  }
-
+  
+  // Hooks siempre al nivel superior
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [newLead, setNewLead] = useState({
     company: '',
@@ -32,6 +28,11 @@ export const LeadCenter: React.FC = () => {
     notes: '',
     followUpDate: ''
   });
+
+  // Control de acceso - bloquear si requiere acuerdo
+  if (requiresAgreement) {
+    return <AgreementModal isOpen={true} onClose={() => { }} />;
+  }
 
   const leads = [
     {

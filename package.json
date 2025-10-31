@@ -1,7 +1,7 @@
 {
   "name": "mundero-hub",
   "private": true,
-  "version": "2.2.7",
+  "version": "2.2.8",
   "description": "Centro de identidad empresarial del ecosistema MUNDERO",
   "type": "module",
   "keywords": [

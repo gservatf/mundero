@@ -55,24 +55,17 @@ export const Profile: React.FC = () => {
     error: agreementError
   } = useAgreement();
 
-  // Hook de reputación opcional
-  let userReputation = null;
-  let reputationLoading = false;
-
-  if (REPUTATION_ENABLED && user?.id) {
-    try {
-      const reputationData = useReputation(user.id);
-      userReputation = reputationData.data;
-      reputationLoading = reputationData.loading;
-    } catch (error) {
-      console.log('Reputation hook failed (non-blocking):', error);
-    }
-  }
+  // Hooks siempre al nivel superior - usar ID condicional
+  const reputationData = useReputation(REPUTATION_ENABLED && user?.id ? user.id : undefined);
+  const userReputation = reputationData?.data || null;
+  const reputationLoading = reputationData?.loading || false;
 
   // Gamification hooks
   const { userChallenges: activeChallenges, loading: challengesLoading } = useChallenges();
   const { userDuels: activeDuels, loading: duelsLoading } = useDuels();
-  const { rewards, userStats: rewardsStats, loading: rewardsLoading } = user?.id ? useRewards(user.id) : { rewards: [], userStats: null, loading: false }; const [isEditing, setIsEditing] = useState(false);
+  const { rewards, userStats: rewardsStats, loading: rewardsLoading } = useRewards(user?.id || '');
+
+  const [isEditing, setIsEditing] = useState(false);
   const [showAgreementModal, setShowAgreementModal] = useState(false);
   const [currentAgreementType, setCurrentAgreementType] = useState<'terms_of_service' | 'privacy_policy' | 'data_processing' | 'marketing'>('terms_of_service');
 

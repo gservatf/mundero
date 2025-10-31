@@ -4,13 +4,14 @@ import AgreementModal from '../components/AgreementModal';
 
 export default function Messages() {
   const { requiresAgreement } = useAgreement();
+  
+  // Hooks siempre al nivel superior
+  const [newMessage, setNewMessage] = useState("");
 
   // Control de acceso - bloquear si requiere acuerdo
   if (requiresAgreement) {
     return <AgreementModal isOpen={true} onClose={() => { }} />;
   }
-
-  const [newMessage, setNewMessage] = useState("");
 
   const handleSend = () => {
     if (!newMessage.trim()) return;

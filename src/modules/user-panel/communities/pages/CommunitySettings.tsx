@@ -112,7 +112,7 @@ export const CommunitySettings: React.FC = () => {
                         <Shield className="h-4 w-4" />
                         Moderación
                     </TabsTrigger>
-                    {(PAYMENT_ENABLED || true) && (
+                    {PAYMENT_ENABLED && (
                         <TabsTrigger value="membership" className="flex items-center gap-2">
                             <Crown className="h-4 w-4" />
                             Membresías
@@ -228,7 +228,7 @@ export const CommunitySettings: React.FC = () => {
                     </Card>
                 </TabsContent>
 
-                {(PAYMENT_ENABLED || true) && (
+                {PAYMENT_ENABLED && (
                     <TabsContent value="membership" className="space-y-6">
                         <Card>
                             <CardHeader>

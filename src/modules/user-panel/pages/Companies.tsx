@@ -14,12 +14,9 @@ import { FaBuilding } from 'react-icons/fa';
 
 export const Companies: React.FC = () => {
   const { requiresAgreement } = useAgreement();
+  
+  // Hooks siempre al nivel superior
   const [showCreateForm, setShowCreateForm] = useState(false);
-
-  // Control de acceso - bloquear si requiere acuerdo
-  if (requiresAgreement) {
-    return <AgreementModal isOpen={true} onClose={() => { }} />;
-  }
   const [newCompany, setNewCompany] = useState({
     name: '',
     ruc: '',
@@ -29,6 +26,11 @@ export const Companies: React.FC = () => {
     logo: '',
     contact: ''
   });
+
+  // Control de acceso - bloquear si requiere acuerdo
+  if (requiresAgreement) {
+    return <AgreementModal isOpen={true} onClose={() => { }} />;
+  }
 
   // Mock data - replace with Firebase data
   const companies = [
