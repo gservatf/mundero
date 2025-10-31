@@ -23,7 +23,7 @@ const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyDH36xJWH3Xxmv7BsIrrHHP9ts3EOmOtK0",
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "mundero360.firebaseapp.com",
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "mundero360",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "mundero360.firebasestorage.app",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "mundero360.appspot.com",
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "599385299146",
   appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:599385299146:web:2f1ac9b1cab370e6a4fc33",
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-X736D9JQGX"
