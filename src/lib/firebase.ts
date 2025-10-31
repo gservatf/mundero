@@ -7,7 +7,7 @@
 // -------------------------------------------------------------
 
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import { 
   getAuth, 
   GoogleAuthProvider, 
@@ -34,7 +34,8 @@ const firebaseConfig = {
 // -------------------------------------------------------------
 // 🚀 Initialize Firebase App
 // -------------------------------------------------------------
-const app = initializeApp(firebaseConfig);
+// Prevent double initialization (important for React + Vite)
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
 // -------------------------------------------------------------
 // 🔐 Authentication Setup

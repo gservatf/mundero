@@ -1,5 +1,35 @@
 # 📋 MUNDERO DEPLOYMENT LOG
 
+## ✅ MUNDERO v2.2.4 - FIREBASE CONFIG FIXED & DEPLOYING
+**📅 Date:** October 31, 2025  
+**🕓 Time:** 22:30 UTC  
+**🌍 URL:** https://mundero360.web.app  
+**📦 Version:** v2.2.4  
+**🔄 Commit:** 36bcbab  
+**🚀 Deploy Method:** Automated CI/CD (GitHub Actions)  
+**✅ Status:** FIREBASE CONFIGURATION CORRECTED
+
+### 🔥 **CRITICAL FIREBASE FIXES:**
+- **🗄️ Storage Bucket:** ✅ Fixed `mundero360.firebasestorage.app` → `mundero360.appspot.com`
+- **⚙️ Environment Variables:** ✅ Updated all .env files with correct bucket URL
+- **📱 Mobile Meta Tag:** ✅ Updated `apple-mobile-web-app-capable` → `mobile-web-app-capable`
+- **🔧 Config Consistency:** ✅ All Firebase configs now use proper storage URL
+- **🚀 Auto Deploy:** ✅ CI/CD pipeline running with corrected configuration
+
+### 🛠️ **Files Updated:**
+1. **apps/mundero/src/core/firebase/firebaseClient.ts:** Storage bucket corrected
+2. **.env files:** All VITE_FIREBASE_STORAGE_BUCKET updated globally
+3. **index.html:** Mobile web app meta tag modernized
+4. **package.json:** Version bump to v2.2.4
+
+### 🎯 **EXPECTED RESULT:**
+- **Firebase Storage:** ✅ Proper connectivity to Cloud Storage
+- **Authentication:** ✅ Improved reliability with correct config
+- **Mobile Support:** ✅ Better PWA compatibility
+- **Production:** ✅ All services working correctly
+
+---
+
 ## ✅ MUNDERO v2.2.3 - CI/CD PIPELINE FULLY OPERATIONAL & TESTED
 **📅 Date:** October 31, 2025  
 **🕓 Time:** 22:15 UTC  
