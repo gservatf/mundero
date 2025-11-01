@@ -25,6 +25,13 @@ if (missingVars.length > 0) {
 if (import.meta.env.PROD) {
   console.log('🔥 Firebase config loaded for production');
   console.log('✅ ProjectId:', import.meta.env.VITE_FIREBASE_PROJECT_ID);
+  
+  // Check optional MUNDERO API key
+  if (!import.meta.env.VITE_MUNDERO_API_KEY) {
+    console.warn('⚠️ MUNDERO_API_KEY not found in environment variables');
+  } else {
+    console.log('✅ MUNDERO_API_KEY configured');
+  }
 }
 
 const firebaseConfig = {
