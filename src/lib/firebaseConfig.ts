@@ -15,7 +15,7 @@ const requiredVars = [
   // Note: VITE_MUNDERO_API_KEY is optional for now
 ];
 
-const missingVars = requiredEnvVars.filter(v => !import.meta.env[v]);
+const missingVars = requiredVars.filter((v: string) => !import.meta.env[v]);
 if (missingVars.length > 0) {
   console.error(`❌ Missing environment variables: ${missingVars.join(', ')}`);
   console.error('💡 Please check your .env.local file');
