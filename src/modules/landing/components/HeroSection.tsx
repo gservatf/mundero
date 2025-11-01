@@ -1,6 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../../hooks/useAuth';
 
 export const HeroSection: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const { signInWithGoogle } = useAuth();
+  const navigate = useNavigate();
+
+  const handleGoogleLogin = async () => {
+    setIsLoading(true);
+    try {
+      await signInWithGoogle();
+      // El redirect se maneja automáticamente en App.tsx
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('Error en login:', error);
+      // Opcional: mostrar toast de error
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <section className="bg-white py-20">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 items-center gap-10">
@@ -27,10 +46,21 @@ export const HeroSection: React.FC = () => {
           </p>
 
           <button
-            className="flex items-center gap-3 bg-white border border-gray-300 rounded-md px-5 py-3 text-slate-700 hover:bg-gray-50 shadow-sm transition-all duration-200"
+            onClick={handleGoogleLogin}
+            disabled={isLoading}
+            className="flex items-center gap-3 bg-white border border-gray-300 rounded-md px-5 py-3 text-slate-700 hover:bg-gray-50 shadow-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="h-5 w-5" />
-            Entrar con Google
+            {isLoading ? (
+              <>
+                <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                Conectando...
+              </>
+            ) : (
+              <>
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="h-5 w-5" />
+                Entrar con Google
+              </>
+            )}
           </button>
         </div>
 
