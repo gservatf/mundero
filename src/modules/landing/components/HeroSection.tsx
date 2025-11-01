@@ -7,11 +7,15 @@ export const HeroSection: React.FC = () => {
         {/* Texto principal */}
         <div className="flex flex-col items-start text-left">
           <img
-            src="/images/logo-echado-azul.png"
+            src="https://mundero360.web.app/images/logo-echado-azul.png"
             alt="Mundero"
             className="h-12 md:h-16 w-auto mt-4 mb-8"
             loading="lazy"
             decoding="async"
+            onError={(e) => {
+              console.error('Failed to load logo image:', e);
+              e.currentTarget.style.display = 'none';
+            }}
           />
           <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-4">
             Conecta tu <span className="text-blue-600">perfil</span>, tus empresas y tus logros en un solo lugar.
@@ -33,11 +37,15 @@ export const HeroSection: React.FC = () => {
         {/* Imagen */}
         <div className="flex justify-center md:justify-end">
           <img
-            src="/images/mundero.png"
+            src="https://mundero360.web.app/images/mundero.png"
             alt="Red de conexiones Mundero"
             className="w-full max-w-md md:max-w-lg object-contain"
             loading="lazy"
             decoding="async"
+            onError={(e) => {
+              console.error('Failed to load hero image:', e);
+              e.currentTarget.style.display = 'none';
+            }}
           />
         </div>
       </div>
