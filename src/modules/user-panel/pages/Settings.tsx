@@ -18,10 +18,7 @@ export const Settings: React.FC = () => {
   const { user, logout } = useAuth();
   const { requiresAgreement } = useAgreement();
 
-  // Control de acceso - bloquear si requiere acuerdo
-  if (requiresAgreement) {
-    return <AgreementModal isOpen={true} onClose={() => { }} />;
-  }
+  // Hooks siempre al nivel superior
   const [settings, setSettings] = useState({
     language: 'es',
     region: 'PE',
@@ -33,6 +30,11 @@ export const Settings: React.FC = () => {
     }
   });
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  // Control de acceso - bloquear si requiere acuerdo
+  if (requiresAgreement) {
+    return <AgreementModal isOpen={true} onClose={() => { }} />;
+  }
 
   const handleLogout = async () => {
     try {
