@@ -1,19 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { Badge } from './ui/badge';
-import { useAuth } from '../hooks/useAuth';
-import { mockApi } from '../lib/mockApi';
-import { FiMessageCircle, FiPlus, FiSearch } from 'react-icons/fi';
-import { Chat, Message } from '../lib/types';
+import React, { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Button } from "./ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Badge } from "./ui/badge";
+import { useAuth } from "../hooks/useAuth";
+import { mockApi } from "../lib/mockApi";
+import { FiMessageCircle, FiPlus, FiSearch } from "react-icons/fi";
+import { Chat, Message } from "../lib/types";
 
 interface ChatListProps {
   onChatSelect: (chatId: string) => void;
   selectedChatId: string | null;
 }
 
-export const ChatList: React.FC<ChatListProps> = ({ onChatSelect, selectedChatId }) => {
+export const ChatList: React.FC<ChatListProps> = ({
+  onChatSelect,
+  selectedChatId,
+}) => {
   const { user } = useAuth();
   const [chats, setChats] = useState<Chat[]>([]);
   const [loading, setLoading] = useState(true);
@@ -21,14 +24,14 @@ export const ChatList: React.FC<ChatListProps> = ({ onChatSelect, selectedChatId
   useEffect(() => {
     const loadChats = async () => {
       if (!user) return;
-      
+
       try {
         setLoading(true);
         // Usar id en lugar de uid
         const userChats = await mockApi.getUserChats(user.id);
         setChats(userChats);
       } catch (error) {
-        console.error('Error loading chats:', error);
+        console.error("Error loading chats:", error);
       } finally {
         setLoading(false);
       }
@@ -39,14 +42,14 @@ export const ChatList: React.FC<ChatListProps> = ({ onChatSelect, selectedChatId
 
   const createNewChat = async () => {
     if (!user) return;
-    
+
     try {
       // Usar id en lugar de uid
-      const newChat = await mockApi.createChat([user.id, 'other-user-id']);
-      setChats(prev => [newChat, ...prev]);
+      const newChat = await mockApi.createChat([user.id, "other-user-id"]);
+      setChats((prev) => [newChat, ...prev]);
       onChatSelect(newChat.id);
     } catch (error) {
-      console.error('Error creating chat:', error);
+      console.error("Error creating chat:", error);
     }
   };
 
@@ -56,25 +59,25 @@ export const ChatList: React.FC<ChatListProps> = ({ onChatSelect, selectedChatId
     const diffInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
 
     if (diffInHours < 24) {
-      return date.toLocaleTimeString('es-ES', { 
-        hour: '2-digit', 
-        minute: '2-digit' 
+      return date.toLocaleTimeString("es-ES", {
+        hour: "2-digit",
+        minute: "2-digit",
       });
     } else {
-      return date.toLocaleDateString('es-ES', { 
-        day: '2-digit', 
-        month: '2-digit' 
+      return date.toLocaleDateString("es-ES", {
+        day: "2-digit",
+        month: "2-digit",
       });
     }
   };
 
   const getOtherParticipant = (chat: Chat) => {
     // Usar id en lugar de uid
-    const otherUserId = chat.participants.find(id => id !== user?.id);
+    const otherUserId = chat.participants.find((id) => id !== user?.id);
     return {
-      id: otherUserId || 'unknown',
-      name: 'Usuario',
-      avatar: `https://ui-avatars.com/api/?name=Usuario&background=3b82f6&color=fff`
+      id: otherUserId || "unknown",
+      name: "Usuario",
+      avatar: `https://ui-avatars.com/api/?name=Usuario&background=3b82f6&color=fff`,
     };
   };
 
@@ -101,7 +104,7 @@ export const ChatList: React.FC<ChatListProps> = ({ onChatSelect, selectedChatId
             <FiPlus className="w-4 h-4" />
           </Button>
         </div>
-        
+
         <div className="relative">
           <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
           <input
@@ -118,7 +121,9 @@ export const ChatList: React.FC<ChatListProps> = ({ onChatSelect, selectedChatId
             <div>
               <FiMessageCircle className="w-12 h-12 mx-auto mb-3 text-gray-300" />
               <p className="text-gray-500 mb-2">No hay conversaciones</p>
-              <p className="text-sm text-gray-400">Inicia una nueva conversación</p>
+              <p className="text-sm text-gray-400">
+                Inicia una nueva conversación
+              </p>
             </div>
           </div>
         ) : (
@@ -126,13 +131,13 @@ export const ChatList: React.FC<ChatListProps> = ({ onChatSelect, selectedChatId
             {chats.map((chat) => {
               const otherParticipant = getOtherParticipant(chat);
               const isSelected = selectedChatId === chat.id;
-              
+
               return (
                 <div
                   key={chat.id}
                   onClick={() => onChatSelect(chat.id)}
                   className={`p-3 cursor-pointer transition-colors hover:bg-gray-50 ${
-                    isSelected ? 'bg-blue-50 border-r-2 border-blue-500' : ''
+                    isSelected ? "bg-blue-50 border-r-2 border-blue-500" : ""
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -142,7 +147,7 @@ export const ChatList: React.FC<ChatListProps> = ({ onChatSelect, selectedChatId
                         {otherParticipant.name.charAt(0).toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
-                    
+
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between mb-1">
                         <h4 className="font-medium text-gray-900 truncate">
@@ -154,7 +159,7 @@ export const ChatList: React.FC<ChatListProps> = ({ onChatSelect, selectedChatId
                           </span>
                         )}
                       </div>
-                      
+
                       {chat.lastMessage ? (
                         <p className="text-sm text-gray-600 truncate">
                           {chat.lastMessage.text}
@@ -165,7 +170,7 @@ export const ChatList: React.FC<ChatListProps> = ({ onChatSelect, selectedChatId
                         </p>
                       )}
                     </div>
-                    
+
                     <div className="flex flex-col items-end gap-1">
                       <Badge variant="secondary" className="text-xs">
                         En línea

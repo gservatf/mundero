@@ -1,6 +1,6 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { AuthUser, UserProfile } from '../auth/hybridAuthService';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { AuthUser, UserProfile } from "../auth/hybridAuthService";
 
 interface AuthState {
   user: AuthUser | null;
@@ -22,10 +22,10 @@ export const useAuthStore = create<AuthState>()(
       isLoading: true,
 
       setUser: (user: AuthUser | null) => {
-        set({ 
-          user, 
+        set({
+          user,
           isAuthenticated: !!user,
-          isLoading: false
+          isLoading: false,
         });
       },
 
@@ -42,17 +42,17 @@ export const useAuthStore = create<AuthState>()(
           user: null,
           userProfile: null,
           isAuthenticated: false,
-          isLoading: false
+          isLoading: false,
         });
       },
     }),
     {
-      name: 'legality360-auth',
+      name: "legality360-auth",
       partialize: (state) => ({
         user: state.user,
         userProfile: state.userProfile,
-        isAuthenticated: state.isAuthenticated
+        isAuthenticated: state.isAuthenticated,
       }),
-    }
-  )
+    },
+  ),
 );

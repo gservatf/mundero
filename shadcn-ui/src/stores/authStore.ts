@@ -1,7 +1,7 @@
-import { create } from 'zustand';
-import { User } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
+import { create } from "zustand";
+import { User } from "firebase/auth";
+import { auth } from "@/lib/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 interface AuthState {
   user: User | null;
@@ -18,25 +18,25 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isAuthenticated: false,
   isLoadingAuth: true,
   isLoading: true,
-  
+
   setUser: (user) => {
-    set({ 
-      user, 
+    set({
+      user,
       isAuthenticated: !!user,
       isLoadingAuth: false,
-      isLoading: false
+      isLoading: false,
     });
   },
-  
+
   setLoading: (loading) => {
     set({ isLoading: loading, isLoadingAuth: loading });
   },
-  
+
   initializeAuth: () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       get().setUser(user);
     });
-    
+
     return unsubscribe;
   },
 }));

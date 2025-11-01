@@ -1,55 +1,78 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FiUser, FiMail, FiPhone, FiMapPin, FiLinkedin, FiGlobe, FiEdit3, FiSave, FiX, FiCamera, FiHome, FiAward, FiBook } from 'react-icons/fi';
-import { useMockAuth } from '../hooks/useMockData';
-import toast from 'react-hot-toast';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import {
+  FiUser,
+  FiMail,
+  FiPhone,
+  FiMapPin,
+  FiLinkedin,
+  FiGlobe,
+  FiEdit3,
+  FiSave,
+  FiX,
+  FiCamera,
+  FiHome,
+  FiAward,
+  FiBook,
+} from "react-icons/fi";
+import { useMockAuth } from "../hooks/useMockData";
+import toast from "react-hot-toast";
 
 const ProfileManager = () => {
   const { user } = useMockAuth();
   const [isEditing, setIsEditing] = useState(false);
-  const [activeTab, setActiveTab] = useState('personal');
+  const [activeTab, setActiveTab] = useState("personal");
   const [profileData, setProfileData] = useState({
     personal: {
-      displayName: user?.displayName || '',
-      email: user?.email || '',
-      phone: '+51 999 888 777',
-      location: 'Lima, Perú',
-      bio: 'Profesional especializado en desarrollo de negocios y consultoría estratégica con más de 5 años de experiencia en el sector.',
-      website: 'https://miportfolio.com',
-      linkedin: 'https://linkedin.com/in/usuario-demo'
+      displayName: user?.displayName || "",
+      email: user?.email || "",
+      phone: "+51 999 888 777",
+      location: "Lima, Perú",
+      bio: "Profesional especializado en desarrollo de negocios y consultoría estratégica con más de 5 años de experiencia en el sector.",
+      website: "https://miportfolio.com",
+      linkedin: "https://linkedin.com/in/usuario-demo",
     },
     professional: {
-      title: 'Consultor Senior de Negocios',
-      company: user?.empresa?.nombre || '',
-      experience: '5+ años',
-      skills: ['Consultoría Estratégica', 'Desarrollo de Negocios', 'Gestión de Proyectos', 'Análisis Financiero'],
-      certifications: ['PMP Certified', 'Lean Six Sigma Green Belt', 'Scrum Master'],
-      education: 'MBA en Administración de Empresas - Universidad del Pacífico'
+      title: "Consultor Senior de Negocios",
+      company: user?.empresa?.nombre || "",
+      experience: "5+ años",
+      skills: [
+        "Consultoría Estratégica",
+        "Desarrollo de Negocios",
+        "Gestión de Proyectos",
+        "Análisis Financiero",
+      ],
+      certifications: [
+        "PMP Certified",
+        "Lean Six Sigma Green Belt",
+        "Scrum Master",
+      ],
+      education: "MBA en Administración de Empresas - Universidad del Pacífico",
     },
     visibility: {
       profilePublic: true,
       showEmail: false,
       showPhone: false,
       showCompany: true,
-      allowMessages: true
-    }
+      allowMessages: true,
+    },
   });
 
   const handleSave = () => {
     setIsEditing(false);
-    toast.success('Perfil actualizado correctamente');
+    toast.success("Perfil actualizado correctamente");
   };
 
   const handleCancel = () => {
     setIsEditing(false);
     // Reset to original data
-    toast('Cambios cancelados');
+    toast("Cambios cancelados");
   };
 
   const tabs = [
-    { id: 'personal', label: 'Información Personal', icon: FiUser },
-    { id: 'professional', label: 'Perfil Profesional', icon: FiHome },
-    { id: 'visibility', label: 'Privacidad', icon: FiGlobe }
+    { id: "personal", label: "Información Personal", icon: FiUser },
+    { id: "professional", label: "Perfil Profesional", icon: FiHome },
+    { id: "visibility", label: "Privacidad", icon: FiGlobe },
   ];
 
   return (
@@ -57,8 +80,12 @@ const ProfileManager = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900">Gestión de Perfil</h3>
-          <p className="text-sm text-gray-600">Administra tu información personal y profesional</p>
+          <h3 className="text-lg font-semibold text-gray-900">
+            Gestión de Perfil
+          </h3>
+          <p className="text-sm text-gray-600">
+            Administra tu información personal y profesional
+          </p>
         </div>
         <div className="flex space-x-2">
           {isEditing ? (
@@ -95,7 +122,10 @@ const ProfileManager = () => {
         <div className="flex items-start space-x-6">
           <div className="relative">
             <img
-              src={user?.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(profileData.personal.displayName)}&background=6366f1&color=fff&size=128`}
+              src={
+                user?.photoURL ||
+                `https://ui-avatars.com/api/?name=${encodeURIComponent(profileData.personal.displayName)}&background=6366f1&color=fff&size=128`
+              }
               alt={profileData.personal.displayName}
               className="w-24 h-24 rounded-full"
             />
@@ -105,13 +135,19 @@ const ProfileManager = () => {
               </button>
             )}
           </div>
-          
+
           <div className="flex-1">
-            <h2 className="text-xl font-bold text-gray-900">{profileData.personal.displayName}</h2>
-            <p className="text-blue-600 font-medium">{profileData.professional.title}</p>
+            <h2 className="text-xl font-bold text-gray-900">
+              {profileData.personal.displayName}
+            </h2>
+            <p className="text-blue-600 font-medium">
+              {profileData.professional.title}
+            </p>
             <p className="text-gray-600">{profileData.professional.company}</p>
-            <p className="text-sm text-gray-500 mt-2">{profileData.personal.bio}</p>
-            
+            <p className="text-sm text-gray-500 mt-2">
+              {profileData.personal.bio}
+            </p>
+
             <div className="flex items-center space-x-4 mt-3 text-sm text-gray-500">
               <span className="flex items-center">
                 <FiMapPin className="w-4 h-4 mr-1" />
@@ -137,8 +173,8 @@ const ProfileManager = () => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center space-x-2 py-2 px-1 border-b-2 font-medium text-sm ${
                   activeTab === tab.id
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? "border-blue-500 text-blue-600"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -156,9 +192,11 @@ const ProfileManager = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
       >
-        {activeTab === 'personal' && (
+        {activeTab === "personal" && (
           <div className="bg-white rounded-xl shadow-sm border p-6">
-            <h4 className="font-semibold text-gray-900 mb-4">Información Personal</h4>
+            <h4 className="font-semibold text-gray-900 mb-4">
+              Información Personal
+            </h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -169,10 +207,15 @@ const ProfileManager = () => {
                   <input
                     type="text"
                     value={profileData.personal.displayName}
-                    onChange={(e) => setProfileData({
-                      ...profileData,
-                      personal: { ...profileData.personal, displayName: e.target.value }
-                    })}
+                    onChange={(e) =>
+                      setProfileData({
+                        ...profileData,
+                        personal: {
+                          ...profileData.personal,
+                          displayName: e.target.value,
+                        },
+                      })
+                    }
                     disabled={!isEditing}
                     className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-50"
                   />
@@ -188,10 +231,15 @@ const ProfileManager = () => {
                   <input
                     type="email"
                     value={profileData.personal.email}
-                    onChange={(e) => setProfileData({
-                      ...profileData,
-                      personal: { ...profileData.personal, email: e.target.value }
-                    })}
+                    onChange={(e) =>
+                      setProfileData({
+                        ...profileData,
+                        personal: {
+                          ...profileData.personal,
+                          email: e.target.value,
+                        },
+                      })
+                    }
                     disabled={!isEditing}
                     className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-50"
                   />
@@ -207,10 +255,15 @@ const ProfileManager = () => {
                   <input
                     type="tel"
                     value={profileData.personal.phone}
-                    onChange={(e) => setProfileData({
-                      ...profileData,
-                      personal: { ...profileData.personal, phone: e.target.value }
-                    })}
+                    onChange={(e) =>
+                      setProfileData({
+                        ...profileData,
+                        personal: {
+                          ...profileData.personal,
+                          phone: e.target.value,
+                        },
+                      })
+                    }
                     disabled={!isEditing}
                     className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-50"
                   />
@@ -226,10 +279,15 @@ const ProfileManager = () => {
                   <input
                     type="text"
                     value={profileData.personal.location}
-                    onChange={(e) => setProfileData({
-                      ...profileData,
-                      personal: { ...profileData.personal, location: e.target.value }
-                    })}
+                    onChange={(e) =>
+                      setProfileData({
+                        ...profileData,
+                        personal: {
+                          ...profileData.personal,
+                          location: e.target.value,
+                        },
+                      })
+                    }
                     disabled={!isEditing}
                     className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-50"
                   />
@@ -242,10 +300,15 @@ const ProfileManager = () => {
                 </label>
                 <textarea
                   value={profileData.personal.bio}
-                  onChange={(e) => setProfileData({
-                    ...profileData,
-                    personal: { ...profileData.personal, bio: e.target.value }
-                  })}
+                  onChange={(e) =>
+                    setProfileData({
+                      ...profileData,
+                      personal: {
+                        ...profileData.personal,
+                        bio: e.target.value,
+                      },
+                    })
+                  }
                   disabled={!isEditing}
                   rows={3}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-50"
@@ -262,10 +325,15 @@ const ProfileManager = () => {
                   <input
                     type="url"
                     value={profileData.personal.website}
-                    onChange={(e) => setProfileData({
-                      ...profileData,
-                      personal: { ...profileData.personal, website: e.target.value }
-                    })}
+                    onChange={(e) =>
+                      setProfileData({
+                        ...profileData,
+                        personal: {
+                          ...profileData.personal,
+                          website: e.target.value,
+                        },
+                      })
+                    }
                     disabled={!isEditing}
                     className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-50"
                   />
@@ -281,10 +349,15 @@ const ProfileManager = () => {
                   <input
                     type="url"
                     value={profileData.personal.linkedin}
-                    onChange={(e) => setProfileData({
-                      ...profileData,
-                      personal: { ...profileData.personal, linkedin: e.target.value }
-                    })}
+                    onChange={(e) =>
+                      setProfileData({
+                        ...profileData,
+                        personal: {
+                          ...profileData.personal,
+                          linkedin: e.target.value,
+                        },
+                      })
+                    }
                     disabled={!isEditing}
                     className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-50"
                   />
@@ -294,9 +367,11 @@ const ProfileManager = () => {
           </div>
         )}
 
-        {activeTab === 'professional' && (
+        {activeTab === "professional" && (
           <div className="bg-white rounded-xl shadow-sm border p-6">
-            <h4 className="font-semibold text-gray-900 mb-4">Perfil Profesional</h4>
+            <h4 className="font-semibold text-gray-900 mb-4">
+              Perfil Profesional
+            </h4>
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
@@ -306,10 +381,15 @@ const ProfileManager = () => {
                   <input
                     type="text"
                     value={profileData.professional.title}
-                    onChange={(e) => setProfileData({
-                      ...profileData,
-                      professional: { ...profileData.professional, title: e.target.value }
-                    })}
+                    onChange={(e) =>
+                      setProfileData({
+                        ...profileData,
+                        professional: {
+                          ...profileData.professional,
+                          title: e.target.value,
+                        },
+                      })
+                    }
                     disabled={!isEditing}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-50"
                   />
@@ -322,10 +402,15 @@ const ProfileManager = () => {
                   <input
                     type="text"
                     value={profileData.professional.experience}
-                    onChange={(e) => setProfileData({
-                      ...profileData,
-                      professional: { ...profileData.professional, experience: e.target.value }
-                    })}
+                    onChange={(e) =>
+                      setProfileData({
+                        ...profileData,
+                        professional: {
+                          ...profileData.professional,
+                          experience: e.target.value,
+                        },
+                      })
+                    }
                     disabled={!isEditing}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-50"
                   />
@@ -340,10 +425,15 @@ const ProfileManager = () => {
                   <FiBook className="absolute left-3 top-3 text-gray-400 w-4 h-4" />
                   <textarea
                     value={profileData.professional.education}
-                    onChange={(e) => setProfileData({
-                      ...profileData,
-                      professional: { ...profileData.professional, education: e.target.value }
-                    })}
+                    onChange={(e) =>
+                      setProfileData({
+                        ...profileData,
+                        professional: {
+                          ...profileData.professional,
+                          education: e.target.value,
+                        },
+                      })
+                    }
                     disabled={!isEditing}
                     rows={2}
                     className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-50"
@@ -377,12 +467,17 @@ const ProfileManager = () => {
                   Certificaciones
                 </label>
                 <div className="space-y-2">
-                  {profileData.professional.certifications.map((cert, index) => (
-                    <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                      <FiAward className="w-5 h-5 text-yellow-500" />
-                      <span className="text-gray-900">{cert}</span>
-                    </div>
-                  ))}
+                  {profileData.professional.certifications.map(
+                    (cert, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg"
+                      >
+                        <FiAward className="w-5 h-5 text-yellow-500" />
+                        <span className="text-gray-900">{cert}</span>
+                      </div>
+                    ),
+                  )}
                   {isEditing && (
                     <button className="w-full p-3 border-2 border-dashed border-gray-300 text-gray-500 rounded-lg hover:border-blue-300 hover:text-blue-600 transition-colors">
                       + Agregar certificación
@@ -394,23 +489,32 @@ const ProfileManager = () => {
           </div>
         )}
 
-        {activeTab === 'visibility' && (
+        {activeTab === "visibility" && (
           <div className="bg-white rounded-xl shadow-sm border p-6">
-            <h4 className="font-semibold text-gray-900 mb-4">Configuración de Privacidad</h4>
+            <h4 className="font-semibold text-gray-900 mb-4">
+              Configuración de Privacidad
+            </h4>
             <div className="space-y-4">
               <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                 <div>
                   <h5 className="font-medium text-gray-900">Perfil público</h5>
-                  <p className="text-sm text-gray-600">Permite que otros usuarios vean tu perfil completo</p>
+                  <p className="text-sm text-gray-600">
+                    Permite que otros usuarios vean tu perfil completo
+                  </p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
                     checked={profileData.visibility.profilePublic}
-                    onChange={(e) => setProfileData({
-                      ...profileData,
-                      visibility: { ...profileData.visibility, profilePublic: e.target.checked }
-                    })}
+                    onChange={(e) =>
+                      setProfileData({
+                        ...profileData,
+                        visibility: {
+                          ...profileData.visibility,
+                          profilePublic: e.target.checked,
+                        },
+                      })
+                    }
                     disabled={!isEditing}
                     className="sr-only peer"
                   />
@@ -421,16 +525,23 @@ const ProfileManager = () => {
               <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                 <div>
                   <h5 className="font-medium text-gray-900">Mostrar email</h5>
-                  <p className="text-sm text-gray-600">Permite que otros usuarios vean tu correo electrónico</p>
+                  <p className="text-sm text-gray-600">
+                    Permite que otros usuarios vean tu correo electrónico
+                  </p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
                     checked={profileData.visibility.showEmail}
-                    onChange={(e) => setProfileData({
-                      ...profileData,
-                      visibility: { ...profileData.visibility, showEmail: e.target.checked }
-                    })}
+                    onChange={(e) =>
+                      setProfileData({
+                        ...profileData,
+                        visibility: {
+                          ...profileData.visibility,
+                          showEmail: e.target.checked,
+                        },
+                      })
+                    }
                     disabled={!isEditing}
                     className="sr-only peer"
                   />
@@ -440,17 +551,26 @@ const ProfileManager = () => {
 
               <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                 <div>
-                  <h5 className="font-medium text-gray-900">Mostrar teléfono</h5>
-                  <p className="text-sm text-gray-600">Permite que otros usuarios vean tu número de teléfono</p>
+                  <h5 className="font-medium text-gray-900">
+                    Mostrar teléfono
+                  </h5>
+                  <p className="text-sm text-gray-600">
+                    Permite que otros usuarios vean tu número de teléfono
+                  </p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
                     checked={profileData.visibility.showPhone}
-                    onChange={(e) => setProfileData({
-                      ...profileData,
-                      visibility: { ...profileData.visibility, showPhone: e.target.checked }
-                    })}
+                    onChange={(e) =>
+                      setProfileData({
+                        ...profileData,
+                        visibility: {
+                          ...profileData.visibility,
+                          showPhone: e.target.checked,
+                        },
+                      })
+                    }
                     disabled={!isEditing}
                     className="sr-only peer"
                   />
@@ -460,17 +580,26 @@ const ProfileManager = () => {
 
               <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                 <div>
-                  <h5 className="font-medium text-gray-900">Permitir mensajes</h5>
-                  <p className="text-sm text-gray-600">Permite que otros usuarios te envíen mensajes directos</p>
+                  <h5 className="font-medium text-gray-900">
+                    Permitir mensajes
+                  </h5>
+                  <p className="text-sm text-gray-600">
+                    Permite que otros usuarios te envíen mensajes directos
+                  </p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
                     checked={profileData.visibility.allowMessages}
-                    onChange={(e) => setProfileData({
-                      ...profileData,
-                      visibility: { ...profileData.visibility, allowMessages: e.target.checked }
-                    })}
+                    onChange={(e) =>
+                      setProfileData({
+                        ...profileData,
+                        visibility: {
+                          ...profileData.visibility,
+                          allowMessages: e.target.checked,
+                        },
+                      })
+                    }
                     disabled={!isEditing}
                     className="sr-only peer"
                   />

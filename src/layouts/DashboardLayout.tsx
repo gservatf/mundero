@@ -13,27 +13,41 @@ export default function DashboardLayout() {
           <nav className="flex gap-6 text-sm text-gray-700">
             <Link
               to="/"
-              className={location.pathname === "/" ? "font-semibold text-blue-600" : ""}
+              className={
+                location.pathname === "/" ? "font-semibold text-blue-600" : ""
+              }
             >
               Feed
             </Link>
             <Link
               to="/messages"
-              className={location.pathname === "/messages" ? "font-semibold text-blue-600" : ""}
+              className={
+                location.pathname === "/messages"
+                  ? "font-semibold text-blue-600"
+                  : ""
+              }
             >
               Mensajes
             </Link>
             <Link
               to="/apps"
-              className={location.pathname === "/apps" ? "font-semibold text-blue-600" : ""}
+              className={
+                location.pathname === "/apps"
+                  ? "font-semibold text-blue-600"
+                  : ""
+              }
             >
               Aplicaciones
             </Link>
           </nav>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-sm text-gray-600">Hola, <b>Gabriel Servat</b></span>
-          <button className="border px-3 py-1 rounded-md hover:bg-gray-100">Cerrar sesión</button>
+          <span className="text-sm text-gray-600">
+            Hola, <b>Gabriel Servat</b>
+          </span>
+          <button className="border px-3 py-1 rounded-md hover:bg-gray-100">
+            Cerrar sesión
+          </button>
         </div>
       </header>
 

@@ -1,101 +1,101 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { 
-  FiExternalLink, 
-  FiShield, 
-  FiUsers, 
+import React from "react";
+import { motion } from "framer-motion";
+import {
+  FiExternalLink,
+  FiShield,
+  FiUsers,
   FiSettings,
   FiCheck,
-  FiX
-} from 'react-icons/fi';
+  FiX,
+} from "react-icons/fi";
 
 export const Applications: React.FC = () => {
   const applications = [
     {
       id: 1,
-      name: 'LEGALTY',
-      description: 'Plataforma legal integral para empresas',
-      logo: '⚖️',
+      name: "LEGALTY",
+      description: "Plataforma legal integral para empresas",
+      logo: "⚖️",
       connected: true,
-      role: 'Usuario Premium',
-      lastAccess: '2024-01-20',
-      permissions: ['Documentos', 'Consultas', 'Reportes']
+      role: "Usuario Premium",
+      lastAccess: "2024-01-20",
+      permissions: ["Documentos", "Consultas", "Reportes"],
     },
     {
       id: 2,
-      name: 'WE CONSULTING',
-      description: 'Consultoría empresarial especializada',
-      logo: '💼',
+      name: "WE CONSULTING",
+      description: "Consultoría empresarial especializada",
+      logo: "💼",
       connected: true,
-      role: 'Consultor',
-      lastAccess: '2024-01-18',
-      permissions: ['Proyectos', 'Clientes', 'Facturación']
+      role: "Consultor",
+      lastAccess: "2024-01-18",
+      permissions: ["Proyectos", "Clientes", "Facturación"],
     },
     {
       id: 3,
-      name: 'STUDIO41',
-      description: 'Estudio de diseño y marketing digital',
-      logo: '🎨',
+      name: "STUDIO41",
+      description: "Estudio de diseño y marketing digital",
+      logo: "🎨",
       connected: false,
       role: null,
       lastAccess: null,
-      permissions: []
+      permissions: [],
     },
     {
       id: 4,
-      name: 'PORTALES',
-      description: 'Desarrollo de portales web corporativos',
-      logo: '🌐',
+      name: "PORTALES",
+      description: "Desarrollo de portales web corporativos",
+      logo: "🌐",
       connected: true,
-      role: 'Desarrollador',
-      lastAccess: '2024-01-19',
-      permissions: ['Desarrollo', 'Deploy', 'Monitoreo']
+      role: "Desarrollador",
+      lastAccess: "2024-01-19",
+      permissions: ["Desarrollo", "Deploy", "Monitoreo"],
     },
     {
       id: 5,
-      name: 'PITAHAYA',
-      description: 'Soluciones de e-commerce y retail',
-      logo: '🛒',
+      name: "PITAHAYA",
+      description: "Soluciones de e-commerce y retail",
+      logo: "🛒",
       connected: false,
       role: null,
       lastAccess: null,
-      permissions: []
+      permissions: [],
     },
     {
       id: 6,
-      name: 'ARKADIAM',
-      description: 'Plataforma de gaming y entretenimiento',
-      logo: '🎮',
+      name: "ARKADIAM",
+      description: "Plataforma de gaming y entretenimiento",
+      logo: "🎮",
       connected: false,
       role: null,
       lastAccess: null,
-      permissions: []
+      permissions: [],
     },
     {
       id: 7,
-      name: 'SERVAT LIFE',
-      description: 'Plataforma de bienestar y salud corporativa',
-      logo: '🏥',
+      name: "SERVAT LIFE",
+      description: "Plataforma de bienestar y salud corporativa",
+      logo: "🏥",
       connected: true,
-      role: 'Empleado',
-      lastAccess: '2024-01-21',
-      permissions: ['Salud', 'Beneficios', 'Reportes']
-    }
+      role: "Empleado",
+      lastAccess: "2024-01-21",
+      permissions: ["Salud", "Beneficios", "Reportes"],
+    },
   ];
 
   const handleConnect = (appId: number) => {
     // TODO: Implement SSO connection
-    console.log('Connecting to app:', appId);
+    console.log("Connecting to app:", appId);
   };
 
   const handleDisconnect = (appId: number) => {
     // TODO: Implement disconnection
-    console.log('Disconnecting from app:', appId);
+    console.log("Disconnecting from app:", appId);
   };
 
   const handleLaunchApp = (appName: string) => {
     // TODO: Implement SSO launch
-    console.log('Launching app:', appName);
+    console.log("Launching app:", appName);
   };
 
   return (
@@ -103,7 +103,9 @@ export const Applications: React.FC = () => {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-gray-900">Mis Aplicaciones</h1>
-        <p className="text-gray-600 mt-2">Conecta y gestiona tus aplicaciones del ecosistema Grupo Servat</p>
+        <p className="text-gray-600 mt-2">
+          Conecta y gestiona tus aplicaciones del ecosistema Grupo Servat
+        </p>
       </div>
 
       {/* Stats */}
@@ -113,7 +115,7 @@ export const Applications: React.FC = () => {
             <div>
               <p className="text-sm text-gray-600">Apps Conectadas</p>
               <p className="text-2xl font-bold text-gray-900">
-                {applications.filter(app => app.connected).length}
+                {applications.filter((app) => app.connected).length}
               </p>
             </div>
             <FiCheck className="w-8 h-8 text-green-600" />
@@ -123,7 +125,9 @@ export const Applications: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Apps Disponibles</p>
-              <p className="text-2xl font-bold text-gray-900">{applications.length}</p>
+              <p className="text-2xl font-bold text-gray-900">
+                {applications.length}
+              </p>
             </div>
             <FiShield className="w-8 h-8 text-blue-600" />
           </div>
@@ -133,7 +137,7 @@ export const Applications: React.FC = () => {
             <div>
               <p className="text-sm text-gray-600">Roles Activos</p>
               <p className="text-2xl font-bold text-gray-900">
-                {applications.filter(app => app.role).length}
+                {applications.filter((app) => app.role).length}
               </p>
             </div>
             <FiUsers className="w-8 h-8 text-purple-600" />
@@ -264,10 +268,13 @@ export const Applications: React.FC = () => {
         <div className="flex items-start space-x-3">
           <FiShield className="w-6 h-6 text-blue-600 mt-1" />
           <div>
-            <h3 className="font-semibold text-blue-900 mb-2">Seguridad y Privacidad</h3>
+            <h3 className="font-semibold text-blue-900 mb-2">
+              Seguridad y Privacidad
+            </h3>
             <p className="text-blue-800 text-sm">
-              Todas las conexiones utilizan autenticación segura (SSO) a través de tu cuenta de Google. 
-              Puedes revocar el acceso a cualquier aplicación en cualquier momento desde esta página.
+              Todas las conexiones utilizan autenticación segura (SSO) a través
+              de tu cuenta de Google. Puedes revocar el acceso a cualquier
+              aplicación en cualquier momento desde esta página.
             </p>
           </div>
         </div>

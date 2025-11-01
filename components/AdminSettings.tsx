@@ -1,51 +1,63 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { Textarea } from './ui/textarea';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
-import { Separator } from './ui/separator';
-import { useToast } from '../hooks/use-toast';
-import { useSettings } from '../hooks/useSettings';
-import { 
-  FiUpload, 
-  FiImage, 
-  FiType, 
-  FiGlobe, 
+import React, { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { Textarea } from "./ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { Separator } from "./ui/separator";
+import { useToast } from "../hooks/use-toast";
+import { useSettings } from "../hooks/useSettings";
+import {
+  FiUpload,
+  FiImage,
+  FiType,
+  FiGlobe,
   FiSave,
   FiRefreshCw,
-  FiCheck
-} from 'react-icons/fi';
+  FiCheck,
+} from "react-icons/fi";
 
 export const AdminSettings: React.FC = () => {
-  const { settings, loading, updateBrandingSettings, updateGeneralSettings, uploadImage } = useSettings();
+  const {
+    settings,
+    loading,
+    updateBrandingSettings,
+    updateGeneralSettings,
+    uploadImage,
+  } = useSettings();
   const { toast } = useToast();
-  
+
   // Estados para logo
   const [logoFile, setLogoFile] = useState<File | null>(null);
-  const [logoPreview, setLogoPreview] = useState<string>('');
+  const [logoPreview, setLogoPreview] = useState<string>("");
   const [logoUploading, setLogoUploading] = useState(false);
 
   // Estados para favicon
   const [faviconFile, setFaviconFile] = useState<File | null>(null);
-  const [faviconPreview, setFaviconPreview] = useState<string>('');
+  const [faviconPreview, setFaviconPreview] = useState<string>("");
   const [faviconUploading, setFaviconUploading] = useState(false);
 
   // Estados para configuración general
   const [generalForm, setGeneralForm] = useState({
-    title: '',
-    welcomePhrase: '',
-    tagline: ''
+    title: "",
+    welcomePhrase: "",
+    tagline: "",
   });
   const [generalSaving, setGeneralSaving] = useState(false);
 
   React.useEffect(() => {
     if (settings && !loading) {
       setGeneralForm({
-        title: settings.general?.title || '',
-        welcomePhrase: settings.general?.welcomePhrase || '',
-        tagline: settings.general?.tagline || ''
+        title: settings.general?.title || "",
+        welcomePhrase: settings.general?.welcomePhrase || "",
+        tagline: settings.general?.tagline || "",
       });
     }
   }, [settings, loading]);
@@ -58,7 +70,7 @@ export const AdminSettings: React.FC = () => {
         toast({
           title: "Formato no válido",
           description: "Solo se permiten archivos PNG, JPG y SVG",
-          variant: "destructive"
+          variant: "destructive",
         });
         return;
       }
@@ -68,7 +80,7 @@ export const AdminSettings: React.FC = () => {
         toast({
           title: "Archivo muy grande",
           description: "El logo debe ser menor a 2MB",
-          variant: "destructive"
+          variant: "destructive",
         });
         return;
       }
@@ -88,7 +100,7 @@ export const AdminSettings: React.FC = () => {
         toast({
           title: "Formato no válido",
           description: "Solo se permiten archivos PNG, SVG e ICO para favicon",
-          variant: "destructive"
+          variant: "destructive",
         });
         return;
       }
@@ -98,7 +110,7 @@ export const AdminSettings: React.FC = () => {
         toast({
           title: "Archivo muy grande",
           description: "El favicon debe ser menor a 2MB",
-          variant: "destructive"
+          variant: "destructive",
         });
         return;
       }
@@ -115,27 +127,27 @@ export const AdminSettings: React.FC = () => {
 
     setLogoUploading(true);
     try {
-      const logoUrl = await uploadImage(logoFile, 'branding/logos');
+      const logoUrl = await uploadImage(logoFile, "branding/logos");
       if (logoUrl) {
         const success = await updateBrandingSettings({ logoUrl });
         if (success) {
           toast({
             title: "Logo actualizado",
-            description: "El logo se ha aplicado correctamente"
+            description: "El logo se ha aplicado correctamente",
           });
           setLogoFile(null);
-          setLogoPreview('');
+          setLogoPreview("");
         } else {
-          throw new Error('Error al guardar configuración');
+          throw new Error("Error al guardar configuración");
         }
       } else {
-        throw new Error('Error al subir imagen');
+        throw new Error("Error al subir imagen");
       }
     } catch (error) {
       toast({
         title: "Error",
         description: "No se pudo actualizar el logo",
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setLogoUploading(false);
@@ -147,27 +159,27 @@ export const AdminSettings: React.FC = () => {
 
     setFaviconUploading(true);
     try {
-      const faviconUrl = await uploadImage(faviconFile, 'branding/favicons');
+      const faviconUrl = await uploadImage(faviconFile, "branding/favicons");
       if (faviconUrl) {
         const success = await updateBrandingSettings({ faviconUrl });
         if (success) {
           toast({
             title: "Favicon actualizado",
-            description: "El favicon se ha aplicado correctamente"
+            description: "El favicon se ha aplicado correctamente",
           });
           setFaviconFile(null);
-          setFaviconPreview('');
+          setFaviconPreview("");
         } else {
-          throw new Error('Error al guardar configuración');
+          throw new Error("Error al guardar configuración");
         }
       } else {
-        throw new Error('Error al subir imagen');
+        throw new Error("Error al subir imagen");
       }
     } catch (error) {
       toast({
         title: "Error",
         description: "No se pudo actualizar el favicon",
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setFaviconUploading(false);
@@ -181,16 +193,16 @@ export const AdminSettings: React.FC = () => {
       if (success) {
         toast({
           title: "Configuración guardada",
-          description: "Los cambios se han aplicado correctamente"
+          description: "Los cambios se han aplicado correctamente",
         });
       } else {
-        throw new Error('Error al guardar configuración');
+        throw new Error("Error al guardar configuración");
       }
     } catch (error) {
       toast({
         title: "Error",
         description: "No se pudo guardar la configuración",
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setGeneralSaving(false);
@@ -198,21 +210,23 @@ export const AdminSettings: React.FC = () => {
   };
 
   const resetLogo = async () => {
-    const success = await updateBrandingSettings({ logoUrl: '' });
+    const success = await updateBrandingSettings({ logoUrl: "" });
     if (success) {
       toast({
         title: "Logo restaurado",
-        description: "Se ha restaurado el logo original"
+        description: "Se ha restaurado el logo original",
       });
     }
   };
 
   const resetFavicon = async () => {
-    const success = await updateBrandingSettings({ faviconUrl: '/favicon.png' });
+    const success = await updateBrandingSettings({
+      faviconUrl: "/favicon.png",
+    });
     if (success) {
       toast({
         title: "Favicon restaurado",
-        description: "Se ha restaurado el favicon original"
+        description: "Se ha restaurado el favicon original",
       });
     }
   };
@@ -229,8 +243,12 @@ export const AdminSettings: React.FC = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900">Panel de Administración</h2>
-        <p className="text-gray-600">Personaliza la identidad visual y contenido de MUNDERO Hub</p>
+        <h2 className="text-2xl font-bold text-gray-900">
+          Panel de Administración
+        </h2>
+        <p className="text-gray-600">
+          Personaliza la identidad visual y contenido de MUNDERO Hub
+        </p>
       </div>
 
       <Tabs defaultValue="branding" className="space-y-4">
@@ -285,15 +303,15 @@ export const AdminSettings: React.FC = () => {
                   <Label>Vista previa</Label>
                   <div className="mt-2 border rounded-lg p-6 bg-gray-50 flex items-center justify-center h-32">
                     {logoPreview ? (
-                      <img 
-                        src={logoPreview} 
-                        alt="Vista previa del logo" 
+                      <img
+                        src={logoPreview}
+                        alt="Vista previa del logo"
                         className="max-h-full max-w-full object-contain"
                       />
                     ) : settings.branding?.logoUrl ? (
-                      <img 
-                        src={settings.branding.logoUrl} 
-                        alt="Logo actual" 
+                      <img
+                        src={settings.branding.logoUrl}
+                        alt="Logo actual"
                         className="max-h-full max-w-full object-contain"
                       />
                     ) : (
@@ -306,8 +324,8 @@ export const AdminSettings: React.FC = () => {
               </div>
 
               <div className="flex gap-2">
-                <Button 
-                  onClick={handleLogoUpload} 
+                <Button
+                  onClick={handleLogoUpload}
                   disabled={!logoFile || logoUploading}
                   className="flex items-center gap-2"
                 >
@@ -318,8 +336,8 @@ export const AdminSettings: React.FC = () => {
                   )}
                   Aplicar Logo
                 </Button>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   onClick={resetLogo}
                   disabled={logoUploading}
                 >
@@ -368,15 +386,15 @@ export const AdminSettings: React.FC = () => {
                   <Label>Vista previa del favicon</Label>
                   <div className="mt-2 border rounded-lg p-6 bg-gray-50 flex items-center justify-center h-32">
                     {faviconPreview ? (
-                      <img 
-                        src={faviconPreview} 
-                        alt="Vista previa del favicon" 
+                      <img
+                        src={faviconPreview}
+                        alt="Vista previa del favicon"
                         className="w-8 h-8 object-contain"
                       />
                     ) : settings.branding?.faviconUrl ? (
-                      <img 
-                        src={settings.branding.faviconUrl} 
-                        alt="Favicon actual" 
+                      <img
+                        src={settings.branding.faviconUrl}
+                        alt="Favicon actual"
                         className="w-8 h-8 object-contain"
                       />
                     ) : (
@@ -389,8 +407,8 @@ export const AdminSettings: React.FC = () => {
               </div>
 
               <div className="flex gap-2">
-                <Button 
-                  onClick={handleFaviconUpload} 
+                <Button
+                  onClick={handleFaviconUpload}
                   disabled={!faviconFile || faviconUploading}
                   className="flex items-center gap-2"
                 >
@@ -401,8 +419,8 @@ export const AdminSettings: React.FC = () => {
                   )}
                   Aplicar Favicon
                 </Button>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   onClick={resetFavicon}
                   disabled={faviconUploading}
                 >
@@ -421,7 +439,8 @@ export const AdminSettings: React.FC = () => {
                 Configuración General
               </CardTitle>
               <CardDescription>
-                Personaliza los textos y títulos que aparecen en toda la aplicación
+                Personaliza los textos y títulos que aparecen en toda la
+                aplicación
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -431,7 +450,9 @@ export const AdminSettings: React.FC = () => {
                   <Input
                     id="site-title"
                     value={generalForm.title}
-                    onChange={(e) => setGeneralForm({ ...generalForm, title: e.target.value })}
+                    onChange={(e) =>
+                      setGeneralForm({ ...generalForm, title: e.target.value })
+                    }
                     placeholder="MUNDERO Hub"
                     className="mt-1"
                   />
@@ -445,7 +466,12 @@ export const AdminSettings: React.FC = () => {
                   <Input
                     id="welcome-phrase"
                     value={generalForm.welcomePhrase}
-                    onChange={(e) => setGeneralForm({ ...generalForm, welcomePhrase: e.target.value })}
+                    onChange={(e) =>
+                      setGeneralForm({
+                        ...generalForm,
+                        welcomePhrase: e.target.value,
+                      })
+                    }
                     placeholder="Conecta. Accede. Evoluciona."
                     className="mt-1"
                   />
@@ -459,7 +485,12 @@ export const AdminSettings: React.FC = () => {
                   <Textarea
                     id="tagline"
                     value={generalForm.tagline}
-                    onChange={(e) => setGeneralForm({ ...generalForm, tagline: e.target.value })}
+                    onChange={(e) =>
+                      setGeneralForm({
+                        ...generalForm,
+                        tagline: e.target.value,
+                      })
+                    }
                     placeholder="El hub universal de identidad del Grupo Servat."
                     className="mt-1"
                     rows={3}
@@ -473,22 +504,29 @@ export const AdminSettings: React.FC = () => {
               <Separator />
 
               <div className="bg-blue-50 p-4 rounded-lg">
-                <h4 className="font-medium text-blue-900 mb-2">Vista previa de SEO</h4>
+                <h4 className="font-medium text-blue-900 mb-2">
+                  Vista previa de SEO
+                </h4>
                 <div className="space-y-2 text-sm">
                   <div>
-                    <span className="font-medium">Título:</span> {generalForm.title || 'MUNDERO Hub'}
+                    <span className="font-medium">Título:</span>{" "}
+                    {generalForm.title || "MUNDERO Hub"}
                   </div>
                   <div>
-                    <span className="font-medium">Descripción:</span> {generalForm.tagline || 'El hub universal de identidad del Grupo Servat.'}
+                    <span className="font-medium">Descripción:</span>{" "}
+                    {generalForm.tagline ||
+                      "El hub universal de identidad del Grupo Servat."}
                   </div>
                   <div>
-                    <span className="font-medium">Frase de bienvenida:</span> {generalForm.welcomePhrase || 'Conecta. Accede. Evoluciona.'}
+                    <span className="font-medium">Frase de bienvenida:</span>{" "}
+                    {generalForm.welcomePhrase ||
+                      "Conecta. Accede. Evoluciona."}
                   </div>
                 </div>
               </div>
 
-              <Button 
-                onClick={handleGeneralSave} 
+              <Button
+                onClick={handleGeneralSave}
                 disabled={generalSaving}
                 className="w-full flex items-center justify-center gap-2"
               >

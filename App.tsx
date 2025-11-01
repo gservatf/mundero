@@ -1,16 +1,21 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { Toaster } from './components/ui/toaster';
-import { GoogleOnlyAuth } from './components/GoogleOnlyAuth';
-import { Dashboard } from './pages/Dashboard';
-import { FunnelPage } from './src/pages/FunnelPage';
-import { LandingPage } from './src/modules/landing';
-import { AdminLayout } from './src/modules/admin-panel/layout/AdminLayout';
-import { AdminDashboard } from './src/modules/admin-panel/pages/AdminDashboard';
-import { AdminUsers } from './src/modules/admin-panel/pages/AdminUsers';
-import { AdminCompanies } from './src/modules/admin-panel/pages/AdminCompanies';
-import { AdminMessages } from './src/modules/admin-panel/pages/AdminMessages';
-import { useAuth } from './hooks/useAuth';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { Toaster } from "./components/ui/toaster";
+import { GoogleOnlyAuth } from "./components/GoogleOnlyAuth";
+import { Dashboard } from "./pages/Dashboard";
+import { FunnelPage } from "./src/pages/FunnelPage";
+import { LandingPage } from "./src/modules/landing";
+import { AdminLayout } from "./src/modules/admin-panel/layout/AdminLayout";
+import { AdminDashboard } from "./src/modules/admin-panel/pages/AdminDashboard";
+import { AdminUsers } from "./src/modules/admin-panel/pages/AdminUsers";
+import { AdminCompanies } from "./src/modules/admin-panel/pages/AdminCompanies";
+import { AdminMessages } from "./src/modules/admin-panel/pages/AdminMessages";
+import { useAuth } from "./hooks/useAuth";
 
 function App() {
   const { user, loading } = useAuth();
@@ -32,11 +37,15 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={user ? <Navigate to="/dashboard" replace /> : <LandingPage />}
+            element={
+              user ? <Navigate to="/dashboard" replace /> : <LandingPage />
+            }
           />
           <Route
             path="/auth"
-            element={user ? <Navigate to="/dashboard" replace /> : <GoogleOnlyAuth />}
+            element={
+              user ? <Navigate to="/dashboard" replace /> : <GoogleOnlyAuth />
+            }
           />
           <Route
             path="/dashboard"
@@ -55,15 +64,9 @@ function App() {
           </Route>
 
           {/* Funnel Public Routes - Organization/Funnel slug pattern */}
-          <Route
-            path="/:orgSlug/:funnelSlug"
-            element={<FunnelPage />}
-          />
+          <Route path="/:orgSlug/:funnelSlug" element={<FunnelPage />} />
 
-          <Route
-            path="*"
-            element={<Navigate to="/" replace />}
-          />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         <Toaster />
       </div>

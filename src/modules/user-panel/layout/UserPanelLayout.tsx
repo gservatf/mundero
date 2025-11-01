@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { useAuth } from '@/hooks/useAuth';
+import React from "react";
+import { motion } from "framer-motion";
+import { useAuth } from "@/hooks/useAuth";
 import {
   FiHome,
   FiUser,
@@ -10,10 +10,10 @@ import {
   FiMessageSquare,
   FiSettings,
   FiBell,
-  FiLogOut
-} from 'react-icons/fi';
-import { FaBuilding } from 'react-icons/fa';
-import { HiUserGroup } from 'react-icons/hi';
+  FiLogOut,
+} from "react-icons/fi";
+import { FaBuilding } from "react-icons/fa";
+import { HiUserGroup } from "react-icons/hi";
 
 interface UserPanelLayoutProps {
   children: React.ReactNode;
@@ -24,27 +24,27 @@ interface UserPanelLayoutProps {
 export const UserPanelLayout: React.FC<UserPanelLayoutProps> = ({
   children,
   activeTab,
-  onTabChange
+  onTabChange,
 }) => {
   const { user, logout } = useAuth();
 
   const navigationItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: FiHome },
-    { id: 'profile', label: 'Mi Perfil', icon: FiUser },
-    { id: 'communities', label: 'Comunidades', icon: HiUserGroup },
-    { id: 'companies', label: 'Mis Empresas', icon: FaBuilding },
-    { id: 'referrals', label: 'Referidos', icon: FiUsers },
-    { id: 'applications', label: 'Aplicaciones', icon: FiGrid },
-    { id: 'leads', label: 'Centro de Leads', icon: FiTarget },
-    { id: 'messages', label: 'Mensajes', icon: FiMessageSquare },
-    { id: 'settings', label: 'Configuración', icon: FiSettings }
+    { id: "dashboard", label: "Dashboard", icon: FiHome },
+    { id: "profile", label: "Mi Perfil", icon: FiUser },
+    { id: "communities", label: "Comunidades", icon: HiUserGroup },
+    { id: "companies", label: "Mis Empresas", icon: FaBuilding },
+    { id: "referrals", label: "Referidos", icon: FiUsers },
+    { id: "applications", label: "Aplicaciones", icon: FiGrid },
+    { id: "leads", label: "Centro de Leads", icon: FiTarget },
+    { id: "messages", label: "Mensajes", icon: FiMessageSquare },
+    { id: "settings", label: "Configuración", icon: FiSettings },
   ];
 
   const handleSignOut = async () => {
     try {
       await logout();
     } catch (error) {
-      console.error('Error al cerrar sesión:', error);
+      console.error("Error al cerrar sesión:", error);
     }
   };
 
@@ -75,8 +75,8 @@ export const UserPanelLayout: React.FC<UserPanelLayoutProps> = ({
               {/* User Profile */}
               <div className="flex items-center space-x-3">
                 <img
-                  src={user?.photo_url || '/default-avatar.png'}
-                  alt={user?.display_name || 'Usuario'}
+                  src={user?.photo_url || "/default-avatar.png"}
+                  alt={user?.display_name || "Usuario"}
                   className="w-8 h-8 rounded-full"
                 />
                 <div className="hidden md:block">
@@ -114,12 +114,15 @@ export const UserPanelLayout: React.FC<UserPanelLayoutProps> = ({
                     <li key={item.id}>
                       <button
                         onClick={() => onTabChange(item.id)}
-                        className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${isActive
-                            ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                            : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                          }`}
+                        className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${
+                          isActive
+                            ? "bg-blue-50 text-blue-700 border border-blue-200"
+                            : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                        }`}
                       >
-                        <Icon className={`w-5 h-5 ${isActive ? 'text-blue-600' : 'text-gray-400'}`} />
+                        <Icon
+                          className={`w-5 h-5 ${isActive ? "text-blue-600" : "text-gray-400"}`}
+                        />
                         <span className="font-medium">{item.label}</span>
                       </button>
                     </li>

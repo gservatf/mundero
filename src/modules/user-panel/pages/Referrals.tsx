@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useAgreement } from '../hooks/useAgreement';
-import AgreementModal from '../components/AgreementModal';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { useAgreement } from "../hooks/useAgreement";
+import AgreementModal from "../components/AgreementModal";
 import {
   FiPlus,
   FiUsers,
@@ -9,27 +9,27 @@ import {
   FiCheck,
   FiX,
   FiDollarSign,
-  FiCalendar
-} from 'react-icons/fi';
+  FiCalendar,
+} from "react-icons/fi";
 
 export const Referrals: React.FC = () => {
   const { requiresAgreement } = useAgreement();
-  
+
   // Hooks siempre al nivel superior
   const [showContractModal, setShowContractModal] = useState(false);
   const [contractSigned, setContractSigned] = useState(false);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [newReferral, setNewReferral] = useState({
-    companyRuc: '',
-    contactName: '',
-    contactEmail: '',
-    opportunity: '',
-    targetApp: 'LEGALTY'
+    companyRuc: "",
+    contactName: "",
+    contactEmail: "",
+    opportunity: "",
+    targetApp: "LEGALTY",
   });
 
   // Control de acceso - bloquear si requiere acuerdo
   if (requiresAgreement) {
-    return <AgreementModal isOpen={true} onClose={() => { }} />;
+    return <AgreementModal isOpen={true} onClose={() => {}} />;
   }
 
   // Mock contract text
@@ -50,14 +50,14 @@ Versión del contrato: 2.1`;
   const referrals = [
     {
       id: 1,
-      companyRuc: '20123456789',
-      companyName: 'Empresa Demo SAC',
-      contact: 'Juan Pérez',
-      targetApp: 'LEGALTY',
-      status: 'Seguimiento',
-      createdAt: '2024-01-15',
-      expiresAt: '2024-04-15'
-    }
+      companyRuc: "20123456789",
+      companyName: "Empresa Demo SAC",
+      contact: "Juan Pérez",
+      targetApp: "LEGALTY",
+      status: "Seguimiento",
+      createdAt: "2024-01-15",
+      expiresAt: "2024-04-15",
+    },
   ];
 
   const handleSignContract = () => {
@@ -72,17 +72,22 @@ Versión del contrato: 2.1`;
       return;
     }
     // TODO: Create referral in Firebase
-    console.log('Creating referral:', newReferral);
+    console.log("Creating referral:", newReferral);
     setShowCreateForm(false);
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Nuevo': return 'bg-blue-100 text-blue-800';
-      case 'Seguimiento': return 'bg-yellow-100 text-yellow-800';
-      case 'Cliente': return 'bg-green-100 text-green-800';
-      case 'Vencido': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case "Nuevo":
+        return "bg-blue-100 text-blue-800";
+      case "Seguimiento":
+        return "bg-yellow-100 text-yellow-800";
+      case "Cliente":
+        return "bg-green-100 text-green-800";
+      case "Vencido":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   };
 
@@ -91,8 +96,12 @@ Versión del contrato: 2.1`;
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Referidos y Comisiones</h1>
-          <p className="text-gray-600 mt-2">Gestiona tus referencias y gana comisiones</p>
+          <h1 className="text-3xl font-bold text-gray-900">
+            Referidos y Comisiones
+          </h1>
+          <p className="text-gray-600 mt-2">
+            Gestiona tus referencias y gana comisiones
+          </p>
         </div>
         <button
           onClick={() => setShowCreateForm(true)}
@@ -115,9 +124,13 @@ Versión del contrato: 2.1`;
             animate={{ scale: 1, opacity: 1 }}
             className="bg-white rounded-xl p-6 w-full max-w-2xl mx-4 max-h-[80vh] overflow-y-auto"
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Contrato Digital de Referidos</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              Contrato Digital de Referidos
+            </h2>
             <div className="bg-gray-50 p-4 rounded-lg mb-6 max-h-60 overflow-y-auto">
-              <pre className="text-sm text-gray-700 whitespace-pre-wrap">{contractText}</pre>
+              <pre className="text-sm text-gray-700 whitespace-pre-wrap">
+                {contractText}
+              </pre>
             </div>
             <div className="flex justify-end space-x-3">
               <button
@@ -149,13 +162,20 @@ Versión del contrato: 2.1`;
             animate={{ scale: 1, opacity: 1 }}
             className="bg-white rounded-xl p-6 w-full max-w-2xl mx-4"
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Nuevo Referido</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              Nuevo Referido
+            </h2>
             <div className="space-y-4 mb-6">
               <input
                 type="text"
                 placeholder="RUC de la empresa"
                 value={newReferral.companyRuc}
-                onChange={(e) => setNewReferral(prev => ({ ...prev, companyRuc: e.target.value }))}
+                onChange={(e) =>
+                  setNewReferral((prev) => ({
+                    ...prev,
+                    companyRuc: e.target.value,
+                  }))
+                }
                 className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -163,20 +183,35 @@ Versión del contrato: 2.1`;
                   type="text"
                   placeholder="Nombre del contacto"
                   value={newReferral.contactName}
-                  onChange={(e) => setNewReferral(prev => ({ ...prev, contactName: e.target.value }))}
+                  onChange={(e) =>
+                    setNewReferral((prev) => ({
+                      ...prev,
+                      contactName: e.target.value,
+                    }))
+                  }
                   className="p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
                 <input
                   type="email"
                   placeholder="Email del contacto"
                   value={newReferral.contactEmail}
-                  onChange={(e) => setNewReferral(prev => ({ ...prev, contactEmail: e.target.value }))}
+                  onChange={(e) =>
+                    setNewReferral((prev) => ({
+                      ...prev,
+                      contactEmail: e.target.value,
+                    }))
+                  }
                   className="p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
               <select
                 value={newReferral.targetApp}
-                onChange={(e) => setNewReferral(prev => ({ ...prev, targetApp: e.target.value }))}
+                onChange={(e) =>
+                  setNewReferral((prev) => ({
+                    ...prev,
+                    targetApp: e.target.value,
+                  }))
+                }
                 className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="LEGALTY">LEGALTY</option>
@@ -188,7 +223,12 @@ Versión del contrato: 2.1`;
               <textarea
                 placeholder="Descripción de la oportunidad"
                 value={newReferral.opportunity}
-                onChange={(e) => setNewReferral(prev => ({ ...prev, opportunity: e.target.value }))}
+                onChange={(e) =>
+                  setNewReferral((prev) => ({
+                    ...prev,
+                    opportunity: e.target.value,
+                  }))
+                }
                 className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                 rows={3}
               />
@@ -282,8 +322,12 @@ Versión del contrato: 2.1`;
                 <tr key={referral.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div>
-                      <div className="text-sm font-medium text-gray-900">{referral.companyName}</div>
-                      <div className="text-sm text-gray-500">{referral.companyRuc}</div>
+                      <div className="text-sm font-medium text-gray-900">
+                        {referral.companyName}
+                      </div>
+                      <div className="text-sm text-gray-500">
+                        {referral.companyRuc}
+                      </div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -295,7 +339,9 @@ Versión del contrato: 2.1`;
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 py-1 rounded-full text-xs ${getStatusColor(referral.status)}`}>
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs ${getStatusColor(referral.status)}`}
+                    >
                       {referral.status}
                     </span>
                   </td>

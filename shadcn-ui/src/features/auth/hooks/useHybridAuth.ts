@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
-import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut as firebaseSignOut, User } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged,
+  signOut as firebaseSignOut,
+  User,
+} from "firebase/auth";
 import { auth } from "@/core/firebase/firebaseClient";
-import { syncFirebaseWithSupabase } from '@/core/auth/firebaseSupabaseSync'
+import { syncFirebaseWithSupabase } from "@/core/auth/firebaseSupabaseSync";
 
 export interface UseHybridAuthReturn {
   user: User | null;

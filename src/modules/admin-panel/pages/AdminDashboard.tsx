@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
-import { Badge } from '../../../components/ui/badge';
-import { Button } from '../../../components/ui/button';
+import React, { useState, useEffect } from "react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/card";
+import { Badge } from "../../../components/ui/badge";
+import { Button } from "../../../components/ui/button";
 import {
   FiUsers,
   FiGrid,
@@ -11,9 +16,9 @@ import {
   FiTrendingUp,
   FiRefreshCw,
   FiZap,
-  FiLink
-} from 'react-icons/fi';
-import { useAdminData } from '../hooks/useAdminData';
+  FiLink,
+} from "react-icons/fi";
+import { useAdminData } from "../hooks/useAdminData";
 
 interface DashboardStats {
   totalUsers: number;
@@ -28,11 +33,11 @@ interface RecentActivity {
   type: string;
   message: string;
   timestamp: number;
-  severity: 'info' | 'warning' | 'error';
+  severity: "info" | "warning" | "error";
 }
 
 export const AdminDashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState("overview");
 
   const {
     stats,
@@ -64,7 +69,9 @@ export const AdminDashboard: React.FC = () => {
         <div className="text-center">
           <FiAlertTriangle className="mx-auto text-4xl text-yellow-500 mb-4" />
           <h2 className="text-xl font-semibold mb-2">Access Denied</h2>
-          <p className="text-gray-600">You don't have permission to access this page.</p>
+          <p className="text-gray-600">
+            You don't have permission to access this page.
+          </p>
         </div>
       </div>
     );
@@ -74,7 +81,7 @@ export const AdminDashboard: React.FC = () => {
     const now = new Date();
     const diffInMinutes = (now.getTime() - timestamp.getTime()) / (1000 * 60);
 
-    if (diffInMinutes < 1) return 'Ahora';
+    if (diffInMinutes < 1) return "Ahora";
     if (diffInMinutes < 60) return `${Math.floor(diffInMinutes)}m`;
     if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h`;
     return `${Math.floor(diffInMinutes / 1440)}d`;
@@ -82,11 +89,11 @@ export const AdminDashboard: React.FC = () => {
 
   const getActivityIcon = (type: string) => {
     switch (type) {
-      case 'user_registered':
+      case "user_registered":
         return <FiUsers className="h-4 w-4 text-blue-600" />;
-      case 'company_created':
+      case "company_created":
         return <FiGrid className="h-4 w-4 text-green-600" />;
-      case 'integration_activated':
+      case "integration_activated":
         return <FiZap className="h-4 w-4 text-purple-600" />;
       default:
         return <FiActivity className="h-4 w-4 text-gray-600" />;
@@ -95,14 +102,14 @@ export const AdminDashboard: React.FC = () => {
 
   const getIntegrationStatusColor = (status: string) => {
     switch (status) {
-      case 'active':
-        return 'bg-green-100 text-green-800';
-      case 'inactive':
-        return 'bg-gray-100 text-gray-800';
-      case 'error':
-        return 'bg-red-100 text-red-800';
+      case "active":
+        return "bg-green-100 text-green-800";
+      case "inactive":
+        return "bg-gray-100 text-gray-800";
+      case "error":
+        return "bg-red-100 text-red-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
@@ -110,7 +117,9 @@ export const AdminDashboard: React.FC = () => {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Dashboard
+          </h1>
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
         </div>
 
@@ -135,7 +144,9 @@ export const AdminDashboard: React.FC = () => {
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <FiAlertTriangle className="mx-auto text-4xl text-red-500 mb-4" />
-          <h2 className="text-xl font-semibold mb-2">Error Loading Dashboard</h2>
+          <h2 className="text-xl font-semibold mb-2">
+            Error Loading Dashboard
+          </h2>
           <p className="text-gray-600 mb-4">{error || statsError}</p>
           <Button onClick={handleRefresh}>
             <FiRefreshCw className="mr-2 h-4 w-4" />
@@ -151,18 +162,33 @@ export const AdminDashboard: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Dashboard
+          </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Panel de control administrativo - {adminUser?.displayName || adminUser?.email}
+            Panel de control administrativo -{" "}
+            {adminUser?.displayName || adminUser?.email}
           </p>
         </div>
         <div className="flex gap-2">
-          <Button onClick={handleRefresh} disabled={isLoading} variant="outline">
-            <FiRefreshCw className={`mr-2 h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+          <Button
+            onClick={handleRefresh}
+            disabled={isLoading}
+            variant="outline"
+          >
+            <FiRefreshCw
+              className={`mr-2 h-4 w-4 ${isLoading ? "animate-spin" : ""}`}
+            />
             Actualizar
           </Button>
-          <Button onClick={handleSyncIntegrations} disabled={isLoadingIntegrations} variant="outline">
-            <FiLink className={`mr-2 h-4 w-4 ${isLoadingIntegrations ? 'animate-spin' : ''}`} />
+          <Button
+            onClick={handleSyncIntegrations}
+            disabled={isLoadingIntegrations}
+            variant="outline"
+          >
+            <FiLink
+              className={`mr-2 h-4 w-4 ${isLoadingIntegrations ? "animate-spin" : ""}`}
+            />
             Sincronizar
           </Button>
         </div>
@@ -175,8 +201,12 @@ export const AdminDashboard: React.FC = () => {
             <div className="flex items-center">
               <FiUsers className="h-8 w-8 text-blue-600" />
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Usuarios</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats?.totalUsers || 0}</p>
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                  Total Usuarios
+                </p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  {stats?.totalUsers || 0}
+                </p>
                 <p className="text-xs text-green-600">Registrados</p>
               </div>
             </div>
@@ -188,9 +218,15 @@ export const AdminDashboard: React.FC = () => {
             <div className="flex items-center">
               <FiGrid className="h-8 w-8 text-green-600" />
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Empresas Activas</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats?.totalCompanies || 0}</p>
-                <p className="text-xs text-yellow-600">{stats?.pendingCompanies || 0} pendientes</p>
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                  Empresas Activas
+                </p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  {stats?.totalCompanies || 0}
+                </p>
+                <p className="text-xs text-yellow-600">
+                  {stats?.pendingCompanies || 0} pendientes
+                </p>
               </div>
             </div>
           </CardContent>
@@ -201,8 +237,12 @@ export const AdminDashboard: React.FC = () => {
             <div className="flex items-center">
               <FiUsers className="h-8 w-8 text-purple-600" />
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Usuarios Activos</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats?.activeUsers || 0}</p>
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                  Usuarios Activos
+                </p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  {stats?.activeUsers || 0}
+                </p>
                 <p className="text-xs text-blue-600">En línea</p>
               </div>
             </div>
@@ -214,9 +254,15 @@ export const AdminDashboard: React.FC = () => {
             <div className="flex items-center">
               <FiZap className="h-8 w-8 text-orange-600" />
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Integraciones</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats?.activeIntegrations || 0}</p>
-                <p className="text-xs text-green-600">de {stats?.totalIntegrations || 0} total</p>
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                  Integraciones
+                </p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  {stats?.activeIntegrations || 0}
+                </p>
+                <p className="text-xs text-green-600">
+                  de {stats?.totalIntegrations || 0} total
+                </p>
               </div>
             </div>
           </CardContent>
@@ -227,7 +273,9 @@ export const AdminDashboard: React.FC = () => {
             <div className="flex items-center">
               <FiActivity className="h-8 w-8 text-green-600" />
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Sistema</p>
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                  Sistema
+                </p>
                 <p className="text-2xl font-bold text-green-600">Activo</p>
                 <p className="text-xs text-green-600">Operativo</p>
               </div>
@@ -255,7 +303,9 @@ export const AdminDashboard: React.FC = () => {
                       {getActivityIcon(activity.type)}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm text-gray-900 dark:text-white">{activity.description}</p>
+                      <p className="text-sm text-gray-900 dark:text-white">
+                        {activity.description}
+                      </p>
                       <p className="text-xs text-gray-500 dark:text-gray-400">
                         {formatTimeAgo(activity.timestamp)}
                       </p>
@@ -297,7 +347,10 @@ export const AdminDashboard: React.FC = () => {
                 </div>
               ) : integrations.length > 0 ? (
                 integrations.map((integration) => (
-                  <div key={integration.id} className="flex items-center justify-between p-3 border rounded-lg">
+                  <div
+                    key={integration.id}
+                    className="flex items-center justify-between p-3 border rounded-lg"
+                  >
                     <div>
                       <p className="text-sm font-medium">{integration.name}</p>
                       {integration.lastSync && (
@@ -306,7 +359,9 @@ export const AdminDashboard: React.FC = () => {
                         </p>
                       )}
                     </div>
-                    <Badge className={getIntegrationStatusColor(integration.status)}>
+                    <Badge
+                      className={getIntegrationStatusColor(integration.status)}
+                    >
                       {integration.status}
                     </Badge>
                   </div>
@@ -333,36 +388,52 @@ export const AdminDashboard: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="flex items-center justify-between p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
               <div>
-                <p className="text-sm font-medium text-green-800 dark:text-green-200">Firebase Auth</p>
-                <p className="text-xs text-green-600 dark:text-green-400">Operativo</p>
-              </div>
-              <div className="h-3 w-3 bg-green-500 rounded-full"></div>
-            </div>
-
-            <div className="flex items-center justify-between p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
-              <div>
-                <p className="text-sm font-medium text-green-800 dark:text-green-200">Firestore</p>
-                <p className="text-xs text-green-600 dark:text-green-400">Operativo</p>
-              </div>
-              <div className="h-3 w-3 bg-green-500 rounded-full"></div>
-            </div>
-
-            <div className="flex items-center justify-between p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
-              <div>
-                <p className="text-sm font-medium text-green-800 dark:text-green-200">Storage</p>
-                <p className="text-xs text-green-600 dark:text-green-400">Operativo</p>
-              </div>
-              <div className="h-3 w-3 bg-green-500 rounded-full"></div>
-            </div>
-
-            <div className="flex items-center justify-between p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
-              <div>
-                <p className="text-sm font-medium text-green-800 dark:text-green-200">API Integraciones</p>
+                <p className="text-sm font-medium text-green-800 dark:text-green-200">
+                  Firebase Auth
+                </p>
                 <p className="text-xs text-green-600 dark:text-green-400">
-                  {stats?.totalIntegrations ? 'Operativo' : 'Sin configurar'}
+                  Operativo
                 </p>
               </div>
-              <div className={`h-3 w-3 rounded-full ${stats?.totalIntegrations ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
+              <div className="h-3 w-3 bg-green-500 rounded-full"></div>
+            </div>
+
+            <div className="flex items-center justify-between p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+              <div>
+                <p className="text-sm font-medium text-green-800 dark:text-green-200">
+                  Firestore
+                </p>
+                <p className="text-xs text-green-600 dark:text-green-400">
+                  Operativo
+                </p>
+              </div>
+              <div className="h-3 w-3 bg-green-500 rounded-full"></div>
+            </div>
+
+            <div className="flex items-center justify-between p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+              <div>
+                <p className="text-sm font-medium text-green-800 dark:text-green-200">
+                  Storage
+                </p>
+                <p className="text-xs text-green-600 dark:text-green-400">
+                  Operativo
+                </p>
+              </div>
+              <div className="h-3 w-3 bg-green-500 rounded-full"></div>
+            </div>
+
+            <div className="flex items-center justify-between p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+              <div>
+                <p className="text-sm font-medium text-green-800 dark:text-green-200">
+                  API Integraciones
+                </p>
+                <p className="text-xs text-green-600 dark:text-green-400">
+                  {stats?.totalIntegrations ? "Operativo" : "Sin configurar"}
+                </p>
+              </div>
+              <div
+                className={`h-3 w-3 rounded-full ${stats?.totalIntegrations ? "bg-green-500" : "bg-yellow-500"}`}
+              ></div>
             </div>
           </div>
         </CardContent>

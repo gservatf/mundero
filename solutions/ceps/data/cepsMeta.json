@@ -1,160 +1,100 @@
 {
-    "competencies": [
-        {
-            "key": "buscar_iniciativas",
-            "label": "Búsqueda de Iniciativas",
-            "description": "Capacidad para actuar con proactividad y buscar oportunidades de mejora",
-            "items": [
-                1,
-                12,
-                23,
-                34,
-                45
-            ]
-        },
-        {
-            "key": "persistencia",
-            "label": "Persistencia",
-            "description": "Capacidad para mantener el esfuerzo a pesar de los obstáculos",
-            "items": [
-                2,
-                13,
-                24,
-                35,
-                46
-            ]
-        },
-        {
-            "key": "cumplimiento",
-            "label": "Cumplimiento",
-            "description": "Capacidad para asumir responsabilidad personal por el desempeño",
-            "items": [
-                3,
-                14,
-                25,
-                36,
-                47
-            ]
-        },
-        {
-            "key": "calidad",
-            "label": "Orientación a la Calidad",
-            "description": "Capacidad para hacer las cosas mejor, superando estándares de excelencia",
-            "items": [
-                4,
-                15,
-                26,
-                37,
-                48
-            ]
-        },
-        {
-            "key": "riesgos",
-            "label": "Análisis de Riesgos",
-            "description": "Capacidad para evaluar alternativas y tomar riesgos calculados",
-            "items": [
-                5,
-                16,
-                27,
-                38,
-                49
-            ]
-        },
-        {
-            "key": "fijar_metas",
-            "label": "Fijación de Metas",
-            "description": "Capacidad para establecer objetivos claros y alcanzables",
-            "items": [
-                6,
-                17,
-                28,
-                39,
-                50
-            ]
-        },
-        {
-            "key": "informacion",
-            "label": "Búsqueda de Información",
-            "description": "Capacidad para buscar información antes de tomar decisiones",
-            "items": [
-                7,
-                18,
-                29,
-                40,
-                51
-            ]
-        },
-        {
-            "key": "planificacion",
-            "label": "Planificación",
-            "description": "Capacidad para planificar y organizar tareas de forma sistemática",
-            "items": [
-                8,
-                19,
-                30,
-                41,
-                52
-            ]
-        },
-        {
-            "key": "redes",
-            "label": "Redes de Apoyo",
-            "description": "Capacidad para desarrollar y mantener redes de contactos",
-            "items": [
-                9,
-                20,
-                31,
-                42,
-                53
-            ]
-        },
-        {
-            "key": "autoconfianza",
-            "label": "Autoconfianza",
-            "description": "Capacidad para confiar en las propias habilidades y tomar decisiones",
-            "items": [
-                10,
-                21,
-                32,
-                43,
-                54
-            ]
-        }
-    ],
-    "recommendations": {
-        "Bajo": {
-            "general": "Es recomendable desarrollar más esta competencia mediante práctica específica y retroalimentación constante.",
-            "actions": [
-                "Identifica situaciones donde puedas aplicar esta competencia",
-                "Busca mentores o personas que destaquen en esta área",
-                "Practica en entornos seguros con retroalimentación",
-                "Establece metas pequeñas y alcanzables para mejorar"
-            ]
-        },
-        "Promedio": {
-            "general": "Tienes una base sólida en esta competencia, pero hay oportunidades de mejora significativas.",
-            "actions": [
-                "Identifica situaciones específicas donde puedas aplicar más esta competencia",
-                "Busca oportunidades de liderazgo en proyectos relacionados",
-                "Solicita retroalimentación específica sobre tu desempeño",
-                "Considera capacitación adicional en esta área"
-            ]
-        },
-        "Alto": {
-            "general": "Demuestras un alto nivel en esta competencia. Considera cómo puedes usar esta fortaleza para desarrollar otras áreas.",
-            "actions": [
-                "Comparte tu experiencia y conocimiento con otros",
-                "Busca roles que te permitan aplicar esta fortaleza al máximo",
-                "Considera ser mentor de otros en esta competencia",
-                "Usa esta fortaleza para compensar áreas de mejora"
-            ]
-        }
+  "competencies": [
+    {
+      "key": "buscar_iniciativas",
+      "label": "Búsqueda de Iniciativas",
+      "description": "Capacidad para actuar con proactividad y buscar oportunidades de mejora",
+      "items": [1, 12, 23, 34, 45]
     },
-    "overallRecommendations": {
-        "perfectionist": "Tu perfil muestra alta orientación a la calidad y cumplimiento. Asegúrate de balancear estos con la toma de riesgos calculados para maximizar las oportunidades.",
-        "risktaker": "Tu perfil muestra buena disposición para tomar riesgos. Complementa esto con una sólida búsqueda de información y planificación para maximizar el éxito.",
-        "networker": "Tu perfil muestra fortaleza en redes de apoyo. Usa estas conexiones para obtener información valiosa y oportunidades de mejora en otras competencias.",
-        "leader": "Tu perfil muestra características de liderazgo natural. Considera roles donde puedas influir y guiar a otros hacia objetivos comunes.",
-        "balanced": "Tu perfil muestra un desarrollo equilibrado en las competencias emprendedoras. Considera especializarte en las áreas que más te apasionen."
+    {
+      "key": "persistencia",
+      "label": "Persistencia",
+      "description": "Capacidad para mantener el esfuerzo a pesar de los obstáculos",
+      "items": [2, 13, 24, 35, 46]
+    },
+    {
+      "key": "cumplimiento",
+      "label": "Cumplimiento",
+      "description": "Capacidad para asumir responsabilidad personal por el desempeño",
+      "items": [3, 14, 25, 36, 47]
+    },
+    {
+      "key": "calidad",
+      "label": "Orientación a la Calidad",
+      "description": "Capacidad para hacer las cosas mejor, superando estándares de excelencia",
+      "items": [4, 15, 26, 37, 48]
+    },
+    {
+      "key": "riesgos",
+      "label": "Análisis de Riesgos",
+      "description": "Capacidad para evaluar alternativas y tomar riesgos calculados",
+      "items": [5, 16, 27, 38, 49]
+    },
+    {
+      "key": "fijar_metas",
+      "label": "Fijación de Metas",
+      "description": "Capacidad para establecer objetivos claros y alcanzables",
+      "items": [6, 17, 28, 39, 50]
+    },
+    {
+      "key": "informacion",
+      "label": "Búsqueda de Información",
+      "description": "Capacidad para buscar información antes de tomar decisiones",
+      "items": [7, 18, 29, 40, 51]
+    },
+    {
+      "key": "planificacion",
+      "label": "Planificación",
+      "description": "Capacidad para planificar y organizar tareas de forma sistemática",
+      "items": [8, 19, 30, 41, 52]
+    },
+    {
+      "key": "redes",
+      "label": "Redes de Apoyo",
+      "description": "Capacidad para desarrollar y mantener redes de contactos",
+      "items": [9, 20, 31, 42, 53]
+    },
+    {
+      "key": "autoconfianza",
+      "label": "Autoconfianza",
+      "description": "Capacidad para confiar en las propias habilidades y tomar decisiones",
+      "items": [10, 21, 32, 43, 54]
     }
+  ],
+  "recommendations": {
+    "Bajo": {
+      "general": "Es recomendable desarrollar más esta competencia mediante práctica específica y retroalimentación constante.",
+      "actions": [
+        "Identifica situaciones donde puedas aplicar esta competencia",
+        "Busca mentores o personas que destaquen en esta área",
+        "Practica en entornos seguros con retroalimentación",
+        "Establece metas pequeñas y alcanzables para mejorar"
+      ]
+    },
+    "Promedio": {
+      "general": "Tienes una base sólida en esta competencia, pero hay oportunidades de mejora significativas.",
+      "actions": [
+        "Identifica situaciones específicas donde puedas aplicar más esta competencia",
+        "Busca oportunidades de liderazgo en proyectos relacionados",
+        "Solicita retroalimentación específica sobre tu desempeño",
+        "Considera capacitación adicional en esta área"
+      ]
+    },
+    "Alto": {
+      "general": "Demuestras un alto nivel en esta competencia. Considera cómo puedes usar esta fortaleza para desarrollar otras áreas.",
+      "actions": [
+        "Comparte tu experiencia y conocimiento con otros",
+        "Busca roles que te permitan aplicar esta fortaleza al máximo",
+        "Considera ser mentor de otros en esta competencia",
+        "Usa esta fortaleza para compensar áreas de mejora"
+      ]
+    }
+  },
+  "overallRecommendations": {
+    "perfectionist": "Tu perfil muestra alta orientación a la calidad y cumplimiento. Asegúrate de balancear estos con la toma de riesgos calculados para maximizar las oportunidades.",
+    "risktaker": "Tu perfil muestra buena disposición para tomar riesgos. Complementa esto con una sólida búsqueda de información y planificación para maximizar el éxito.",
+    "networker": "Tu perfil muestra fortaleza en redes de apoyo. Usa estas conexiones para obtener información valiosa y oportunidades de mejora en otras competencias.",
+    "leader": "Tu perfil muestra características de liderazgo natural. Considera roles donde puedas influir y guiar a otros hacia objetivos comunes.",
+    "balanced": "Tu perfil muestra un desarrollo equilibrado en las competencias emprendedoras. Considera especializarte en las áreas que más te apasionen."
+  }
 }

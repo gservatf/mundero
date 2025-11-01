@@ -56,18 +56,24 @@ body {
 }
 
 /* Fix input field visibility */
-input, textarea, select {
+input,
+textarea,
+select {
   background-color: #ffffff !important;
   color: #1f2937 !important;
 }
 
-input:focus, textarea:focus, select:focus {
+input:focus,
+textarea:focus,
+select:focus {
   background-color: #ffffff !important;
   color: #1f2937 !important;
 }
 
 /* Ensure form fields are always visible */
-.form-input, .form-textarea, .form-select {
+.form-input,
+.form-textarea,
+.form-select {
   background-color: #ffffff !important;
   color: #1f2937 !important;
   border: 1px solid #d1d5db !important;
@@ -75,7 +81,9 @@ input:focus, textarea:focus, select:focus {
 
 /* Dark mode override for form fields */
 @media (prefers-color-scheme: dark) {
-  input, textarea, select {
+  input,
+  textarea,
+  select {
     background-color: #ffffff !important;
     color: #1f2937 !important;
   }

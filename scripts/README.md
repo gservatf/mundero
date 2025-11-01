@@ -5,11 +5,13 @@ Este directorio contiene scripts de validación automatizada para garantizar la 
 ## Scripts Disponibles
 
 ### 🚀 `validate_ci.ps1` - Validación Completa CI/CD
+
 ```powershell
 .\scripts\validate_ci.ps1
 ```
 
 **Qué hace:**
+
 - ✅ Verifica tipos TypeScript (0 errores)
 - ✅ Ejecuta todas las pruebas (62 tests)
 - ✅ Compila el proyecto para producción
@@ -18,11 +20,13 @@ Este directorio contiene scripts de validación automatizada para garantizar la 
 **Cuándo usar:** Antes de hacer push, merge, o deployment a producción.
 
 ### ⚡ `validate_quick.ps1` - Validación Rápida para Desarrollo
+
 ```powershell
 .\scripts\validate_quick.ps1
 ```
 
 **Qué hace:**
+
 - ✅ Verifica tipos TypeScript únicamente
 - ✅ Validación rápida durante desarrollo
 
@@ -49,6 +53,7 @@ Este directorio contiene scripts de validación automatizada para garantizar la 
 ## Integración con IDEs
 
 ### VS Code
+
 Puedes agregar estas tareas a `.vscode/tasks.json`:
 
 ```json
@@ -67,11 +72,13 @@ Puedes agregar estas tareas a `.vscode/tasks.json`:
 ## Troubleshooting
 
 ### Error de PowerShell Execution Policy
+
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
 ### Error de encoding en emojis
+
 Los scripts están optimizados para PowerShell Windows con encoding UTF-8.
 
 ---

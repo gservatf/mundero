@@ -1,4 +1,5 @@
-# 🧠 ORDEN PARA COPILOT — FASE 7.0  
+# 🧠 ORDEN PARA COPILOT — FASE 7.0
+
 ## SOLUCIONES EMPRESARIALES — BLOQUE COMERCIAL MUNDERO v2.1
 
 ---
@@ -13,17 +14,20 @@ Estas soluciones se habilitan por organización y se integran con los funnels de
 ## 🔹 PASO 7 — MÓDULO DE SOLUCIONES
 
 Crea la carpeta:
+
 ```yaml
 /modules/solutions/
 ```
 
 Colecciones Firestore:
+
 ```bash
 /solutions
 /org_solutions
 ```
 
 Ejemplo `/solutions`:
+
 ```json
 {
   "key": "ceps_reader",
@@ -35,6 +39,7 @@ Ejemplo `/solutions`:
 ```
 
 Ejemplo `/org_solutions`:
+
 ```json
 {
   "orgId": "weconsulting",
@@ -45,6 +50,7 @@ Ejemplo `/org_solutions`:
 ```
 
 Componentes:
+
 - SolutionList.tsx
 - SolutionDetail.tsx
 - OrgSolutionsManager.tsx
@@ -53,6 +59,7 @@ Componentes:
 ## 🔹 PASO 8 — SANDBOX DE DESARROLLO
 
 Crea la carpeta:
+
 ```bash
 /solutions/
   ceps/
@@ -61,9 +68,11 @@ Crea la carpeta:
 ```
 
 Script CLI:
+
 ```bash
 scripts/create-solution.js
 ```
+
 Este script genera la estructura base y el manifest.json de cada solución.
 
 ## 🔹 PASO 9 — INTEGRACIÓN FUNNELS → SOLUCIONES
@@ -77,11 +86,13 @@ Cuando un funnel tiene destino "solution":
 ## 🔹 PASO 10 — MÉTRICAS Y EMAILS
 
 Registra:
+
 ```pgsql
 view, signup, redirect, conversion, error
 ```
 
 Emails automáticos:
+
 - lead_welcome
 - owner_new_lead
 - hr_new_postulant
@@ -91,6 +102,7 @@ FunnelMetrics.tsx mostrará tasas y conversiones.
 ## 🔹 PASO 11 — HARDENING Y PERFORMANCE
 
 Asegura:
+
 - Logos ≤ 2MB
 - Solo embeds de YouTube/Drive
 - Rate-limit por IP/UID

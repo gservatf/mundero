@@ -1,12 +1,16 @@
-import React, { useEffect, useRef } from 'react';
-import { CardHeader, CardTitle } from '../../../../components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '../../../../components/ui/avatar';
-import { Badge } from '../../../../components/ui/badge';
-import { MessageBubble } from './MessageBubble';
-import { ChatInput } from './ChatInput';
-import { useChat } from '../hooks/useChat';
-import { useAuth } from '../../../../hooks/useAuth';
-import { FiArrowLeft, FiMoreVertical } from 'react-icons/fi';
+import React, { useEffect, useRef } from "react";
+import { CardHeader, CardTitle } from "../../../../components/ui/card";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../../../components/ui/avatar";
+import { Badge } from "../../../../components/ui/badge";
+import { MessageBubble } from "./MessageBubble";
+import { ChatInput } from "./ChatInput";
+import { useChat } from "../hooks/useChat";
+import { useAuth } from "../../../../hooks/useAuth";
+import { FiArrowLeft, FiMoreVertical } from "react-icons/fi";
 
 interface ChatWindowProps {
   chatId: string;
@@ -15,30 +19,32 @@ interface ChatWindowProps {
 
 export const ChatWindow: React.FC<ChatWindowProps> = ({ chatId, onBack }) => {
   const { firebaseUser, user } = useAuth();
-  const { 
-    messages, 
-    participants, 
-    currentChat, 
+  const {
+    messages,
+    participants,
+    currentChat,
     getOtherParticipant,
-    typingUsers 
+    typingUsers,
   } = useChat();
-  
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const userId = firebaseUser?.uid || user?.id;
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  const otherParticipant = currentChat ? getOtherParticipant(currentChat) : null;
+  const otherParticipant = currentChat
+    ? getOtherParticipant(currentChat)
+    : null;
 
   const formatLastSeen = () => {
     // Aquí podrías implementar lógica para mostrar "última vez visto"
-    return 'En línea';
+    return "En línea";
   };
 
   if (!currentChat) {
@@ -56,23 +62,24 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ chatId, onBack }) => {
       {/* Header del chat */}
       <CardHeader className="border-b bg-white sticky top-0 z-10">
         <div className="flex items-center gap-3">
-          <button 
+          <button
             onClick={onBack}
             className="lg:hidden p-2 hover:bg-gray-100 rounded-full transition-colors"
           >
             <FiArrowLeft className="w-5 h-5" />
           </button>
-          
+
           <Avatar className="w-10 h-10">
             <AvatarImage src={otherParticipant?.photoURL} />
             <AvatarFallback>
-              {otherParticipant?.displayName?.substring(0, 2)?.toUpperCase() || 'U'}
+              {otherParticipant?.displayName?.substring(0, 2)?.toUpperCase() ||
+                "U"}
             </AvatarFallback>
           </Avatar>
-          
+
           <div className="flex-1">
             <CardTitle className="text-lg">
-              {otherParticipant?.displayName || 'Usuario'}
+              {otherParticipant?.displayName || "Usuario"}
             </CardTitle>
             <div className="flex items-center gap-2">
               <p className="text-sm text-gray-500">{formatLastSeen()}</p>
@@ -83,7 +90,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ chatId, onBack }) => {
               )}
             </div>
           </div>
-          
+
           <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
             <FiMoreVertical className="w-5 h-5" />
           </button>
@@ -105,26 +112,33 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ chatId, onBack }) => {
                 message={message}
                 isOwn={message.senderId === userId}
                 showAvatar={
-                  index === 0 || 
+                  index === 0 ||
                   messages[index - 1].senderId !== message.senderId
                 }
                 senderName={
-                  participants.find(p => p.uid === message.senderId)?.displayName || 'Usuario'
+                  participants.find((p) => p.uid === message.senderId)
+                    ?.displayName || "Usuario"
                 }
               />
             ))}
-            
+
             {typingUsers.length > 0 && (
               <div className="flex items-center gap-2 text-gray-500 text-sm">
                 <Avatar className="w-6 h-6">
                   <AvatarFallback className="text-xs">
-                    {otherParticipant?.displayName?.substring(0, 1) || 'U'}
+                    {otherParticipant?.displayName?.substring(0, 1) || "U"}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex gap-1">
                   <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <div
+                    className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                    style={{ animationDelay: "0.1s" }}
+                  ></div>
+                  <div
+                    className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                    style={{ animationDelay: "0.2s" }}
+                  ></div>
                 </div>
               </div>
             )}

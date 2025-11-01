@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { Badge } from './ui/badge';
-import { useAuth } from '../hooks/useAuth';
-import { mockApi } from '../lib/mockApi';
+import React, { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Button } from "./ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Badge } from "./ui/badge";
+import { useAuth } from "../hooks/useAuth";
+import { mockApi } from "../lib/mockApi";
 import {
   FiHeart,
   FiMessageCircle,
@@ -12,11 +12,14 @@ import {
   FiMoreHorizontal,
   FiTrendingUp,
   FiUsers,
-  FiActivity
-} from 'react-icons/fi';
-import { Post } from '../lib/types';
+  FiActivity,
+} from "react-icons/fi";
+import { Post } from "../lib/types";
 // Integración de reputación (opcional, no intrusiva)
-import { reputationService, REPUTATION_ENABLED } from '../modules/user-panel/reputation/reputationService';
+import {
+  reputationService,
+  REPUTATION_ENABLED,
+} from "../modules/user-panel/reputation/reputationService";
 
 export const FeedSystem: React.FC = () => {
   const { user } = useAuth();
@@ -33,37 +36,40 @@ export const FeedSystem: React.FC = () => {
       // Simular carga de posts
       const mockPosts: Post[] = [
         {
-          id: '1',
-          userId: 'user1',
-          content: 'Excelente reunión con el equipo de desarrollo. Los nuevos features están tomando forma.',
+          id: "1",
+          userId: "user1",
+          content:
+            "Excelente reunión con el equipo de desarrollo. Los nuevos features están tomando forma.",
           timestamp: Date.now() - 1000 * 60 * 30, // 30 minutos atrás
           likes: 12,
           comments: 3,
-          shares: 1
+          shares: 1,
         },
         {
-          id: '2',
-          userId: 'user2',
-          content: 'Implementamos la nueva integración con Legalty. Los resultados son prometedores.',
-          mediaUrl: 'https://via.placeholder.com/400x200',
+          id: "2",
+          userId: "user2",
+          content:
+            "Implementamos la nueva integración con Legalty. Los resultados son prometedores.",
+          mediaUrl: "https://via.placeholder.com/400x200",
           timestamp: Date.now() - 1000 * 60 * 60 * 2, // 2 horas atrás
           likes: 24,
           comments: 8,
-          shares: 5
+          shares: 5,
         },
         {
-          id: '3',
-          userId: 'user3',
-          content: 'Celebrando otro hito en nuestro crecimiento empresarial. ¡Gracias al equipo!',
+          id: "3",
+          userId: "user3",
+          content:
+            "Celebrando otro hito en nuestro crecimiento empresarial. ¡Gracias al equipo!",
           timestamp: Date.now() - 1000 * 60 * 60 * 5, // 5 horas atrás
           likes: 45,
           comments: 12,
-          shares: 8
-        }
+          shares: 8,
+        },
       ];
       setPosts(mockPosts);
     } catch (error) {
-      console.error('Error loading posts:', error);
+      console.error("Error loading posts:", error);
     } finally {
       setLoading(false);
     }
@@ -71,42 +77,48 @@ export const FeedSystem: React.FC = () => {
 
   const handleLike = async (_postId: string) => {
     // Implementar lógica de like
-    console.log('Like post:', _postId);
+    console.log("Like post:", _postId);
 
     // Hook de reputación opcional (no bloquea el feed)
     if (REPUTATION_ENABLED && user?.id) {
       try {
-        await reputationService.logAction(user.id, 'post_like', { postId: _postId });
+        await reputationService.logAction(user.id, "post_like", {
+          postId: _postId,
+        });
       } catch (error) {
-        console.log('Reputation tracking failed (non-blocking):', error);
+        console.log("Reputation tracking failed (non-blocking):", error);
       }
     }
   };
 
   const handleComment = async (_postId: string) => {
     // Implementar lógica de comentario
-    console.log('Comment on post:', _postId);
+    console.log("Comment on post:", _postId);
 
     // Hook de reputación opcional (no bloquea el feed)
     if (REPUTATION_ENABLED && user?.id) {
       try {
-        await reputationService.logAction(user.id, 'post_comment', { postId: _postId });
+        await reputationService.logAction(user.id, "post_comment", {
+          postId: _postId,
+        });
       } catch (error) {
-        console.log('Reputation tracking failed (non-blocking):', error);
+        console.log("Reputation tracking failed (non-blocking):", error);
       }
     }
   };
 
   const handleShare = async (_postId: string) => {
     // Implementar lógica de compartir
-    console.log('Share post:', _postId);
+    console.log("Share post:", _postId);
 
     // Hook de reputación opcional (no bloquea el feed)
     if (REPUTATION_ENABLED && user?.id) {
       try {
-        await reputationService.logAction(user.id, 'post_share', { postId: _postId });
+        await reputationService.logAction(user.id, "post_share", {
+          postId: _postId,
+        });
       } catch (error) {
-        console.log('Reputation tracking failed (non-blocking):', error);
+        console.log("Reputation tracking failed (non-blocking):", error);
       }
     }
   };
@@ -188,12 +200,18 @@ export const FeedSystem: React.FC = () => {
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-3">
                   <Avatar className="w-10 h-10">
-                    <AvatarImage src={`https://ui-avatars.com/api/?name=Usuario${post.userId}&background=3b82f6&color=fff`} />
+                    <AvatarImage
+                      src={`https://ui-avatars.com/api/?name=Usuario${post.userId}&background=3b82f6&color=fff`}
+                    />
                     <AvatarFallback>U</AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-medium text-gray-900">Usuario {post.userId}</p>
-                    <p className="text-sm text-gray-500">{formatTimeAgo(post.timestamp)}</p>
+                    <p className="font-medium text-gray-900">
+                      Usuario {post.userId}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      {formatTimeAgo(post.timestamp)}
+                    </p>
                   </div>
                 </div>
 
@@ -249,9 +267,7 @@ export const FeedSystem: React.FC = () => {
                   </Button>
                 </div>
 
-                <Badge variant="secondary">
-                  Empresarial
-                </Badge>
+                <Badge variant="secondary">Empresarial</Badge>
               </div>
             </CardContent>
           </Card>

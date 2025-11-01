@@ -75,7 +75,7 @@ export interface Commission {
   id: string;
   userId: string;
   amount: number;
-  status: 'pending' | 'approved' | 'paid';
+  status: "pending" | "approved" | "paid";
   createdAt: number;
 }
 

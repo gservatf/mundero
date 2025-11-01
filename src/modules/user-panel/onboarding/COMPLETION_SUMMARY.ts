@@ -132,39 +132,34 @@ console.log(`
 
 // Función de validación rápida
 export const validateOnboardingSystem = () => {
-    const components = [
-        'OnboardingQuest',
-        'QuestStepCard',
-        'WelcomeRewardModal',
-        'OnboardingFeedBanner',
-        'OnboardingFeedContent',
-        'OnboardingProfileSection',
-        'OnboardingAdmin',
-        'QuestEditorModal'
-    ];
+  const components = [
+    "OnboardingQuest",
+    "QuestStepCard",
+    "WelcomeRewardModal",
+    "OnboardingFeedBanner",
+    "OnboardingFeedContent",
+    "OnboardingProfileSection",
+    "OnboardingAdmin",
+    "QuestEditorModal",
+  ];
 
-    const services = [
-        'onboardingService',
-        'badgeService'
-    ];
+  const services = ["onboardingService", "badgeService"];
 
-    const hooks = [
-        'useOnboardingProgress'
-    ];
+  const hooks = ["useOnboardingProgress"];
 
-    console.log('🔍 Validando sistema de onboarding...');
-    console.log(`✅ ${components.length} componentes implementados`);
-    console.log(`✅ ${services.length} servicios configurados`);
-    console.log(`✅ ${hooks.length} hooks personalizados`);
-    console.log('🎉 ¡Sistema validado y listo!');
+  console.log("🔍 Validando sistema de onboarding...");
+  console.log(`✅ ${components.length} componentes implementados`);
+  console.log(`✅ ${services.length} servicios configurados`);
+  console.log(`✅ ${hooks.length} hooks personalizados`);
+  console.log("🎉 ¡Sistema validado y listo!");
 
-    return {
-        status: 'success',
-        components: components.length,
-        services: services.length,
-        hooks: hooks.length,
-        message: 'Sistema de onboarding gamificado completamente implementado'
-    };
+  return {
+    status: "success",
+    components: components.length,
+    services: services.length,
+    hooks: hooks.length,
+    message: "Sistema de onboarding gamificado completamente implementado",
+  };
 };
 
 export default validateOnboardingSystem;

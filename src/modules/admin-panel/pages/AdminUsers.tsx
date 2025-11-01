@@ -1,27 +1,47 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
-import { Button } from '../../../components/ui/button';
-import { Input } from '../../../components/ui/input';
-import { Badge } from '../../../components/ui/badge';
-import { Avatar, AvatarFallback, AvatarImage } from '../../../components/ui/avatar';
-import { 
-  FiSearch, 
-  FiFilter, 
-  FiDownload, 
-  FiEdit, 
-  FiUserX, 
+import React, { useState, useEffect, useCallback } from "react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/card";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
+import { Badge } from "../../../components/ui/badge";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../../components/ui/avatar";
+import {
+  FiSearch,
+  FiFilter,
+  FiDownload,
+  FiEdit,
+  FiUserX,
   FiUserCheck,
   FiRefreshCw,
   FiMoreVertical,
   FiInfo,
   FiAlertCircle,
-  FiCheckCircle
-} from 'react-icons/fi';
-import { adminUserService, AdminUser, PaginatedUsers } from '../services/adminFirebase';
-import { useAdminAuth, getRoleDescription, getRoleBadgeColor } from '../hooks/useAdminAuth';
+  FiCheckCircle,
+} from "react-icons/fi";
+import {
+  adminUserService,
+  AdminUser,
+  PaginatedUsers,
+} from "../services/adminFirebase";
+import {
+  useAdminAuth,
+  getRoleDescription,
+  getRoleBadgeColor,
+} from "../hooks/useAdminAuth";
 
 // Tooltip Component
-const Tooltip: React.FC<{ content: string; children: React.ReactNode }> = ({ content, children }) => {
+const Tooltip: React.FC<{ content: string; children: React.ReactNode }> = ({
+  content,
+  children,
+}) => {
   const [isVisible, setIsVisible] = useState(false);
 
   return (
@@ -49,15 +69,18 @@ const ConfirmationModal: React.FC<{
   onConfirm: () => void;
   title: string;
   message: string;
-  type: 'warning' | 'danger' | 'info';
+  type: "warning" | "danger" | "info";
 }> = ({ isOpen, onClose, onConfirm, title, message, type }) => {
   if (!isOpen) return null;
 
   const getIcon = () => {
     switch (type) {
-      case 'warning': return <FiAlertCircle className="w-6 h-6 text-yellow-600" />;
-      case 'danger': return <FiUserX className="w-6 h-6 text-red-600" />;
-      default: return <FiInfo className="w-6 h-6 text-blue-600" />;
+      case "warning":
+        return <FiAlertCircle className="w-6 h-6 text-yellow-600" />;
+      case "danger":
+        return <FiUserX className="w-6 h-6 text-red-600" />;
+      default:
+        return <FiInfo className="w-6 h-6 text-blue-600" />;
     }
   };
 
@@ -73,9 +96,9 @@ const ConfirmationModal: React.FC<{
           <Button variant="outline" onClick={onClose}>
             Cancelar
           </Button>
-          <Button 
+          <Button
             onClick={onConfirm}
-            className={type === 'danger' ? 'bg-red-600 hover:bg-red-700' : ''}
+            className={type === "danger" ? "bg-red-600 hover:bg-red-700" : ""}
           >
             Confirmar
           </Button>
@@ -86,25 +109,31 @@ const ConfirmationModal: React.FC<{
 };
 
 export const AdminUsers: React.FC = () => {
-  const { canAccess, canEditRoles, canManageUserStatus, getRestrictionMessage, adminProfile } = useAdminAuth();
-  
+  const {
+    canAccess,
+    canEditRoles,
+    canManageUserStatus,
+    getRestrictionMessage,
+    adminProfile,
+  } = useAdminAuth();
+
   // State management
   const [paginatedData, setPaginatedData] = useState<PaginatedUsers>({
     users: [],
     hasMore: false,
-    total: 0
+    total: 0,
   });
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedRole, setSelectedRole] = useState('all');
-  const [selectedStatus, setSelectedStatus] = useState('all');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedRole, setSelectedRole] = useState("all");
+  const [selectedStatus, setSelectedStatus] = useState("all");
   const [isSearching, setIsSearching] = useState(false);
-  
+
   // Modal states
   const [confirmModal, setConfirmModal] = useState<{
     isOpen: boolean;
-    type: 'role' | 'status';
+    type: "role" | "status";
     userId: string;
     userEmail: string;
     newValue: string;
@@ -113,7 +142,7 @@ export const AdminUsers: React.FC = () => {
 
   // Load initial users
   useEffect(() => {
-    if (canAccess('users')) {
+    if (canAccess("users")) {
       loadUsers();
     }
   }, [canAccess]);
@@ -123,17 +152,17 @@ export const AdminUsers: React.FC = () => {
       setLoading(reset);
       const lastDoc = reset ? undefined : paginatedData.lastDoc;
       const result = await adminUserService.getUsers(25, lastDoc);
-      
+
       if (reset) {
         setPaginatedData(result);
       } else {
-        setPaginatedData(prev => ({
+        setPaginatedData((prev) => ({
           ...result,
-          users: [...prev.users, ...result.users]
+          users: [...prev.users, ...result.users],
         }));
       }
     } catch (error) {
-      console.error('Error loading users:', error);
+      console.error("Error loading users:", error);
     } finally {
       setLoading(false);
       setLoadingMore(false);
@@ -142,7 +171,7 @@ export const AdminUsers: React.FC = () => {
 
   const loadMoreUsers = useCallback(async () => {
     if (loadingMore || !paginatedData.hasMore || isSearching) return;
-    
+
     setLoadingMore(true);
     await loadUsers(false);
   }, [loadingMore, paginatedData.hasMore, isSearching]);
@@ -156,10 +185,10 @@ export const AdminUsers: React.FC = () => {
         setPaginatedData({
           users: searchResults,
           hasMore: false,
-          total: searchResults.length
+          total: searchResults.length,
         });
       } catch (error) {
-        console.error('Error searching users:', error);
+        console.error("Error searching users:", error);
       } finally {
         setLoading(false);
       }
@@ -170,40 +199,50 @@ export const AdminUsers: React.FC = () => {
   };
 
   const clearSearch = () => {
-    setSearchTerm('');
+    setSearchTerm("");
     setIsSearching(false);
     loadUsers();
   };
 
-  const requestRoleChange = (userId: string, userEmail: string, currentRole: string, newRole: string) => {
+  const requestRoleChange = (
+    userId: string,
+    userEmail: string,
+    currentRole: string,
+    newRole: string,
+  ) => {
     if (!canEditRoles()) {
-      alert(getRestrictionMessage('cambiar roles de usuario'));
+      alert(getRestrictionMessage("cambiar roles de usuario"));
       return;
     }
 
     setConfirmModal({
       isOpen: true,
-      type: 'role',
+      type: "role",
       userId,
       userEmail,
       newValue: newRole,
-      oldValue: currentRole
+      oldValue: currentRole,
     });
   };
 
-  const requestStatusChange = (userId: string, userEmail: string, currentStatus: string, newStatus: string) => {
+  const requestStatusChange = (
+    userId: string,
+    userEmail: string,
+    currentStatus: string,
+    newStatus: string,
+  ) => {
     if (!canManageUserStatus()) {
-      alert(getRestrictionMessage('cambiar el estado de usuario'));
+      alert(getRestrictionMessage("cambiar el estado de usuario"));
       return;
     }
 
     setConfirmModal({
       isOpen: true,
-      type: 'status',
+      type: "status",
       userId,
       userEmail,
       newValue: newStatus,
-      oldValue: currentStatus
+      oldValue: currentStatus,
     });
   };
 
@@ -211,20 +250,20 @@ export const AdminUsers: React.FC = () => {
     if (!confirmModal || !adminProfile) return;
 
     try {
-      if (confirmModal.type === 'role') {
+      if (confirmModal.type === "role") {
         await adminUserService.updateUserRole(
-          confirmModal.userId, 
+          confirmModal.userId,
           confirmModal.newValue,
-          { uid: adminProfile.uid, email: adminProfile.email }
+          { uid: adminProfile.uid, email: adminProfile.email },
         );
       } else {
         await adminUserService.updateUserStatus(
-          confirmModal.userId, 
+          confirmModal.userId,
           confirmModal.newValue,
-          { uid: adminProfile.uid, email: adminProfile.email }
+          { uid: adminProfile.uid, email: adminProfile.email },
         );
       }
-      
+
       // Reload users to reflect changes
       if (isSearching) {
         handleSearch();
@@ -232,8 +271,8 @@ export const AdminUsers: React.FC = () => {
         loadUsers();
       }
     } catch (error) {
-      console.error('Error updating user:', error);
-      alert('Error al actualizar usuario. Inténtalo de nuevo.');
+      console.error("Error updating user:", error);
+      alert("Error al actualizar usuario. Inténtalo de nuevo.");
     } finally {
       setConfirmModal(null);
     }
@@ -241,64 +280,79 @@ export const AdminUsers: React.FC = () => {
 
   const exportUsers = () => {
     const csvContent = [
-      ['UID', 'Email', 'Nombre', 'Rol', 'Estado', 'Empresa', 'País', 'Fecha Registro'].join(','),
-      ...paginatedData.users.map((user: AdminUser) => [
-        user.uid,
-        user.email,
-        user.displayName || '',
-        user.role,
-        user.status,
-        user.companyName || user.companyId || '',
-        user.country || '',
-        user.createdAt?.toDate?.()?.toLocaleDateString() || ''
-      ].join(','))
-    ].join('\n');
+      [
+        "UID",
+        "Email",
+        "Nombre",
+        "Rol",
+        "Estado",
+        "Empresa",
+        "País",
+        "Fecha Registro",
+      ].join(","),
+      ...paginatedData.users.map((user: AdminUser) =>
+        [
+          user.uid,
+          user.email,
+          user.displayName || "",
+          user.role,
+          user.status,
+          user.companyName || user.companyId || "",
+          user.country || "",
+          user.createdAt?.toDate?.()?.toLocaleDateString() || "",
+        ].join(","),
+      ),
+    ].join("\n");
 
-    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const blob = new Blob([csvContent], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = `usuarios_mundero_${new Date().toISOString().split('T')[0]}.csv`;
+    a.download = `usuarios_mundero_${new Date().toISOString().split("T")[0]}.csv`;
     a.click();
     window.URL.revokeObjectURL(url);
   };
 
   const filteredUsers = paginatedData.users.filter((user: AdminUser) => {
-    const matchesSearch = !searchTerm || 
+    const matchesSearch =
+      !searchTerm ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.displayName?.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesRole = selectedRole === 'all' || user.role === selectedRole;
-    const matchesStatus = selectedStatus === 'all' || user.status === selectedStatus;
-    
+
+    const matchesRole = selectedRole === "all" || user.role === selectedRole;
+    const matchesStatus =
+      selectedStatus === "all" || user.status === selectedStatus;
+
     return matchesSearch && matchesRole && matchesStatus;
   });
 
   const getRoleBadgeColor = (role: string) => {
     const colors: Record<string, string> = {
-      super_admin: 'bg-red-100 text-red-800',
-      admin: 'bg-blue-100 text-blue-800',
-      manager: 'bg-purple-100 text-purple-800',
-      analyst: 'bg-green-100 text-green-800',
-      affiliate: 'bg-yellow-100 text-yellow-800',
-      client: 'bg-gray-100 text-gray-800'
+      super_admin: "bg-red-100 text-red-800",
+      admin: "bg-blue-100 text-blue-800",
+      manager: "bg-purple-100 text-purple-800",
+      analyst: "bg-green-100 text-green-800",
+      affiliate: "bg-yellow-100 text-yellow-800",
+      client: "bg-gray-100 text-gray-800",
     };
-    return colors[role] || 'bg-gray-100 text-gray-800';
+    return colors[role] || "bg-gray-100 text-gray-800";
   };
 
   const getStatusBadgeColor = (status: string) => {
     const colors: Record<string, string> = {
-      active: 'bg-green-100 text-green-800',
-      suspended: 'bg-red-100 text-red-800',
-      pending: 'bg-yellow-100 text-yellow-800'
+      active: "bg-green-100 text-green-800",
+      suspended: "bg-red-100 text-red-800",
+      pending: "bg-yellow-100 text-yellow-800",
     };
-    return colors[status] || 'bg-gray-100 text-gray-800';
+    return colors[status] || "bg-gray-100 text-gray-800";
   };
 
-  if (!canAccess('users')) {
+  if (!canAccess("users")) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">No tienes permisos para acceder a esta sección.</p>
+        <p className="text-gray-500">
+          No tienes permisos para acceder a esta sección.
+        </p>
       </div>
     );
   }
@@ -308,7 +362,9 @@ export const AdminUsers: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Usuarios y Roles</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Usuarios y Roles
+          </h1>
           <p className="text-gray-600 dark:text-gray-400">
             Gestiona usuarios, roles y permisos del sistema
           </p>
@@ -319,7 +375,9 @@ export const AdminUsers: React.FC = () => {
             Exportar CSV
           </Button>
           <Button onClick={() => loadUsers()} disabled={loading}>
-            <FiRefreshCw className={`mr-2 h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+            <FiRefreshCw
+              className={`mr-2 h-4 w-4 ${loading ? "animate-spin" : ""}`}
+            />
             Actualizar
           </Button>
         </div>
@@ -334,13 +392,13 @@ export const AdminUsers: React.FC = () => {
                 placeholder="Buscar por email o nombre..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                onKeyPress={(e) => e.key === "Enter" && handleSearch()}
               />
               <Button onClick={handleSearch} size="sm">
                 <FiSearch className="h-4 w-4" />
               </Button>
             </div>
-            
+
             <select
               value={selectedRole}
               onChange={(e) => setSelectedRole(e.target.value)}
@@ -354,7 +412,7 @@ export const AdminUsers: React.FC = () => {
               <option value="affiliate">Affiliate</option>
               <option value="client">Client</option>
             </select>
-            
+
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
@@ -365,10 +423,13 @@ export const AdminUsers: React.FC = () => {
               <option value="suspended">Suspendido</option>
               <option value="pending">Pendiente</option>
             </select>
-            
+
             <div className="flex items-center justify-between">
               <div className="text-sm text-gray-500 flex items-center space-x-4">
-                <span>{filteredUsers.length} de {paginatedData.users.length} usuarios</span>
+                <span>
+                  {filteredUsers.length} de {paginatedData.users.length}{" "}
+                  usuarios
+                </span>
                 {isSearching && (
                   <Button variant="outline" size="sm" onClick={clearSearch}>
                     Limpiar búsqueda
@@ -376,13 +437,13 @@ export const AdminUsers: React.FC = () => {
                 )}
               </div>
               {!isSearching && paginatedData.hasMore && (
-                <Button 
-                  variant="outline" 
-                  size="sm" 
+                <Button
+                  variant="outline"
+                  size="sm"
                   onClick={loadMoreUsers}
                   disabled={loadingMore}
                 >
-                  {loadingMore ? 'Cargando...' : 'Cargar más'}
+                  {loadingMore ? "Cargando..." : "Cargar más"}
                 </Button>
               )}
             </div>
@@ -399,7 +460,10 @@ export const AdminUsers: React.FC = () => {
           {loading ? (
             <div className="space-y-4">
               {[...Array(5)].map((_, i) => (
-                <div key={i} className="animate-pulse flex items-center space-x-4 p-4">
+                <div
+                  key={i}
+                  className="animate-pulse flex items-center space-x-4 p-4"
+                >
                   <div className="rounded-full bg-gray-200 h-10 w-10"></div>
                   <div className="flex-1 space-y-2">
                     <div className="h-4 bg-gray-200 rounded w-3/4"></div>
@@ -435,21 +499,29 @@ export const AdminUsers: React.FC = () => {
                 </thead>
                 <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200">
                   {filteredUsers.map((user) => (
-                    <tr key={user.uid} className="hover:bg-gray-50 dark:hover:bg-gray-800">
+                    <tr
+                      key={user.uid}
+                      className="hover:bg-gray-50 dark:hover:bg-gray-800"
+                    >
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <Avatar className="h-10 w-10">
                             <AvatarImage src={user.photoURL} />
                             <AvatarFallback>
-                              {user.displayName?.charAt(0) || user.email.charAt(0)}
+                              {user.displayName?.charAt(0) ||
+                                user.email.charAt(0)}
                             </AvatarFallback>
                           </Avatar>
                           <div className="ml-4">
                             <div className="text-sm font-medium text-gray-900 dark:text-white">
-                              {user.displayName || 'Sin nombre'}
+                              {user.displayName || "Sin nombre"}
                             </div>
-                            <div className="text-sm text-gray-500">{user.email}</div>
-                            <div className="text-xs text-gray-400">UID: {user.uid.slice(0, 8)}...</div>
+                            <div className="text-sm text-gray-500">
+                              {user.email}
+                            </div>
+                            <div className="text-xs text-gray-400">
+                              UID: {user.uid.slice(0, 8)}...
+                            </div>
                           </div>
                         </div>
                       </td>
@@ -457,10 +529,19 @@ export const AdminUsers: React.FC = () => {
                         <Tooltip content={getRoleDescription(user.role)}>
                           <select
                             value={user.role}
-                            onChange={(e) => requestRoleChange(user.uid, user.email, user.role, e.target.value)}
+                            onChange={(e) =>
+                              requestRoleChange(
+                                user.uid,
+                                user.email,
+                                user.role,
+                                e.target.value,
+                              )
+                            }
                             disabled={!canEditRoles()}
                             className={`text-xs px-2 py-1 rounded-full border ${getRoleBadgeColor(user.role)} ${
-                              canEditRoles() ? 'cursor-pointer hover:shadow-sm' : 'cursor-not-allowed opacity-60'
+                              canEditRoles()
+                                ? "cursor-pointer hover:shadow-sm"
+                                : "cursor-not-allowed opacity-60"
                             }`}
                           >
                             <option value="client">Client</option>
@@ -473,13 +554,24 @@ export const AdminUsers: React.FC = () => {
                         </Tooltip>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <Tooltip content={`Estado: ${user.status === 'active' ? 'Usuario activo' : user.status === 'suspended' ? 'Usuario suspendido' : 'Pendiente de activación'}`}>
+                        <Tooltip
+                          content={`Estado: ${user.status === "active" ? "Usuario activo" : user.status === "suspended" ? "Usuario suspendido" : "Pendiente de activación"}`}
+                        >
                           <select
                             value={user.status}
-                            onChange={(e) => requestStatusChange(user.uid, user.email, user.status, e.target.value)}
+                            onChange={(e) =>
+                              requestStatusChange(
+                                user.uid,
+                                user.email,
+                                user.status,
+                                e.target.value,
+                              )
+                            }
                             disabled={!canManageUserStatus()}
                             className={`text-xs px-2 py-1 rounded-full border ${getStatusBadgeColor(user.status)} ${
-                              canManageUserStatus() ? 'cursor-pointer hover:shadow-sm' : 'cursor-not-allowed opacity-60'
+                              canManageUserStatus()
+                                ? "cursor-pointer hover:shadow-sm"
+                                : "cursor-not-allowed opacity-60"
                             }`}
                           >
                             <option value="active">Activo</option>
@@ -489,10 +581,11 @@ export const AdminUsers: React.FC = () => {
                         </Tooltip>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {user.companyName || user.companyId || 'Sin empresa'}
+                        {user.companyName || user.companyId || "Sin empresa"}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {user.createdAt?.toDate?.()?.toLocaleDateString() || 'N/A'}
+                        {user.createdAt?.toDate?.()?.toLocaleDateString() ||
+                          "N/A"}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <div className="flex items-center space-x-2">
@@ -508,11 +601,13 @@ export const AdminUsers: React.FC = () => {
                   ))}
                 </tbody>
               </table>
-              
+
               {filteredUsers.length === 0 && (
                 <div className="text-center py-12">
                   <FiSearch className="mx-auto h-12 w-12 text-gray-400" />
-                  <p className="mt-2 text-sm text-gray-500">No se encontraron usuarios</p>
+                  <p className="mt-2 text-sm text-gray-500">
+                    No se encontraron usuarios
+                  </p>
                 </div>
               )}
             </div>
@@ -526,16 +621,21 @@ export const AdminUsers: React.FC = () => {
         onClose={() => setConfirmModal(null)}
         onConfirm={handleConfirmChange}
         title={
-          confirmModal?.type === 'role' 
-            ? 'Confirmar cambio de rol' 
-            : 'Confirmar cambio de estado'
+          confirmModal?.type === "role"
+            ? "Confirmar cambio de rol"
+            : "Confirmar cambio de estado"
         }
         message={
-          confirmModal 
-            ? `¿Estás seguro que deseas cambiar ${confirmModal.type === 'role' ? 'el rol' : 'el estado'} de ${confirmModal.userEmail} de "${confirmModal.oldValue}" a "${confirmModal.newValue}"?`
-            : ''
+          confirmModal
+            ? `¿Estás seguro que deseas cambiar ${confirmModal.type === "role" ? "el rol" : "el estado"} de ${confirmModal.userEmail} de "${confirmModal.oldValue}" a "${confirmModal.newValue}"?`
+            : ""
         }
-        type={confirmModal?.type === 'status' && confirmModal?.newValue === 'suspended' ? 'danger' : 'warning'}
+        type={
+          confirmModal?.type === "status" &&
+          confirmModal?.newValue === "suspended"
+            ? "danger"
+            : "warning"
+        }
       />
     </div>
   );

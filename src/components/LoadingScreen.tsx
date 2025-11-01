@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 
 const LoadingScreen = () => {
   return (
@@ -43,7 +43,7 @@ const LoadingScreen = () => {
                   duration: 1.5,
                   repeat: Infinity,
                   delay: index * 0.2,
-                  ease: "easeInOut"
+                  ease: "easeInOut",
                 }}
                 className="w-3 h-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"
               />

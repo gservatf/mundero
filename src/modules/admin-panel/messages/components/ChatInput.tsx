@@ -1,14 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Button } from '../../../../components/ui/button';
-import { Input } from '../../../../components/ui/input';
-import { useToast } from '../../../../hooks/use-toast';
-import { useChat } from '../hooks/useChat';
-import { 
-  FiSend, 
-  FiPaperclip, 
-  FiImage, 
-  FiLoader
-} from 'react-icons/fi';
+import React, { useState, useRef, useEffect } from "react";
+import { Button } from "../../../../components/ui/button";
+import { Input } from "../../../../components/ui/input";
+import { useToast } from "../../../../hooks/use-toast";
+import { useChat } from "../hooks/useChat";
+import { FiSend, FiPaperclip, FiImage, FiLoader } from "react-icons/fi";
 
 interface ChatInputProps {
   currentChatId?: string;
@@ -17,37 +12,37 @@ interface ChatInputProps {
 export const ChatInput: React.FC<ChatInputProps> = ({ currentChatId }) => {
   const { sendMessage, sendingMessage, setTyping } = useChat();
   const { toast } = useToast();
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const typingTimeoutRef = useRef<NodeJS.Timeout>();
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!message.trim() || sendingMessage || !currentChatId) return;
 
     const messageText = message.trim();
-    setMessage('');
+    setMessage("");
     setIsTyping(false);
     setTyping(currentChatId, false);
 
     try {
       const success = await sendMessage(currentChatId, messageText);
-      
+
       if (!success) {
         toast({
           title: "Error",
           description: "No se pudo enviar el mensaje",
-          variant: "destructive"
+          variant: "destructive",
         });
         setMessage(messageText); // Restaurar mensaje si falló
       }
     } catch (error) {
-      console.error('[ChatInput] Error sending message:', error);
+      console.error("[ChatInput] Error sending message:", error);
       toast({
         title: "Error",
         description: "No se pudo enviar el mensaje",
-        variant: "destructive"
+        variant: "destructive",
       });
       setMessage(messageText);
     }
@@ -82,7 +77,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({ currentChatId }) => {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage(e);
     }
@@ -114,7 +109,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({ currentChatId }) => {
             >
               <FiImage className="w-5 h-5 text-gray-400" />
             </button>
-            
+
             {/* Botón de archivo - Funcionalidad futura */}
             <button
               type="button"
@@ -125,7 +120,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({ currentChatId }) => {
               <FiPaperclip className="w-5 h-5 text-gray-400" />
             </button>
           </div>
-          
+
           <Input
             value={message}
             onChange={handleInputChange}
@@ -136,8 +131,8 @@ export const ChatInput: React.FC<ChatInputProps> = ({ currentChatId }) => {
           />
         </div>
 
-        <Button 
-          type="submit" 
+        <Button
+          type="submit"
           disabled={!message.trim() || sendingMessage || !currentChatId}
           className="px-4 py-2"
         >

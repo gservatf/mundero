@@ -152,7 +152,7 @@ describe('MyComponent', () => {
   it('should handle user interaction', async () => {
     const user = userEvent.setup();
     render(<MyComponent />);
-    
+
     await user.click(screen.getByRole('button'));
     expect(screen.getByText('Clicked!')).toBeInTheDocument();
   });
@@ -163,19 +163,19 @@ describe('MyComponent', () => {
 
 ```typescript
 // Mock módulos
-vi.mock('../lib/firebase', () => ({
+vi.mock("../lib/firebase", () => ({
   auth: { currentUser: null },
   db: {},
 }));
 
 // Mock funciones
 const mockFunction = vi.fn();
-mockFunction.mockReturnValue('mocked result');
+mockFunction.mockReturnValue("mocked result");
 
 // Mock API calls
-vi.mock('../lib/apiClient', () => ({
+vi.mock("../lib/apiClient", () => ({
   apiClient: {
-    get: vi.fn().mockResolvedValue({ data: 'test' }),
+    get: vi.fn().mockResolvedValue({ data: "test" }),
     post: vi.fn(),
   },
 }));
@@ -204,13 +204,13 @@ En `vitest.config.ts`:
 export default defineConfig({
   test: {
     coverage: {
-      provider: 'c8',
-      reporter: ['text', 'lcov', 'html'],
+      provider: "c8",
+      reporter: ["text", "lcov", "html"],
       exclude: [
-        'node_modules/**',
-        'src/test/**',
-        '**/*.test.{ts,tsx}',
-        '**/*.spec.{ts,tsx}',
+        "node_modules/**",
+        "src/test/**",
+        "**/*.test.{ts,tsx}",
+        "**/*.spec.{ts,tsx}",
       ],
       thresholds: {
         global: {
@@ -246,9 +246,9 @@ name: 🧪 Tests & Quality Checks
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
 
 jobs:
   test:
@@ -270,6 +270,7 @@ jobs:
 ### Branch Protection
 
 Configurar en GitHub:
+
 - Require status checks to pass
 - Require branches to be up to date
 - Include administrators
@@ -293,22 +294,22 @@ Ctrl + Shift + P > "Developer: Reload Window"
 
 ```typescript
 // ❌ Evitar paths relativos largos
-import { utils } from '../../../utils/helpers';
+import { utils } from "../../../utils/helpers";
 
 // ✅ Usar alias configurados
-import { utils } from '@/utils/helpers';
+import { utils } from "@/utils/helpers";
 ```
 
 ### Mock Issues
 
 ```typescript
 // ❌ Mock después del import
-import { myFunction } from './module';
-vi.mock('./module');
+import { myFunction } from "./module";
+vi.mock("./module");
 
 // ✅ Mock antes del import
-vi.mock('./module');
-import { myFunction } from './module';
+vi.mock("./module");
+import { myFunction } from "./module";
 ```
 
 ### Performance Issues
@@ -318,7 +319,7 @@ import { myFunction } from './module';
 export default defineConfig({
   test: {
     // Limitar workers en desarrollo
-    pool: 'threads',
+    pool: "threads",
     poolOptions: {
       threads: {
         singleThread: true,

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useAuth } from '@/hooks/useAuth';
-import { useAgreement } from '../hooks/useAgreement';
-import AgreementModal from '../components/AgreementModal';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { useAuth } from "@/hooks/useAuth";
+import { useAgreement } from "../hooks/useAgreement";
+import AgreementModal from "../components/AgreementModal";
 import {
   FiUser,
   FiGlobe,
@@ -11,8 +11,8 @@ import {
   FiDownload,
   FiTrash2,
   FiCheck,
-  FiX
-} from 'react-icons/fi';
+  FiX,
+} from "react-icons/fi";
 
 export const Settings: React.FC = () => {
   const { user, logout } = useAuth();
@@ -20,60 +20,64 @@ export const Settings: React.FC = () => {
 
   // Hooks siempre al nivel superior
   const [settings, setSettings] = useState({
-    language: 'es',
-    region: 'PE',
+    language: "es",
+    region: "PE",
     notifications: {
       commissions: true,
       leads: true,
       companies: true,
-      messages: true
-    }
+      messages: true,
+    },
   });
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   // Control de acceso - bloquear si requiere acuerdo
   if (requiresAgreement) {
-    return <AgreementModal isOpen={true} onClose={() => { }} />;
+    return <AgreementModal isOpen={true} onClose={() => {}} />;
   }
 
   const handleLogout = async () => {
     try {
       await logout();
     } catch (error) {
-      console.error('Error al cerrar sesión:', error);
+      console.error("Error al cerrar sesión:", error);
     }
   };
 
   const handleDownloadData = () => {
     // TODO: Implement GDPR data download
-    console.log('Downloading user data...');
+    console.log("Downloading user data...");
   };
 
   const handleDeleteAccount = () => {
     // TODO: Implement account deletion
-    console.log('Deleting account...');
+    console.log("Deleting account...");
     setShowDeleteConfirm(false);
   };
 
   const languages = [
-    { code: 'es', name: 'Español' },
-    { code: 'en', name: 'English' },
-    { code: 'pt', name: 'Português' }
+    { code: "es", name: "Español" },
+    { code: "en", name: "English" },
+    { code: "pt", name: "Português" },
   ];
 
   const regions = [
-    { code: 'PE', name: 'Perú' },
-    { code: 'CO', name: 'Colombia' },
-    { code: 'CL', name: 'Chile' },
-    { code: 'MX', name: 'México' }
+    { code: "PE", name: "Perú" },
+    { code: "CO", name: "Colombia" },
+    { code: "CL", name: "Chile" },
+    { code: "MX", name: "México" },
   ];
 
   return (
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Configuración de Cuenta</h1>
-        <p className="text-gray-600 mt-2">Gestiona tus preferencias y configuración</p>
+        <h1 className="text-3xl font-bold text-gray-900">
+          Configuración de Cuenta
+        </h1>
+        <p className="text-gray-600 mt-2">
+          Gestiona tus preferencias y configuración
+        </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -88,18 +92,22 @@ export const Settings: React.FC = () => {
           >
             <div className="flex items-center space-x-3 mb-6">
               <FiUser className="w-5 h-5 text-gray-600" />
-              <h3 className="font-semibold text-gray-900">Información de Cuenta</h3>
+              <h3 className="font-semibold text-gray-900">
+                Información de Cuenta
+              </h3>
             </div>
 
             <div className="space-y-4">
               <div className="flex items-center space-x-4">
                 <img
-                  src={user?.photo_url || '/default-avatar.png'}
-                  alt={user?.display_name || 'Usuario'}
+                  src={user?.photo_url || "/default-avatar.png"}
+                  alt={user?.display_name || "Usuario"}
                   className="w-16 h-16 rounded-full"
                 />
                 <div>
-                  <h4 className="font-medium text-gray-900">{user?.display_name}</h4>
+                  <h4 className="font-medium text-gray-900">
+                    {user?.display_name}
+                  </h4>
                   <p className="text-gray-600">{user?.email}</p>
                   <p className="text-sm text-green-600 flex items-center space-x-1 mt-1">
                     <FiCheck className="w-4 h-4" />
@@ -110,8 +118,9 @@ export const Settings: React.FC = () => {
 
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <p className="text-blue-800 text-sm">
-                  <strong>Nota:</strong> Tu información de perfil se sincroniza automáticamente
-                  con tu cuenta de Google. Los cambios deben realizarse desde tu cuenta de Google.
+                  <strong>Nota:</strong> Tu información de perfil se sincroniza
+                  automáticamente con tu cuenta de Google. Los cambios deben
+                  realizarse desde tu cuenta de Google.
                 </p>
               </div>
             </div>
@@ -136,7 +145,12 @@ export const Settings: React.FC = () => {
                 </label>
                 <select
                   value={settings.language}
-                  onChange={(e) => setSettings(prev => ({ ...prev, language: e.target.value }))}
+                  onChange={(e) =>
+                    setSettings((prev) => ({
+                      ...prev,
+                      language: e.target.value,
+                    }))
+                  }
                   className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   {languages.map((lang) => (
@@ -153,7 +167,9 @@ export const Settings: React.FC = () => {
                 </label>
                 <select
                   value={settings.region}
-                  onChange={(e) => setSettings(prev => ({ ...prev, region: e.target.value }))}
+                  onChange={(e) =>
+                    setSettings((prev) => ({ ...prev, region: e.target.value }))
+                  }
                   className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   {regions.map((region) => (
@@ -183,32 +199,37 @@ export const Settings: React.FC = () => {
                 <div key={key} className="flex items-center justify-between">
                   <div>
                     <h4 className="font-medium text-gray-900 capitalize">
-                      {key === 'commissions' && 'Comisiones pagadas'}
-                      {key === 'leads' && 'Nuevos leads'}
-                      {key === 'companies' && 'Actividad de empresas'}
-                      {key === 'messages' && 'Mensajes'}
+                      {key === "commissions" && "Comisiones pagadas"}
+                      {key === "leads" && "Nuevos leads"}
+                      {key === "companies" && "Actividad de empresas"}
+                      {key === "messages" && "Mensajes"}
                     </h4>
                     <p className="text-sm text-gray-600">
-                      {key === 'commissions' && 'Notificaciones cuando recibas comisiones'}
-                      {key === 'leads' && 'Alertas de nuevas oportunidades'}
-                      {key === 'companies' && 'Actualizaciones de tus empresas'}
-                      {key === 'messages' && 'Nuevos mensajes y menciones'}
+                      {key === "commissions" &&
+                        "Notificaciones cuando recibas comisiones"}
+                      {key === "leads" && "Alertas de nuevas oportunidades"}
+                      {key === "companies" && "Actualizaciones de tus empresas"}
+                      {key === "messages" && "Nuevos mensajes y menciones"}
                     </p>
                   </div>
                   <button
-                    onClick={() => setSettings(prev => ({
-                      ...prev,
-                      notifications: {
-                        ...prev.notifications,
-                        [key]: !value
-                      }
-                    }))}
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${value ? 'bg-blue-600' : 'bg-gray-200'
-                      }`}
+                    onClick={() =>
+                      setSettings((prev) => ({
+                        ...prev,
+                        notifications: {
+                          ...prev.notifications,
+                          [key]: !value,
+                        },
+                      }))
+                    }
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                      value ? "bg-blue-600" : "bg-gray-200"
+                    }`}
                   >
                     <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${value ? 'translate-x-6' : 'translate-x-1'
-                        }`}
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                        value ? "translate-x-6" : "translate-x-1"
+                      }`}
                     />
                   </button>
                 </div>
@@ -226,7 +247,9 @@ export const Settings: React.FC = () => {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
           >
-            <h3 className="font-semibold text-gray-900 mb-4">Apps Conectadas</h3>
+            <h3 className="font-semibold text-gray-900 mb-4">
+              Apps Conectadas
+            </h3>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
@@ -270,8 +293,12 @@ export const Settings: React.FC = () => {
               >
                 <FiDownload className="w-5 h-5 text-blue-600" />
                 <div>
-                  <span className="font-medium text-gray-900">Descargar mis datos</span>
-                  <p className="text-xs text-gray-500">Exportar información personal</p>
+                  <span className="font-medium text-gray-900">
+                    Descargar mis datos
+                  </span>
+                  <p className="text-xs text-gray-500">
+                    Exportar información personal
+                  </p>
                 </div>
               </button>
 
@@ -281,7 +308,9 @@ export const Settings: React.FC = () => {
               >
                 <FiLogOut className="w-5 h-5 text-gray-600" />
                 <div>
-                  <span className="font-medium text-gray-900">Cerrar sesión</span>
+                  <span className="font-medium text-gray-900">
+                    Cerrar sesión
+                  </span>
                   <p className="text-xs text-gray-500">Salir de tu cuenta</p>
                 </div>
               </button>
@@ -292,7 +321,9 @@ export const Settings: React.FC = () => {
               >
                 <FiTrash2 className="w-5 h-5 text-red-600" />
                 <div>
-                  <span className="font-medium text-red-900">Eliminar cuenta</span>
+                  <span className="font-medium text-red-900">
+                    Eliminar cuenta
+                  </span>
                   <p className="text-xs text-red-500">Acción irreversible</p>
                 </div>
               </button>

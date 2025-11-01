@@ -1,9 +1,11 @@
 # Admin Panel Module - MUNDERO Hub
 
 ## Descripción
+
 Panel administrativo centralizado para gestionar usuarios, empresas, referidos, comisiones, integraciones, seguridad y métricas del ecosistema MUNDERO.
 
 ## Estructura del Módulo
+
 ```
 /src/modules/admin-panel/
 ├── components/          # Componentes específicos del admin
@@ -16,6 +18,7 @@ Panel administrativo centralizado para gestionar usuarios, empresas, referidos, 
 ```
 
 ## Rutas
+
 - `/admin` - Dashboard principal
 - `/admin/users` - Gestión de usuarios y roles
 - `/admin/companies` - Empresas y perfiles
@@ -28,6 +31,7 @@ Panel administrativo centralizado para gestionar usuarios, empresas, referidos, 
 - `/admin/analytics` - Métricas y analítica
 
 ## Permisos por Rol
+
 - **super_admin**: Acceso completo
 - **admin**: Usuarios, empresas, referidos, comisiones, leads
 - **auditor**: Solo lectura en seguridad y métricas
@@ -35,6 +39,7 @@ Panel administrativo centralizado para gestionar usuarios, empresas, referidos, 
 - **dev**: API Manager y logs técnicos
 
 ## Colecciones Firebase
+
 - `/users` - Usuarios del sistema
 - `/companies` - Empresas registradas
 - `/apps` - Aplicaciones integradas
@@ -47,11 +52,13 @@ Panel administrativo centralizado para gestionar usuarios, empresas, referidos, 
 - `/config` - Configuración global
 
 ## Storage Paths
+
 - `logos/` - Logos de empresas
 - `backups/` - Respaldos del sistema
 - `docs/` - Documentos varios
 
 ## Realtime Database
+
 - `/logs/` - Logs en tiempo real
 - `/alerts/` - Alertas del sistema
 - `/notifications/` - Notificaciones push

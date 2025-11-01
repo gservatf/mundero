@@ -1,26 +1,30 @@
-import React, { useState } from 'react';
-import { Outlet, NavLink, useNavigate } from 'react-router-dom';
-import { useAdminAuth, AdminPermissions } from '../hooks/useAdminAuth';
-import { Button } from '../../../components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '../../../components/ui/avatar';
-import { Badge } from '../../../components/ui/badge';
-import { 
-  FiHome, 
-  FiUsers, 
-  FiGrid, 
-  FiUserCheck, 
-  FiTarget, 
-  FiShield, 
-  FiSettings, 
-  FiBell, 
+import React, { useState } from "react";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import { useAdminAuth, AdminPermissions } from "../hooks/useAdminAuth";
+import { Button } from "../../../components/ui/button";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../../components/ui/avatar";
+import { Badge } from "../../../components/ui/badge";
+import {
+  FiHome,
+  FiUsers,
+  FiGrid,
+  FiUserCheck,
+  FiTarget,
+  FiShield,
+  FiSettings,
+  FiBell,
   FiBarChart,
   FiMenu,
   FiX,
   FiLogOut,
   FiSun,
   FiMoon,
-  FiMessageCircle
-} from 'react-icons/fi';
+  FiMessageCircle,
+} from "react-icons/fi";
 
 interface AdminLayoutProps {
   children?: React.ReactNode;
@@ -37,12 +41,13 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <FiShield className="mx-auto h-12 w-12 text-gray-400" />
-          <h1 className="mt-4 text-xl font-semibold text-gray-900">Acceso Denegado</h1>
-          <p className="mt-2 text-gray-600">No tienes permisos para acceder al panel administrativo.</p>
-          <Button 
-            onClick={() => navigate('/')} 
-            className="mt-4"
-          >
+          <h1 className="mt-4 text-xl font-semibold text-gray-900">
+            Acceso Denegado
+          </h1>
+          <p className="mt-2 text-gray-600">
+            No tienes permisos para acceder al panel administrativo.
+          </p>
+          <Button onClick={() => navigate("/")} className="mt-4">
             Volver al Inicio
           </Button>
         </div>
@@ -52,100 +57,105 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
   const menuItems = [
     {
-      name: 'Dashboard',
-      href: '/admin',
+      name: "Dashboard",
+      href: "/admin",
       icon: FiHome,
-      section: 'dashboard' as keyof AdminPermissions
+      section: "dashboard" as keyof AdminPermissions,
     },
     {
-      name: 'Mensajes',
-      href: '/admin/messages',
+      name: "Mensajes",
+      href: "/admin/messages",
       icon: FiMessageCircle,
-      section: 'messages' as keyof AdminPermissions
+      section: "messages" as keyof AdminPermissions,
     },
     {
-      name: 'Usuarios y Roles',
-      href: '/admin/users',
+      name: "Usuarios y Roles",
+      href: "/admin/users",
       icon: FiUsers,
-      section: 'users' as keyof AdminPermissions
+      section: "users" as keyof AdminPermissions,
     },
     {
-      name: 'Empresas',
-      href: '/admin/companies',
+      name: "Empresas",
+      href: "/admin/companies",
       icon: FiGrid,
-      section: 'companies' as keyof AdminPermissions
+      section: "companies" as keyof AdminPermissions,
     },
     {
-      name: 'API Manager',
-      href: '/admin/apps',
+      name: "API Manager",
+      href: "/admin/apps",
       icon: FiGrid,
-      section: 'apps' as keyof AdminPermissions
+      section: "apps" as keyof AdminPermissions,
     },
     {
-      name: 'Referidos',
-      href: '/admin/referrals',
+      name: "Referidos",
+      href: "/admin/referrals",
       icon: FiUserCheck,
-      section: 'referrals' as keyof AdminPermissions
+      section: "referrals" as keyof AdminPermissions,
     },
     {
-      name: 'Leads CRM',
-      href: '/admin/leads',
+      name: "Leads CRM",
+      href: "/admin/leads",
       icon: FiTarget,
-      section: 'leads' as keyof AdminPermissions
+      section: "leads" as keyof AdminPermissions,
     },
     {
-      name: 'Seguridad',
-      href: '/admin/security',
+      name: "Seguridad",
+      href: "/admin/security",
       icon: FiShield,
-      section: 'security' as keyof AdminPermissions
+      section: "security" as keyof AdminPermissions,
     },
     {
-      name: 'Configuración',
-      href: '/admin/config',
+      name: "Configuración",
+      href: "/admin/config",
       icon: FiSettings,
-      section: 'config' as keyof AdminPermissions
+      section: "config" as keyof AdminPermissions,
     },
     {
-      name: 'Notificaciones',
-      href: '/admin/notifications',
+      name: "Notificaciones",
+      href: "/admin/notifications",
       icon: FiBell,
-      section: 'notifications' as keyof AdminPermissions
+      section: "notifications" as keyof AdminPermissions,
     },
     {
-      name: 'Analítica',
-      href: '/admin/analytics',
+      name: "Analítica",
+      href: "/admin/analytics",
       icon: FiBarChart,
-      section: 'analytics' as keyof AdminPermissions
-    }
-  ].filter(item => canAccess(item.section));
+      section: "analytics" as keyof AdminPermissions,
+    },
+  ].filter((item) => canAccess(item.section));
 
   const getRoleBadgeColor = (role: string) => {
     const colors: Record<string, string> = {
-      super_admin: 'bg-red-100 text-red-800',
-      admin: 'bg-blue-100 text-blue-800',
-      auditor: 'bg-yellow-100 text-yellow-800',
-      soporte: 'bg-green-100 text-green-800',
-      dev: 'bg-purple-100 text-purple-800'
+      super_admin: "bg-red-100 text-red-800",
+      admin: "bg-blue-100 text-blue-800",
+      auditor: "bg-yellow-100 text-yellow-800",
+      soporte: "bg-green-100 text-green-800",
+      dev: "bg-purple-100 text-purple-800",
     };
-    return colors[role] || 'bg-gray-100 text-gray-800';
+    return colors[role] || "bg-gray-100 text-gray-800";
   };
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
+    <div className={`min-h-screen ${darkMode ? "dark" : ""}`}>
       <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
         {/* Sidebar */}
-        <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0`}>
+        <div
+          className={`${sidebarOpen ? "translate-x-0" : "-translate-x-full"} fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0`}
+        >
           <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center">
-              <img 
-                src="/mundero-logo.png" 
-                alt="MUNDERO" 
+              <img
+                src="/mundero-logo.png"
+                alt="MUNDERO"
                 className="h-8 w-auto"
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzM5OGVmNCIvPgo8dGV4dCB4PSIxNiIgeT0iMjAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5NPC90ZXh0Pgo8L3N2Zz4K';
+                  (e.target as HTMLImageElement).src =
+                    "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzM5OGVmNCIvPgo8dGV4dCB4PSIxNiIgeT0iMjAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5NPC90ZXh0Pgo8L3N2Zz4K";
                 }}
               />
-              <span className="ml-2 text-xl font-bold text-gray-900 dark:text-white">Admin</span>
+              <span className="ml-2 text-xl font-bold text-gray-900 dark:text-white">
+                Admin
+              </span>
             </div>
             <Button
               variant="ghost"
@@ -166,8 +176,8 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                   className={({ isActive }) =>
                     `group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
                       isActive
-                        ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200'
-                        : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+                        ? "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200"
+                        : "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
                     }`
                   }
                   onClick={() => setSidebarOpen(false)}
@@ -185,14 +195,18 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               <Avatar className="h-8 w-8">
                 <AvatarImage src={user?.photo_url} />
                 <AvatarFallback>
-                  {user?.display_name?.charAt(0) || user?.email?.charAt(0) || 'A'}
+                  {user?.display_name?.charAt(0) ||
+                    user?.email?.charAt(0) ||
+                    "A"}
                 </AvatarFallback>
               </Avatar>
               <div className="ml-3 flex-1 min-w-0">
                 <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
                   {user?.display_name || user?.email}
                 </p>
-                <Badge className={`text-xs ${getRoleBadgeColor(adminRole || '')}`}>
+                <Badge
+                  className={`text-xs ${getRoleBadgeColor(adminRole || "")}`}
+                >
                   {adminRole}
                 </Badge>
               </div>
@@ -225,15 +239,19 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                   size="sm"
                   onClick={() => setDarkMode(!darkMode)}
                 >
-                  {darkMode ? <FiSun className="h-5 w-5" /> : <FiMoon className="h-5 w-5" />}
+                  {darkMode ? (
+                    <FiSun className="h-5 w-5" />
+                  ) : (
+                    <FiMoon className="h-5 w-5" />
+                  )}
                 </Button>
-                
+
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => {
                     // Implementar logout
-                    navigate('/');
+                    navigate("/");
                   }}
                 >
                   <FiLogOut className="h-5 w-5" />
@@ -251,7 +269,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
       {/* Sidebar overlay for mobile */}
       {sidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />

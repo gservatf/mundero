@@ -1,63 +1,63 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useAgreement } from '../hooks/useAgreement';
-import AgreementModal from '../components/AgreementModal';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { useAgreement } from "../hooks/useAgreement";
+import AgreementModal from "../components/AgreementModal";
 import {
   FiPlus,
   FiUsers,
   FiSettings,
   FiExternalLink,
   FiEdit3,
-  FiTrash2
-} from 'react-icons/fi';
-import { FaBuilding } from 'react-icons/fa';
+  FiTrash2,
+} from "react-icons/fi";
+import { FaBuilding } from "react-icons/fa";
 
 export const Companies: React.FC = () => {
   const { requiresAgreement } = useAgreement();
-  
+
   // Hooks siempre al nivel superior
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [newCompany, setNewCompany] = useState({
-    name: '',
-    ruc: '',
-    country: 'Perú',
-    industry: '',
-    description: '',
-    logo: '',
-    contact: ''
+    name: "",
+    ruc: "",
+    country: "Perú",
+    industry: "",
+    description: "",
+    logo: "",
+    contact: "",
   });
 
   // Control de acceso - bloquear si requiere acuerdo
   if (requiresAgreement) {
-    return <AgreementModal isOpen={true} onClose={() => { }} />;
+    return <AgreementModal isOpen={true} onClose={() => {}} />;
   }
 
   // Mock data - replace with Firebase data
   const companies = [
     {
       id: 1,
-      name: 'Tech Solutions SAC',
-      ruc: '20123456789',
-      country: 'Perú',
-      industry: 'Tecnología',
-      role: 'Administrador',
+      name: "Tech Solutions SAC",
+      ruc: "20123456789",
+      country: "Perú",
+      industry: "Tecnología",
+      role: "Administrador",
       members: 5,
-      integrations: ['LEGALTY', 'WE CONSULTING']
-    }
+      integrations: ["LEGALTY", "WE CONSULTING"],
+    },
   ];
 
   const handleCreateCompany = () => {
     // TODO: Implement Firebase creation
-    console.log('Creating company:', newCompany);
+    console.log("Creating company:", newCompany);
     setShowCreateForm(false);
     setNewCompany({
-      name: '',
-      ruc: '',
-      country: 'Perú',
-      industry: '',
-      description: '',
-      logo: '',
-      contact: ''
+      name: "",
+      ruc: "",
+      country: "Perú",
+      industry: "",
+      description: "",
+      logo: "",
+      contact: "",
     });
   };
 
@@ -90,25 +90,36 @@ export const Companies: React.FC = () => {
             animate={{ scale: 1, opacity: 1 }}
             className="bg-white rounded-xl p-6 w-full max-w-2xl mx-4"
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Crear Nueva Empresa</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              Crear Nueva Empresa
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <input
                 type="text"
                 placeholder="Nombre de la empresa"
                 value={newCompany.name}
-                onChange={(e) => setNewCompany(prev => ({ ...prev, name: e.target.value }))}
+                onChange={(e) =>
+                  setNewCompany((prev) => ({ ...prev, name: e.target.value }))
+                }
                 className="p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
               <input
                 type="text"
                 placeholder="RUC"
                 value={newCompany.ruc}
-                onChange={(e) => setNewCompany(prev => ({ ...prev, ruc: e.target.value }))}
+                onChange={(e) =>
+                  setNewCompany((prev) => ({ ...prev, ruc: e.target.value }))
+                }
                 className="p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
               <select
                 value={newCompany.country}
-                onChange={(e) => setNewCompany(prev => ({ ...prev, country: e.target.value }))}
+                onChange={(e) =>
+                  setNewCompany((prev) => ({
+                    ...prev,
+                    country: e.target.value,
+                  }))
+                }
                 className="p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="Perú">Perú</option>
@@ -119,14 +130,24 @@ export const Companies: React.FC = () => {
                 type="text"
                 placeholder="Rubro/Industria"
                 value={newCompany.industry}
-                onChange={(e) => setNewCompany(prev => ({ ...prev, industry: e.target.value }))}
+                onChange={(e) =>
+                  setNewCompany((prev) => ({
+                    ...prev,
+                    industry: e.target.value,
+                  }))
+                }
                 className="p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
             <textarea
               placeholder="Descripción de la empresa"
               value={newCompany.description}
-              onChange={(e) => setNewCompany(prev => ({ ...prev, description: e.target.value }))}
+              onChange={(e) =>
+                setNewCompany((prev) => ({
+                  ...prev,
+                  description: e.target.value,
+                }))
+              }
               className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none mb-4"
               rows={3}
             />
@@ -164,7 +185,9 @@ export const Companies: React.FC = () => {
                   <FaBuilding className="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">{company.name}</h3>
+                  <h3 className="font-semibold text-gray-900">
+                    {company.name}
+                  </h3>
                   <p className="text-sm text-gray-500">{company.ruc}</p>
                 </div>
               </div>

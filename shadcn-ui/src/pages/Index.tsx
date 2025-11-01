@@ -1,9 +1,15 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '@/stores/authStore';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, Users, Briefcase, Shield } from 'lucide-react';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "@/stores/authStore";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ArrowRight, Users, Briefcase, Shield } from "lucide-react";
 
 const Index = () => {
   const { isAuthenticated, isLoadingAuth } = useAuthStore();
@@ -11,7 +17,7 @@ const Index = () => {
 
   useEffect(() => {
     if (!isLoadingAuth && isAuthenticated) {
-      navigate('/dashboard');
+      navigate("/dashboard");
     }
   }, [isAuthenticated, isLoadingAuth, navigate]);
 
@@ -31,16 +37,14 @@ const Index = () => {
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-16">
         <div className="text-center space-y-6 mb-16">
-          <h1 className="text-5xl font-bold text-white mb-4">
-            MUNDERO
-          </h1>
+          <h1 className="text-5xl font-bold text-white mb-4">MUNDERO</h1>
           <p className="text-xl text-slate-300 max-w-2xl mx-auto">
             Red profesional y portal de aplicaciones del Grupo Servat
           </p>
           <div className="flex gap-4 justify-center">
-            <Button 
-              size="lg" 
-              onClick={() => navigate('/login')}
+            <Button
+              size="lg"
+              onClick={() => navigate("/login")}
               className="bg-blue-600 hover:bg-blue-700"
             >
               Acceder
@@ -58,7 +62,8 @@ const Index = () => {
             </CardHeader>
             <CardContent>
               <CardDescription className="text-slate-400">
-                Conecta con profesionales del Grupo Servat y expande tu red de contactos.
+                Conecta con profesionales del Grupo Servat y expande tu red de
+                contactos.
               </CardDescription>
             </CardContent>
           </Card>
@@ -70,7 +75,8 @@ const Index = () => {
             </CardHeader>
             <CardContent>
               <CardDescription className="text-slate-400">
-                Accede a todas las herramientas y aplicaciones corporativas desde un solo lugar.
+                Accede a todas las herramientas y aplicaciones corporativas
+                desde un solo lugar.
               </CardDescription>
             </CardContent>
           </Card>
@@ -82,7 +88,8 @@ const Index = () => {
             </CardHeader>
             <CardContent>
               <CardDescription className="text-slate-400">
-                Autenticación segura con Google SSO y gestión avanzada de permisos.
+                Autenticación segura con Google SSO y gestión avanzada de
+                permisos.
               </CardDescription>
             </CardContent>
           </Card>

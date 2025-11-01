@@ -1,63 +1,52 @@
 {
-    "key": "ceps",
-    "name": "Evaluación CEPS",
-    "version": "2.0.0",
-    "entry": "/solutions/ceps/start",
-    "permissions": [
-        "read",
-        "write",
-        "report"
-    ],
-    "compatibleFunnels": [
-        "perfil-alfa",
-        "reclutamiento",
-        "talento"
-    ],
-    "description": "Sistema de evaluación de características emprendedoras personales con dual mode (usuario/corporativo)",
-    "author": "Mundero Team",
-    "category": "assessment",
-    "entryPoint": "./components/QuizIntro.tsx",
-    "routes": [
-        {
-            "path": "/start",
-            "component": "./components/QuizIntro.tsx",
-            "name": "Inicio CEPS",
-            "protected": false
-        },
-        {
-            "path": "/play",
-            "component": "./components/QuizPlay.tsx",
-            "name": "Evaluación",
-            "protected": true
-        },
-        {
-            "path": "/result",
-            "component": "./components/ResultView.tsx",
-            "name": "Resultados",
-            "protected": true
-        }
-    ],
-    "config": {
-        "theme": {
-            "primaryColor": "#2563EB",
-            "secondaryColor": "#10B981"
-        },
-        "features": {
-            "gamified": true,
-            "pdf_reports": true,
-            "corporate_integration": true,
-            "reputation_system": true,
-            "analytics": true,
-            "exports": true
-        },
-        "assessmentConfig": {
-            "totalQuestions": 55,
-            "scaleRange": [
-                1,
-                5
-            ],
-            "competencies": 10,
-            "randomOrder": true
-        }
+  "key": "ceps",
+  "name": "Evaluación CEPS",
+  "version": "2.0.0",
+  "entry": "/solutions/ceps/start",
+  "permissions": ["read", "write", "report"],
+  "compatibleFunnels": ["perfil-alfa", "reclutamiento", "talento"],
+  "description": "Sistema de evaluación de características emprendedoras personales con dual mode (usuario/corporativo)",
+  "author": "Mundero Team",
+  "category": "assessment",
+  "entryPoint": "./components/QuizIntro.tsx",
+  "routes": [
+    {
+      "path": "/start",
+      "component": "./components/QuizIntro.tsx",
+      "name": "Inicio CEPS",
+      "protected": false
+    },
+    {
+      "path": "/play",
+      "component": "./components/QuizPlay.tsx",
+      "name": "Evaluación",
+      "protected": true
+    },
+    {
+      "path": "/result",
+      "component": "./components/ResultView.tsx",
+      "name": "Resultados",
+      "protected": true
     }
+  ],
+  "config": {
+    "theme": {
+      "primaryColor": "#2563EB",
+      "secondaryColor": "#10B981"
+    },
+    "features": {
+      "gamified": true,
+      "pdf_reports": true,
+      "corporate_integration": true,
+      "reputation_system": true,
+      "analytics": true,
+      "exports": true
+    },
+    "assessmentConfig": {
+      "totalQuestions": 55,
+      "scaleRange": [1, 5],
+      "competencies": 10,
+      "randomOrder": true
+    }
+  }
 }

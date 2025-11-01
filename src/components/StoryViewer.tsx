@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { Button } from './ui/button';
-import { FiX, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-import { Story } from '../lib/types';
+import React, { useState, useEffect } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Button } from "./ui/button";
+import { FiX, FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { Story } from "../lib/types";
 
 interface StoryViewerProps {
   stories: Story[];
@@ -12,12 +12,12 @@ interface StoryViewerProps {
   onPrev: () => void;
 }
 
-export const StoryViewer: React.FC<StoryViewerProps> = ({ 
-  stories, 
+export const StoryViewer: React.FC<StoryViewerProps> = ({
+  stories,
   currentIndex,
-  onClose, 
+  onClose,
   onNext,
-  onPrev
+  onPrev,
 }) => {
   const [progress, setProgress] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -30,13 +30,13 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
 
     const interval = setInterval(() => {
       setProgress((prev) => {
-        const newProgress = prev + (100 / (storyDuration / 100));
-        
+        const newProgress = prev + 100 / (storyDuration / 100);
+
         if (newProgress >= 100) {
           onNext();
           return 0;
         }
-        
+
         return newProgress;
       });
     }, 100);
@@ -51,7 +51,7 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
   const formatTimeAgo = (timestamp: number) => {
     const now = Date.now();
     const diffInHours = (now - timestamp) / (1000 * 60 * 60);
-    
+
     if (diffInHours < 1) {
       return `${Math.floor(diffInHours * 60)}m`;
     } else if (diffInHours < 24) {
@@ -62,15 +62,15 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'ArrowLeft') onPrev();
-    if (e.key === 'ArrowRight') onNext();
-    if (e.key === 'Escape') onClose();
+    if (e.key === "ArrowLeft") onPrev();
+    if (e.key === "ArrowRight") onNext();
+    if (e.key === "Escape") onClose();
   };
 
   if (!currentStory) return null;
 
   return (
-    <div 
+    <div
       className="fixed inset-0 bg-black z-50 flex items-center justify-center"
       onKeyDown={handleKeyPress}
       tabIndex={0}
@@ -78,12 +78,19 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
       {/* Barras de progreso */}
       <div className="absolute top-4 left-4 right-4 flex space-x-1 z-10">
         {stories.map((_, index) => (
-          <div key={index} className="flex-1 h-1 bg-white/30 rounded-full overflow-hidden">
-            <div 
+          <div
+            key={index}
+            className="flex-1 h-1 bg-white/30 rounded-full overflow-hidden"
+          >
+            <div
               className="h-full bg-white transition-all duration-100"
-              style={{ 
-                width: index < currentIndex ? '100%' : 
-                       index === currentIndex ? `${progress}%` : '0%' 
+              style={{
+                width:
+                  index < currentIndex
+                    ? "100%"
+                    : index === currentIndex
+                      ? `${progress}%`
+                      : "0%",
               }}
             />
           </div>
@@ -94,17 +101,23 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
       <div className="absolute top-8 left-4 right-4 flex items-center justify-between z-10">
         <div className="flex items-center space-x-3">
           <Avatar className="w-10 h-10 border-2 border-white">
-            <AvatarImage src={`https://ui-avatars.com/api/?name=Usuario${currentStory.userId}&background=3b82f6&color=fff`} />
-            <AvatarFallback>{currentStory.userId.substring(0, 2).toUpperCase()}</AvatarFallback>
+            <AvatarImage
+              src={`https://ui-avatars.com/api/?name=Usuario${currentStory.userId}&background=3b82f6&color=fff`}
+            />
+            <AvatarFallback>
+              {currentStory.userId.substring(0, 2).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
           <div>
-            <p className="text-white font-medium">Usuario {currentStory.userId}</p>
+            <p className="text-white font-medium">
+              Usuario {currentStory.userId}
+            </p>
             <p className="text-white/80 text-sm">
               {formatTimeAgo(currentStory.timestamp)}
             </p>
           </div>
         </div>
-        
+
         <Button
           variant="ghost"
           size="sm"
@@ -116,14 +129,14 @@ export const StoryViewer: React.FC<StoryViewerProps> = ({
       </div>
 
       {/* Contenido del story */}
-      <div 
+      <div
         className="relative w-full h-full flex items-center justify-center p-16"
         onClick={() => setIsPaused(!isPaused)}
       >
         {currentStory.mediaUrl ? (
-          <img 
-            src={currentStory.mediaUrl} 
-            alt="Story" 
+          <img
+            src={currentStory.mediaUrl}
+            alt="Story"
             className="max-w-full max-h-full object-contain rounded-lg"
           />
         ) : (

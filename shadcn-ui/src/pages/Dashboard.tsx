@@ -1,43 +1,49 @@
-import { useAuthStore } from '@/stores/authStore';
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { signOut } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
-import { AppGrid } from '@/modules/AppGrid';
-import { 
-  LogOut, 
-  Grid3X3, 
-  Users, 
-  Settings, 
-  MessageSquare, 
-  User, 
+import { useAuthStore } from "@/stores/authStore";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { signOut } from "firebase/auth";
+import { auth } from "@/lib/firebase";
+import { AppGrid } from "@/modules/AppGrid";
+import {
+  LogOut,
+  Grid3X3,
+  Users,
+  Settings,
+  MessageSquare,
+  User,
   Shield,
   Bell,
-  Search
-} from 'lucide-react';
+  Search,
+} from "lucide-react";
 
 const Dashboard = () => {
   const { user, isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
-  const [userRole, setUserRole] = useState<string>('user');
+  const [userRole, setUserRole] = useState<string>("user");
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/login');
+      navigate("/login");
     }
   }, [isAuthenticated, navigate]);
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigate('/');
+      navigate("/");
     } catch (error) {
-      console.error('Error al cerrar sesión:', error);
+      console.error("Error al cerrar sesión:", error);
     }
   };
 
@@ -68,7 +74,7 @@ const Dashboard = () => {
               Grupo Servat
             </Badge>
           </div>
-          
+
           <div className="flex items-center space-x-4">
             <Button variant="ghost" size="sm" className="hidden md:inline-flex">
               <Search className="h-4 w-4 mr-2" />
@@ -78,13 +84,15 @@ const Dashboard = () => {
               <Bell className="h-4 w-4" />
             </Button>
             <Avatar className="h-8 w-8">
-              <AvatarImage src={user.photoURL || ''} />
+              <AvatarImage src={user.photoURL || ""} />
               <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white">
-                {user.displayName?.charAt(0) || user.email?.charAt(0) || 'U'}
+                {user.displayName?.charAt(0) || user.email?.charAt(0) || "U"}
               </AvatarFallback>
             </Avatar>
             <div className="hidden md:block">
-              <p className="font-medium text-slate-900 text-sm">{user.displayName}</p>
+              <p className="font-medium text-slate-900 text-sm">
+                {user.displayName}
+              </p>
               <p className="text-xs text-slate-500">{user.email}</p>
             </div>
             <Button variant="outline" size="sm" onClick={handleLogout}>
@@ -126,7 +134,7 @@ const Dashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-3xl font-bold text-slate-900">
-                  Bienvenido, {user.displayName?.split(' ')[0] || 'Usuario'}
+                  Bienvenido, {user.displayName?.split(" ")[0] || "Usuario"}
                 </h2>
                 <p className="text-slate-600 mt-1">
                   Accede a todas las aplicaciones del Grupo Servat
@@ -136,7 +144,7 @@ const Dashboard = () => {
                 {userRole}
               </Badge>
             </div>
-            
+
             <AppGrid />
           </TabsContent>
 
@@ -155,9 +163,12 @@ const Dashboard = () => {
               <CardContent>
                 <div className="text-center py-12">
                   <MessageSquare className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                  <h3 className="text-lg font-semibold mb-2">Feed en desarrollo</h3>
+                  <h3 className="text-lg font-semibold mb-2">
+                    Feed en desarrollo
+                  </h3>
                   <p className="text-muted-foreground">
-                    Aquí verás actualizaciones de tus colegas y noticias del grupo.
+                    Aquí verás actualizaciones de tus colegas y noticias del
+                    grupo.
                   </p>
                 </div>
               </CardContent>
@@ -179,13 +190,17 @@ const Dashboard = () => {
               <CardContent className="space-y-6">
                 <div className="flex items-center space-x-6">
                   <Avatar className="h-20 w-20">
-                    <AvatarImage src={user.photoURL || ''} />
+                    <AvatarImage src={user.photoURL || ""} />
                     <AvatarFallback className="text-2xl bg-gradient-to-br from-blue-500 to-purple-600 text-white">
-                      {user.displayName?.charAt(0) || user.email?.charAt(0) || 'U'}
+                      {user.displayName?.charAt(0) ||
+                        user.email?.charAt(0) ||
+                        "U"}
                     </AvatarFallback>
                   </Avatar>
                   <div className="space-y-2">
-                    <h3 className="text-2xl font-semibold">{user.displayName}</h3>
+                    <h3 className="text-2xl font-semibold">
+                      {user.displayName}
+                    </h3>
                     <p className="text-slate-600">{user.email}</p>
                     <div className="flex items-center gap-2">
                       <Badge variant="secondary">{userRole}</Badge>
@@ -193,31 +208,41 @@ const Dashboard = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="grid md:grid-cols-2 gap-6">
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-lg">Información Profesional</CardTitle>
+                      <CardTitle className="text-lg">
+                        Información Profesional
+                      </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-3">
                       <div>
-                        <label className="text-sm font-medium text-slate-600">Posición</label>
+                        <label className="text-sm font-medium text-slate-600">
+                          Posición
+                        </label>
                         <p className="text-slate-900">Próximamente</p>
                       </div>
                       <div>
-                        <label className="text-sm font-medium text-slate-600">Departamento</label>
+                        <label className="text-sm font-medium text-slate-600">
+                          Departamento
+                        </label>
                         <p className="text-slate-900">Próximamente</p>
                       </div>
                       <div>
-                        <label className="text-sm font-medium text-slate-600">Biografía</label>
+                        <label className="text-sm font-medium text-slate-600">
+                          Biografía
+                        </label>
                         <p className="text-slate-900">Próximamente</p>
                       </div>
                     </CardContent>
                   </Card>
-                  
+
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-lg">Aplicaciones Activas</CardTitle>
+                      <CardTitle className="text-lg">
+                        Aplicaciones Activas
+                      </CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2">
@@ -247,7 +272,9 @@ const Dashboard = () => {
               <CardContent>
                 <div className="text-center py-12">
                   <MessageSquare className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                  <h3 className="text-lg font-semibold mb-2">Mensajería en desarrollo</h3>
+                  <h3 className="text-lg font-semibold mb-2">
+                    Mensajería en desarrollo
+                  </h3>
                   <p className="text-muted-foreground">
                     Pronto podrás comunicarte con otros miembros del equipo.
                   </p>
@@ -271,7 +298,9 @@ const Dashboard = () => {
               <CardContent>
                 <div className="text-center py-12">
                   <Shield className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                  <h3 className="text-lg font-semibold mb-2">Panel Admin en desarrollo</h3>
+                  <h3 className="text-lg font-semibold mb-2">
+                    Panel Admin en desarrollo
+                  </h3>
                   <p className="text-muted-foreground">
                     Funciones administrativas disponibles próximamente.
                   </p>

@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, ArrowLeft, Network, Sparkles } from 'lucide-react';
-import { FcGoogle } from 'react-icons/fc';
-import { useHybridAuth } from '../hooks/useHybridAuth';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Loader2, ArrowLeft, Network, Sparkles } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
+import { useHybridAuth } from "../hooks/useHybridAuth";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -17,9 +17,9 @@ const Login = () => {
     try {
       setIsSigningIn(true);
       await signInWithGoogle();
-      navigate('/dashboard');
+      navigate("/dashboard");
     } catch (error) {
-      console.error('Error al iniciar sesión con Google:', error);
+      console.error("Error al iniciar sesión con Google:", error);
     } finally {
       setIsSigningIn(false);
     }
@@ -40,8 +40,8 @@ const Login = () => {
         className="w-full max-w-md relative z-10"
       >
         {/* Back Button */}
-        <Link 
-          to="/" 
+        <Link
+          to="/"
           className="inline-flex items-center text-slate-400 hover:text-white transition-colors mb-6 group"
         >
           <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
@@ -61,7 +61,8 @@ const Login = () => {
               Bienvenido a MUNDERO
             </h1>
             <p className="text-slate-400 text-sm leading-relaxed">
-              Inicia sesión con tu cuenta de Google para acceder a tu ecosistema profesional.
+              Inicia sesión con tu cuenta de Google para acceder a tu ecosistema
+              profesional.
             </p>
           </CardHeader>
 
@@ -123,9 +124,9 @@ const Login = () => {
             {/* Register Link */}
             <div className="text-center pt-4 border-t border-slate-700/50">
               <p className="text-slate-400 text-sm">
-                ¿Primera vez en MUNDERO?{' '}
-                <Link 
-                  to="/register" 
+                ¿Primera vez en MUNDERO?{" "}
+                <Link
+                  to="/register"
                   className="text-purple-400 hover:text-purple-300 font-medium transition-colors"
                 >
                   Únete ahora

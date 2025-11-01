@@ -37,7 +37,7 @@ MUNDERO Hub es el centro de identidad empresarial del ecosistema del Grupo Serva
 
 ### Prerrequisitos
 
-- Node.js 18+ 
+- Node.js 18+
 - pnpm (recomendado) o npm
 - Cuenta de Firebase
 
@@ -84,25 +84,25 @@ service cloud.firestore {
     // Configuración de settings - solo Super Admins pueden escribir
     match /settings/{document} {
       allow read: if true;
-      allow write: if request.auth != null && 
+      allow write: if request.auth != null &&
         resource.data.role == 'super_admin';
     }
-    
+
     // Usuarios - cada usuario puede leer/escribir sus propios datos
     match /users/{userId} {
-      allow read, write: if request.auth != null && 
+      allow read, write: if request.auth != null &&
         request.auth.uid == userId;
     }
-    
+
     // Chats - solo miembros pueden acceder
     match /chats/{chatId}/messages/{messageId} {
       allow read, write: if request.auth.uid in resource.data.members;
     }
-    
+
     // Stories - todos pueden leer, solo el autor puede escribir
     match /user_stories/{storyId} {
       allow read: if true;
-      allow write: if request.auth != null && 
+      allow write: if request.auth != null &&
         request.auth.uid == resource.data.userId;
     }
   }
@@ -119,11 +119,11 @@ service firebase.storage {
       allow read: if true;
       allow write: if request.auth != null;
     }
-    
+
     match /chat-files/{allPaths=**} {
       allow read, write: if request.auth != null;
     }
-    
+
     match /stories/{allPaths=**} {
       allow read: if true;
       allow write: if request.auth != null;
@@ -195,6 +195,7 @@ mundero-hub/
 ### Estructura de Datos
 
 #### Colección `/chats/{chatId}`
+
 ```javascript
 {
   "chatId": "auto-id",
@@ -207,6 +208,7 @@ mundero-hub/
 ```
 
 #### Subcolección `/chats/{chatId}/messages/{messageId}`
+
 ```javascript
 {
   "senderId": "uid_1",
@@ -233,6 +235,7 @@ mundero-hub/
 ### Estructura de Datos
 
 #### Colección `/user_stories/{storyId}`
+
 ```javascript
 {
   "userId": "uid",
@@ -259,19 +262,20 @@ Las stories se eliminan automáticamente después de 72 horas mediante:
 
 ```javascript
 exports.cleanupExpiredStories = functions.pubsub
-  .schedule('every 1 hours')
+  .schedule("every 1 hours")
   .onRun(async (context) => {
     const now = admin.firestore.Timestamp.now();
-    const expiredStories = await admin.firestore()
-      .collection('user_stories')
-      .where('expiresAt', '<=', now)
+    const expiredStories = await admin
+      .firestore()
+      .collection("user_stories")
+      .where("expiresAt", "<=", now)
       .get();
-    
+
     const batch = admin.firestore().batch();
-    expiredStories.docs.forEach(doc => {
+    expiredStories.docs.forEach((doc) => {
       batch.delete(doc.ref);
     });
-    
+
     return batch.commit();
   });
 ```
@@ -288,6 +292,7 @@ exports.cleanupExpiredStories = functions.pubsub
 ## 👨‍💼 Sistema de Roles
 
 ### Super Administrador
+
 - Acceso completo al panel de administración
 - Gestión de logo y favicon personalizados
 - Configuración general (títulos, frases, taglines)
@@ -295,12 +300,14 @@ exports.cleanupExpiredStories = functions.pubsub
 - Configuración SEO avanzada
 
 ### Administrador
+
 - Acceso al dashboard principal
 - Visualización de estadísticas
 - Gestión básica de usuarios
 - Acceso a mensajería y stories
 
 ### Usuario
+
 - Acceso a aplicaciones integradas
 - Dashboard personalizado
 - Mensajería en tiempo real
@@ -310,7 +317,9 @@ exports.cleanupExpiredStories = functions.pubsub
 ## 🎨 Panel de Administración Avanzado
 
 ### Identidad Visual
+
 #### Gestión de Logo
+
 - **Formatos soportados**: PNG, JPG, SVG
 - **Tamaño máximo**: 2MB
 - **Vista previa**: En tiempo real
@@ -318,18 +327,22 @@ exports.cleanupExpiredStories = functions.pubsub
 - **Aplicación**: Automática en toda la app
 
 #### Favicon del Hub
+
 - **Formatos soportados**: PNG, SVG, ICO
 - **Tamaño recomendado**: 32x32px
 - **Actualización**: Dinámica sin recargar página
 - **Persistencia**: Firestore + Firebase Storage
 
 ### Configuración General
+
 #### Textos Editables
+
 - **Título del sitio**: Aparece en pestaña del navegador
 - **Frase de bienvenida**: Texto destacado en login/dashboard
 - **Tagline**: Descripción para SEO y redes sociales
 
 #### SEO Dinámico
+
 - **Meta Tags**: Actualizados automáticamente
 - **Open Graph**: Facebook, LinkedIn optimization
 - **Twitter Cards**: Optimizado para Twitter
@@ -337,13 +350,14 @@ exports.cleanupExpiredStories = functions.pubsub
 
 ## 🔄 Personalización Sin Redeploy
 
-> **Nota**: 
+> **Nota**:
 > Se ha implementado mensajería en tiempo real y momentos efímeros (stories) dentro de MUNDERO usando Firebase Firestore y Storage.
 > Las colecciones están bajo `/chats` y `/user_stories`, con control de acceso seguro (auth.uid in members) y expiración automática de stories a las 72 horas.
 > MUNDERO permite la personalización completa de su identidad visual y textos desde el Panel de Administración, sincronizados en tiempo real con Firestore (settings/branding y settings/general).
 > **No requiere redeploy para aplicar cambios visuales o de contenido.**
 
 ### Cómo Funciona
+
 1. **Cambios en Tiempo Real**: Firestore onSnapshot listeners
 2. **Actualización Automática**: DOM manipulation para favicon y meta tags
 3. **Persistencia Global**: Configuración compartida entre todos los usuarios
@@ -352,11 +366,13 @@ exports.cleanupExpiredStories = functions.pubsub
 ## 🚀 Deployment en Firebase Hosting
 
 ### 1. Instalar Firebase CLI
+
 ```bash
 npm install -g firebase-tools
 ```
 
 ### 2. Login y Deploy
+
 ```bash
 firebase login
 firebase init hosting
@@ -369,12 +385,14 @@ firebase deploy
 ```
 
 ### 3. URLs Disponibles
+
 - **Principal**: https://mundero360.web.app
 - **Alternativa**: https://mundero360.firebaseapp.com
 
 ## 🔧 Configuración Firebase Console
 
 ### Authentication
+
 - ✅ Habilitar **Google Sign-in**
 - ✅ Dominios autorizados:
   - `mundero360.web.app`
@@ -382,6 +400,7 @@ firebase deploy
   - `localhost` (desarrollo)
 
 ### Firestore Database
+
 - ✅ Crear base de datos
 - ✅ Configurar reglas de seguridad
 - ✅ Estructura de datos:
@@ -399,6 +418,7 @@ firebase deploy
   ```
 
 ### Storage
+
 - ✅ Habilitar Firebase Storage
 - ✅ Configurar reglas para carpetas:
   - `/branding/` - Logos y favicons
@@ -428,6 +448,7 @@ firebase deploy
 ## 🔐 Seguridad
 
 ### Firebase Rules
+
 - **Firestore**: Control granular por colección
   - Settings: Solo Super Admins
   - Chats: Solo miembros del chat
@@ -436,6 +457,7 @@ firebase deploy
 - **Auth**: Solo Google Sign-in habilitado
 
 ### Headers de Seguridad
+
 - X-Content-Type-Options: nosniff
 - X-Frame-Options: DENY
 - X-XSS-Protection: 1; mode=block
@@ -444,6 +466,7 @@ firebase deploy
 ## ✅ Validaciones Implementadas
 
 ### Antes del Deploy
+
 - ✅ **Reglas de seguridad activas** en Firestore y Storage
 - ✅ **Listeners optimizados** para evitar lecturas innecesarias
 - ✅ **Archivos multimedia** se suben al bucket correcto
@@ -452,6 +475,7 @@ firebase deploy
 - ✅ **Firebase Auth** como único método de autenticación
 
 ### Funcionalidades Probadas
+
 - ✅ **Mensajería en tiempo real** con onSnapshot
 - ✅ **Upload de archivos** a Firebase Storage
 - ✅ **Stories con expiración** automática
@@ -461,12 +485,14 @@ firebase deploy
 ## 🐛 Troubleshooting
 
 ### Error de Autenticación Firebase
+
 ```bash
 # Verificar configuración en .env
 # Comprobar dominios autorizados en Firebase Console
 ```
 
 ### Mensajes No Se Envían
+
 ```bash
 # Verificar reglas de Firestore para /chats
 # Comprobar permisos de usuario
@@ -474,6 +500,7 @@ firebase deploy
 ```
 
 ### Stories No Se Muestran
+
 ```bash
 # Verificar reglas de Storage para /stories
 # Comprobar expiración (expiresAt > now)
@@ -481,6 +508,7 @@ firebase deploy
 ```
 
 ### Configuración No Se Actualiza
+
 ```bash
 # Verificar reglas de Firestore para /settings
 # Comprobar permisos de Super Admin
@@ -508,6 +536,7 @@ Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más detalles.
 ## 🔄 Changelog
 
 ### v2.3.0 (2024-10-28)
+
 - ✅ **Mensajería en tiempo real** con Firebase Firestore
 - ✅ **Momentos efímeros** (Stories) con expiración automática
 - ✅ **Upload multimedia** (imágenes, videos, archivos)
@@ -516,6 +545,7 @@ Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más detalles.
 - ✅ **TTL automático** para stories (72 horas)
 
 ### v2.2.0 (2024-10-28)
+
 - ✅ **Favicon dinámico** desde Panel Admin
 - ✅ **Textos editables** (título, frase de bienvenida, tagline)
 - ✅ **Integración Firestore** para persistencia
@@ -523,6 +553,7 @@ Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más detalles.
 - ✅ **Personalización completa** en tiempo real
 
 ### v2.1.0 (2024-10-28)
+
 - ✅ Migración completa a Firebase Auth
 - ✅ Panel de administración con gestión de logo
 - ✅ Sistema SEO completo
@@ -530,6 +561,7 @@ Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más detalles.
 - ✅ Optimización de performance
 
 ### v2.0.0 (2024-10-27)
+
 - ✅ Eliminación de Supabase
 - ✅ Implementación Firebase puro
 - ✅ Sistema de roles mejorado

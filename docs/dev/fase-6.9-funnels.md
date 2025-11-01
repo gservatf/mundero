@@ -1,4 +1,5 @@
-# 🧠 ORDEN PARA COPILOT — FASE 6.9  
+# 🧠 ORDEN PARA COPILOT — FASE 6.9
+
 ## FUNNELS INTEGRADOS — BLOQUE COMERCIAL MUNDERO v2.1
 
 ---
@@ -37,6 +38,7 @@ Colecciones nuevas:
 ```
 
 Reglas de seguridad:
+
 - Solo el owner o admin puede crear funnels.
 - Lectura pública de `/funnels` y `/funnel_events`.
 - Usa funciones `isOrgOwnerOrAdmin()` y `isMember()` como validadores.
@@ -54,7 +56,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 export const registerFunnelEvent = async (
   userId: string,
   source: "feed" | "event" | "community" | "challenge",
-  stage: "awareness" | "interest" | "action" | "conversion"
+  stage: "awareness" | "interest" | "action" | "conversion",
 ) => {
   try {
     await addDoc(collection(db, "funnel_events"), {

@@ -9,6 +9,7 @@
 El módulo User Panel es el núcleo operativo de MUNDERO, diseñado para ser el centro de control profesional donde los usuarios gestionan su identidad, empresas, referidos, comisiones y conexiones dentro del ecosistema Grupo Servat. Funciona como un espacio profesional tipo LinkedIn pero integrado completamente con el sistema de Google (Auth, Drive, YouTube) y Firebase.
 
 ### Características principales:
+
 - Dashboard profesional con feed tipo LinkedIn
 - Gestión completa de perfil profesional
 - Sistema de empresas y equipos
@@ -42,6 +43,7 @@ src/modules/user-panel/
 ## 🎯 Funcionalidades Implementadas
 
 ### 1. Dashboard Principal
+
 - **Feed profesional** tipo LinkedIn para publicaciones
 - **Estadísticas** en tiempo real (empresas, referidos, comisiones, leads)
 - **Acciones rápidas** para funciones principales
@@ -49,6 +51,7 @@ src/modules/user-panel/
 - **Bienvenida personalizada** con nombre del usuario
 
 ### 2. Perfil Profesional
+
 - **Información básica** sincronizada con Google
 - **Medidor de completitud** del perfil (0-100%)
 - **Habilidades y competencias** editables
@@ -57,6 +60,7 @@ src/modules/user-panel/
 - **Sistema de validación** por campos completados
 
 ### 3. Gestión de Empresas
+
 - **Crear empresas** con validación de RUC único
 - **Roles diferenciados**: Administrador, Colaborador, Invitado
 - **Información completa**: RUC, país, rubro, descripción
@@ -64,6 +68,7 @@ src/modules/user-panel/
 - **Integraciones activas** con apps del ecosistema
 
 ### 4. Sistema de Referidos y Comisiones
+
 - **Contrato digital** obligatorio antes del primer referido
 - **Gestión de referencias** con validación de RUC único
 - **Estados de seguimiento**: Nuevo, Seguimiento, Cliente, Vencido
@@ -72,6 +77,7 @@ src/modules/user-panel/
 - **Apps destino**: LEGALTY, WE CONSULTING, STUDIO41, etc.
 
 ### 5. APP CONNECT (Aplicaciones)
+
 - **7 aplicaciones** del ecosistema Servat integradas
 - **Autenticación SSO** con Google para cada app
 - **Gestión de permisos** y roles por aplicación
@@ -79,6 +85,7 @@ src/modules/user-panel/
 - **Revocación de acceso** cuando sea necesario
 
 ### 6. Centro de Leads (Mini CRM)
+
 - **Gestión completa** de oportunidades de negocio
 - **Campos estructurados**: empresa, contacto, email, teléfono, estado
 - **Estados de seguimiento** con colores diferenciados
@@ -86,6 +93,7 @@ src/modules/user-panel/
 - **Vencimiento automático** después de 3 meses de inactividad
 
 ### 7. Centro de Mensajes
+
 - **Chat en tiempo real** con Firebase Realtime Database
 - **Tipos de chat**: 1:1, grupales, soporte
 - **Mensajes efímeros** (eliminación automática en 72h)
@@ -93,6 +101,7 @@ src/modules/user-panel/
 - **Estados de conexión** y notificaciones
 
 ### 8. Configuración de Cuenta
+
 - **Configuración de idioma** y región
 - **Gestión de notificaciones** por categoría
 - **Descarga de datos** (cumplimiento GDPR)
@@ -102,6 +111,7 @@ src/modules/user-panel/
 ## 🔧 Dependencias Técnicas
 
 ### Core Dependencies
+
 ```json
 {
   "react": "^18.x",
@@ -113,11 +123,13 @@ src/modules/user-panel/
 ```
 
 ### Hooks y Servicios
+
 - **useAuth**: Hook de autenticación (NO MODIFICAR)
 - **Firebase**: Firestore, Realtime Database, Auth
 - **Google APIs**: Drive, YouTube (para enlaces)
 
 ### Componentes UI
+
 - **@/components/ui/button**: Sistema de botones unificado
 - **TailwindCSS**: Clases utilitarias para estilos
 - **Framer Motion**: Animaciones y transiciones
@@ -125,19 +137,21 @@ src/modules/user-panel/
 ## 🎨 Sistema de Diseño
 
 ### Paleta de Colores
+
 ```css
 /* Colores principales */
---blue-600: #2563eb;         /* Azul principal */
---blue-700: #1d4ed8;         /* Azul hover */
---green-600: #16a34a;        /* Verde éxito */
---yellow-600: #ca8a04;       /* Amarillo advertencia */
---red-600: #dc2626;          /* Rojo error */
---purple-600: #9333ea;       /* Púrpura acento */
---gray-50: #f9fafb;          /* Fondo claro */
---gray-900: #111827;         /* Texto principal */
+--blue-600: #2563eb; /* Azul principal */
+--blue-700: #1d4ed8; /* Azul hover */
+--green-600: #16a34a; /* Verde éxito */
+--yellow-600: #ca8a04; /* Amarillo advertencia */
+--red-600: #dc2626; /* Rojo error */
+--purple-600: #9333ea; /* Púrpura acento */
+--gray-50: #f9fafb; /* Fondo claro */
+--gray-900: #111827; /* Texto principal */
 ```
 
 ### Tipografía
+
 - **Títulos principales**: `text-3xl font-bold text-gray-900`
 - **Subtítulos**: `text-xl font-semibold text-gray-900`
 - **Texto normal**: `text-gray-700`
@@ -145,6 +159,7 @@ src/modules/user-panel/
 - **Texto auxiliar**: `text-xs text-gray-500`
 
 ### Componentes Estándar
+
 ```css
 /* Cards principales */
 .card-primary {
@@ -165,12 +180,14 @@ src/modules/user-panel/
 ## 🔐 Seguridad y Autenticación
 
 ### Principios de Seguridad
+
 - **Autenticación exclusiva** con Google SSO
 - **No modificación** de configuración Firebase existente
 - **Validación de permisos** por rol y empresa
 - **Datos sensibles** solo en Firestore con reglas RLS
 
 ### Flujo de Autenticación
+
 1. Usuario inicia sesión con Google
 2. Firebase Auth valida credenciales
 3. Se crea/actualiza perfil en Firestore
@@ -180,12 +197,14 @@ src/modules/user-panel/
 ## 📱 Responsive Design
 
 ### Breakpoints
+
 - **sm**: 640px (móviles grandes)
 - **md**: 768px (tablets)
 - **lg**: 1024px (desktop)
 - **xl**: 1280px (desktop grande)
 
 ### Adaptaciones Móviles
+
 - **Navegación**: Sidebar colapsable en móvil
 - **Cards**: Stack vertical en pantallas pequeñas
 - **Tablas**: Scroll horizontal con datos esenciales
@@ -194,12 +213,14 @@ src/modules/user-panel/
 ## 🚀 Integraciones Futuras
 
 ### Firebase Services (Pendiente)
+
 - **Firestore**: Almacenamiento de datos estructurados
 - **Realtime Database**: Chat y notificaciones en tiempo real
 - **Cloud Functions**: Lógica de negocio serverless
 - **Storage**: Archivos y multimedia (si necesario)
 
 ### APIs Externas
+
 - **Google Drive**: Enlaces a documentos y archivos
 - **Google Calendar**: Integración de recordatorios
 - **YouTube**: Enlaces a videos corporativos
@@ -208,12 +229,14 @@ src/modules/user-panel/
 ## 📊 Métricas y Analytics
 
 ### KPIs del Usuario
+
 - **Completitud del perfil**: Porcentaje de campos completados
 - **Actividad de referidos**: Conversión y comisiones generadas
 - **Engagement**: Publicaciones, likes, comentarios
 - **Uso de aplicaciones**: Frecuencia de acceso a apps conectadas
 
 ### Datos para Dashboard
+
 - **Estadísticas en tiempo real**: Empresas, referidos, leads, comisiones
 - **Actividad reciente**: Últimas acciones del usuario
 - **Notificaciones**: Alertas pendientes por categoría
@@ -221,12 +244,14 @@ src/modules/user-panel/
 ## 🔄 Estados y Flujos
 
 ### Estados de Referidos
+
 - **Nuevo**: Recién creado, pendiente de contacto
 - **Seguimiento**: En proceso de negociación
 - **Cliente**: Convertido exitosamente
 - **Vencido**: Sin actividad por 3+ meses
 
 ### Estados de Leads
+
 - **Nuevo**: Lead recién ingresado
 - **Calificado**: Lead validado y con potencial
 - **Seguimiento**: En proceso de nurturing
@@ -234,6 +259,7 @@ src/modules/user-panel/
 - **Vencido**: Sin actividad prolongada
 
 ### Estados de Aplicaciones
+
 - **Conectado**: SSO activo y permisos válidos
 - **Desconectado**: Sin acceso o permisos revocados
 - **Pendiente**: En proceso de conexión
@@ -241,12 +267,14 @@ src/modules/user-panel/
 ## ⚠️ Limitaciones y Consideraciones
 
 ### Restricciones Técnicas
+
 - **No modificar**: Configuración Firebase existente
 - **Solo Google Auth**: No registro con email/contraseña
 - **Enlaces externos**: No subida de archivos, solo enlaces Drive/YouTube
 - **Mensajes efímeros**: Eliminación automática en 72h
 
 ### Consideraciones de UX
+
 - **Carga progresiva**: Datos mock mientras se implementa Firebase
 - **Estados de carga**: Skeletons y spinners apropiados
 - **Manejo de errores**: Mensajes claros y acciones de recuperación
@@ -255,6 +283,7 @@ src/modules/user-panel/
 ## 🛠️ Desarrollo y Mantenimiento
 
 ### Estructura de Datos (Firebase)
+
 ```typescript
 // Estructura sugerida para Firestore
 interface UserProfile {
@@ -288,13 +317,14 @@ interface Referral {
   contact_name: string;
   contact_email: string;
   target_app: string;
-  status: 'Nuevo' | 'Seguimiento' | 'Cliente' | 'Vencido';
+  status: "Nuevo" | "Seguimiento" | "Cliente" | "Vencido";
   created_at: Timestamp;
   expires_at: Timestamp;
 }
 ```
 
 ### Próximos Pasos
+
 1. **Integración Firebase**: Conectar con Firestore y Realtime Database
 2. **Sistema de notificaciones**: Push notifications y alertas en tiempo real
 3. **Exportación de datos**: PDF/Excel para comisiones y reportes
@@ -304,5 +334,5 @@ interface Referral {
 ---
 
 **Desarrollado por el equipo Grupo Servat**  
-*Panel de Usuario v1.0 - Ecosistema profesional MUNDERO*  
-*Octubre 2025*
+_Panel de Usuario v1.0 - Ecosistema profesional MUNDERO_  
+_Octubre 2025_

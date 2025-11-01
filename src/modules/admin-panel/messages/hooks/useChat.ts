@@ -26,7 +26,7 @@ export function useChat() {
   const auth = getAuth();
   const firebaseUser = auth.currentUser;
   const db = getFirestore();
-  
+
   const [chats, setChats] = useState<any[]>([]);
   const [messages, setMessages] = useState<any[]>([]);
   const [participants, setParticipants] = useState<ChatParticipant[]>([]);
@@ -51,9 +51,9 @@ export function useChat() {
 
     const chatsRef = collection(db, "chats");
     const q = query(
-      chatsRef, 
+      chatsRef,
       where("members", "array-contains", uid),
-      orderBy("updatedAt", "desc")
+      orderBy("updatedAt", "desc"),
     );
 
     const unsubscribe = onSnapshot(
@@ -70,7 +70,7 @@ export function useChat() {
       (error) => {
         console.error("[useChat] Firestore error:", error);
         setLoading(false);
-      }
+      },
     );
 
     return () => unsubscribe();
@@ -84,9 +84,9 @@ export function useChat() {
       console.warn("Skipping sendMessage — user not authenticated yet.");
       return false;
     }
-    
+
     if (!chatId || !text?.trim()) return false;
-    
+
     setSendingMessage(true);
     try {
       await addDoc(collection(db, `chats/${chatId}/messages`), {
@@ -112,12 +112,12 @@ export function useChat() {
       console.warn("Skipping createChat — user not authenticated yet.");
       return null;
     }
-    
+
     if (!otherUserId) {
       console.warn("[useChat] createChat: otherUserId es requerido");
       return null;
     }
-    
+
     try {
       const newChat = await addDoc(collection(db, "chats"), {
         members: [uid, otherUserId],
@@ -140,7 +140,7 @@ export function useChat() {
       console.warn("Skipping searchUsers — user not authenticated yet.");
       return [];
     }
-    
+
     try {
       if (!term || typeof term !== "string" || term.trim().length < 2) {
         console.warn("[useChat] Búsqueda omitida: término muy corto");
@@ -151,7 +151,7 @@ export function useChat() {
       const q = query(
         usersRef,
         where("email", ">=", term.toLowerCase()),
-        where("email", "<=", term.toLowerCase() + "\uf8ff")
+        where("email", "<=", term.toLowerCase() + "\uf8ff"),
       );
 
       const snapshot = await getDocs(q);
@@ -162,8 +162,8 @@ export function useChat() {
           const rawData = doc.data() || {};
           return {
             uid: doc.id,
-            displayName: rawData.displayName || rawData.name || 'Usuario',
-            email: rawData.email || '',
+            displayName: rawData.displayName || rawData.name || "Usuario",
+            email: rawData.email || "",
             photoURL: rawData.photoURL || rawData.avatar,
             role: rawData.role,
           } as ChatParticipant;
@@ -191,7 +191,9 @@ export function useChat() {
 
   // 🔐 Verificar si hay un usuario no autenticado
   if (!firebaseUser) {
-    console.log("[useChat] Usuario no autenticado, retornando estado por defecto");
+    console.log(
+      "[useChat] Usuario no autenticado, retornando estado por defecto",
+    );
     return {
       chats: [],
       messages: [],

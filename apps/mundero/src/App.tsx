@@ -1,15 +1,20 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { Home } from '@/pages/Home'
-import { Login } from '@/pages/Login'
-import { useAuth } from '@/hooks/useAuth'
-import MessagesPage from '@/modules/chat/pages/Messages'
-import DashboardLayout from '@/layouts/DashboardLayout'
-import './App.css'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { Home } from "@/pages/Home";
+import { Login } from "@/pages/Login";
+import { useAuth } from "@/hooks/useAuth";
+import MessagesPage from "@/modules/chat/pages/Messages";
+import DashboardLayout from "@/layouts/DashboardLayout";
+import "./App.css";
 
 function App() {
-  const { isAuthenticated, loading } = useAuth()
+  const { isAuthenticated, loading } = useAuth();
 
-  console.log('🎯 App render state:', { isAuthenticated, loading })
+  console.log("🎯 App render state:", { isAuthenticated, loading });
 
   if (loading) {
     return (
@@ -20,8 +25,12 @@ function App() {
           </div>
           <div className="space-y-3">
             <h2 className="text-3xl font-bold text-gray-900">MUNDERO Hub</h2>
-            <p className="text-gray-600 text-lg">Inicializando tu red profesional...</p>
-            <div className="text-sm text-gray-500">v1.1 • Firebase v3 • Grupo Servat</div>
+            <p className="text-gray-600 text-lg">
+              Inicializando tu red profesional...
+            </p>
+            <div className="text-sm text-gray-500">
+              v1.1 • Firebase v3 • Grupo Servat
+            </div>
           </div>
           <div className="flex items-center justify-center space-x-2">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
@@ -29,7 +38,7 @@ function App() {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -57,7 +66,7 @@ function App() {
         </Routes>
       </Router>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

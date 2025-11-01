@@ -26,6 +26,7 @@ src/modules/admin-panel/
 **Propósito**: Componente React principal que renderiza la interfaz de gestión de usuarios.
 
 **Características**:
+
 - ✅ Paginación automática (25 usuarios por carga)
 - ✅ Búsqueda en tiempo real por email y nombre
 - ✅ Filtros por rol y estado
@@ -37,8 +38,9 @@ src/modules/admin-panel/
 **Props**: Ninguna (componente autónomo)
 
 **Ejemplo de uso**:
+
 ```tsx
-import { AdminUsers } from '../pages/AdminUsers';
+import { AdminUsers } from "../pages/AdminUsers";
 
 function AdminPanel() {
   return (
@@ -56,26 +58,30 @@ function AdminPanel() {
 **Métodos principales**:
 
 #### `getUsers(limitCount, lastDocument)`
+
 - **Descripción**: Obtiene usuarios con paginación
-- **Parámetros**: 
+- **Parámetros**:
   - `limitCount` (number): Número de usuarios a cargar (default: 25)
   - `lastDocument` (DocumentSnapshot): Último documento para paginación
 - **Retorna**: `Promise<PaginatedUsers>`
 
 #### `searchUsers(searchTerm)`
+
 - **Descripción**: Busca usuarios por email o nombre
 - **Parámetros**: `searchTerm` (string): Término de búsqueda
 - **Retorna**: `Promise<AdminUser[]>`
 
 #### `updateUserRole(userId, newRole, adminUser)`
+
 - **Descripción**: Actualiza el rol de un usuario y registra la acción
-- **Parámetros**: 
+- **Parámetros**:
   - `userId` (string): ID del usuario
   - `newRole` (string): Nuevo rol
   - `adminUser` (object): Datos del administrador que realiza el cambio
 - **Retorna**: `Promise<void>`
 
 #### `updateUserStatus(userId, newStatus, adminUser)`
+
 - **Descripción**: Actualiza el estado de un usuario y registra la acción
 - **Parámetros**:
   - `userId` (string): ID del usuario
@@ -90,42 +96,47 @@ function AdminPanel() {
 **Funciones principales**:
 
 #### `canAccess(section)`
+
 - **Descripción**: Verifica si el usuario puede acceder a una sección
 - **Parámetros**: `section` (keyof AdminPermissions): Sección a verificar
 - **Retorna**: `boolean`
 
 #### `canEditRoles()`
+
 - **Descripción**: Verifica si el usuario puede editar roles (solo super_admin)
 - **Retorna**: `boolean`
 
 #### `canManageUserStatus()`
+
 - **Descripción**: Verifica si el usuario puede gestionar estados de usuario
 - **Retorna**: `boolean`
 
 #### `getRestrictionMessage(action)`
+
 - **Descripción**: Obtiene mensaje descriptivo de restricciones
 - **Parámetros**: `action` (string): Acción que se intenta realizar
 - **Retorna**: `string`
 
 **Ejemplo de uso**:
+
 ```tsx
-import { useAdminAuth } from '../hooks/useAdminAuth';
+import { useAdminAuth } from "../hooks/useAdminAuth";
 
 function MyComponent() {
   const { canAccess, canEditRoles, getRestrictionMessage } = useAdminAuth();
-  
-  if (!canAccess('users')) {
+
+  if (!canAccess("users")) {
     return <div>Sin permisos</div>;
   }
-  
+
   const handleRoleChange = () => {
     if (!canEditRoles()) {
-      alert(getRestrictionMessage('cambiar roles'));
+      alert(getRestrictionMessage("cambiar roles"));
       return;
     }
     // Proceder con el cambio...
   };
-  
+
   return <div>Content</div>;
 }
 ```
@@ -136,64 +147,64 @@ function MyComponent() {
 
 ```typescript
 interface AdminUser {
-  uid: string;                    // ID único del usuario
-  email: string;                  // Email del usuario
-  displayName?: string;           // Nombre a mostrar
-  photoURL?: string;              // URL de la foto de perfil
-  role: AdminRole;                // Rol del usuario
-  status: UserStatus;             // Estado del usuario
-  companyId?: string;             // ID de la empresa (opcional)
-  companyName?: string;           // Nombre de la empresa (calculado)
-  country?: string;               // País del usuario
-  createdAt?: Timestamp;          // Fecha de creación
-  updatedAt?: Timestamp;          // Fecha de última actualización
-  lastLogin?: Timestamp;          // Fecha de último login
-  isEmailVerified?: boolean;      // Si el email está verificado
+  uid: string; // ID único del usuario
+  email: string; // Email del usuario
+  displayName?: string; // Nombre a mostrar
+  photoURL?: string; // URL de la foto de perfil
+  role: AdminRole; // Rol del usuario
+  status: UserStatus; // Estado del usuario
+  companyId?: string; // ID de la empresa (opcional)
+  companyName?: string; // Nombre de la empresa (calculado)
+  country?: string; // País del usuario
+  createdAt?: Timestamp; // Fecha de creación
+  updatedAt?: Timestamp; // Fecha de última actualización
+  lastLogin?: Timestamp; // Fecha de último login
+  isEmailVerified?: boolean; // Si el email está verificado
 }
 ```
 
 ### Tipos de Rol (AdminRole)
 
 ```typescript
-type AdminRole = 
-  | 'super_admin'    // Acceso total, puede cambiar roles
-  | 'admin'          // Acceso completo excepto configuración del sistema
-  | 'manager'        // Gestión de usuarios y empresas
-  | 'analyst'        // Solo lectura de analíticas
-  | 'affiliate'      // Acceso limitado como socio
-  | 'client';        // Usuario cliente sin permisos administrativos
+type AdminRole =
+  | "super_admin" // Acceso total, puede cambiar roles
+  | "admin" // Acceso completo excepto configuración del sistema
+  | "manager" // Gestión de usuarios y empresas
+  | "analyst" // Solo lectura de analíticas
+  | "affiliate" // Acceso limitado como socio
+  | "client"; // Usuario cliente sin permisos administrativos
 ```
 
 ### Estados de Usuario (UserStatus)
 
 ```typescript
-type UserStatus = 
-  | 'active'         // Usuario activo
-  | 'suspended'      // Usuario suspendido
-  | 'pending';       // Pendiente de activación
+type UserStatus =
+  | "active" // Usuario activo
+  | "suspended" // Usuario suspendido
+  | "pending"; // Pendiente de activación
 ```
 
 ### Colección: `admin_actions`
 
 ```typescript
 interface AdminAction {
-  id?: string;                    // ID de la acción
-  adminUid: string;               // ID del administrador
-  adminEmail: string;             // Email del administrador
-  action: string;                 // Tipo de acción realizada
-  targetUserId?: string;          // ID del usuario objetivo
-  targetUserEmail?: string;       // Email del usuario objetivo
-  oldValue?: any;                 // Valor anterior
-  newValue?: any;                 // Valor nuevo
-  timestamp: Timestamp;           // Fecha y hora de la acción
+  id?: string; // ID de la acción
+  adminUid: string; // ID del administrador
+  adminEmail: string; // Email del administrador
+  action: string; // Tipo de acción realizada
+  targetUserId?: string; // ID del usuario objetivo
+  targetUserEmail?: string; // Email del usuario objetivo
+  oldValue?: any; // Valor anterior
+  newValue?: any; // Valor nuevo
+  timestamp: Timestamp; // Fecha y hora de la acción
   metadata?: Record<string, any>; // Metadatos adicionales
 }
 ```
 
 ## 🔒 Matriz de Permisos
 
-| Rol          | Usuarios | Empresas | Analytics | Settings | Logs | Sistema | Mensajes |
-|-------------|----------|----------|-----------|----------|------|---------|----------|
+| Rol         | Usuarios | Empresas | Analytics | Settings | Logs | Sistema | Mensajes |
+| ----------- | -------- | -------- | --------- | -------- | ---- | ------- | -------- |
 | super_admin | ✅       | ✅       | ✅        | ✅       | ✅   | ✅      | ✅       |
 | admin       | ✅       | ✅       | ✅        | ❌       | ✅   | ❌      | ✅       |
 | manager     | ✅       | ✅       | ✅        | ❌       | ❌   | ❌      | ✅       |
@@ -208,30 +219,30 @@ interface AdminAction {
 match /users/{userId} {
   // Lectura: cualquier usuario autenticado
   allow read: if request.auth != null;
-  
+
   // Escritura: solo super_admin puede actualizar roles
-  allow update: if request.auth != null && 
+  allow update: if request.auth != null &&
     request.auth.token.role == 'super_admin' ||
-    (request.auth.token.role == 'admin' && 
-     !('role' in resource.data) || 
+    (request.auth.token.role == 'admin' &&
+     !('role' in resource.data) ||
      resource.data.role == request.resource.data.role);
 }
 
 // Reglas para logs de acciones administrativas
 match /admin_actions/{actionId} {
   // Solo creación de logs
-  allow create: if request.auth != null && 
+  allow create: if request.auth != null &&
     request.auth.token.role in ['super_admin', 'admin'];
-  
+
   // Lectura solo para admin y super_admin
-  allow read: if request.auth != null && 
+  allow read: if request.auth != null &&
     request.auth.token.role in ['super_admin', 'admin'];
 }
 
 // Reglas para empresas
 match /companies/{companyId} {
   allow read: if request.auth != null;
-  allow write: if request.auth != null && 
+  allow write: if request.auth != null &&
     request.auth.token.role in ['super_admin', 'admin', 'manager'];
 }
 ```
@@ -305,7 +316,7 @@ Crear estos índices en Firestore Console:
 ```
 Collection: users
 - email (Ascending)
-- displayName (Ascending)  
+- displayName (Ascending)
 - createdAt (Descending)
 - role (Ascending) + status (Ascending)
 ```
@@ -314,7 +325,7 @@ Collection: users
 
 ```tsx
 // En tu router o layout principal
-import { AdminUsers } from '@/modules/admin-panel/pages/AdminUsers';
+import { AdminUsers } from "@/modules/admin-panel/pages/AdminUsers";
 
 function AdminLayout() {
   return (
@@ -355,6 +366,7 @@ function AdminLayout() {
 ### Logging de Acciones
 
 Todas las acciones administrativas se registran con:
+
 - Timestamp exacto
 - Usuario que realiza la acción
 - Usuario objetivo (si aplica)

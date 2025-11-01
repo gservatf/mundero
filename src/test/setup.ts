@@ -1,15 +1,15 @@
-import '@testing-library/jest-dom'
-import { vi } from 'vitest'
+import "@testing-library/jest-dom";
+import { vi } from "vitest";
 
 // Mock Firebase
-vi.mock('../lib/firebase', () => ({
+vi.mock("../lib/firebase", () => ({
   auth: {},
   db: {},
-  storage: {}
-}))
+  storage: {},
+}));
 
 // Mock window.matchMedia
-Object.defineProperty(window, 'matchMedia', {
+Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: vi.fn().mockImplementation((query) => ({
     matches: false,
@@ -21,4 +21,4 @@ Object.defineProperty(window, 'matchMedia', {
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),
   })),
-})
+});

@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
-import { Textarea } from './ui/textarea';
-import { useAuth } from '../hooks/useAuth';
-import { mockApi } from '../lib/mockApi';
-import { FiCamera, FiType, FiUpload, FiX } from 'react-icons/fi';
-import toast from 'react-hot-toast';
+import React, { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Button } from "./ui/button";
+import { Textarea } from "./ui/textarea";
+import { useAuth } from "../hooks/useAuth";
+import { mockApi } from "../lib/mockApi";
+import { FiCamera, FiType, FiUpload, FiX } from "react-icons/fi";
+import toast from "react-hot-toast";
 
 interface StoryUploadProps {
   onClose: () => void;
   onStoryCreated: () => void;
 }
 
-const StoryUpload: React.FC<StoryUploadProps> = ({ onClose, onStoryCreated }) => {
+const StoryUpload: React.FC<StoryUploadProps> = ({
+  onClose,
+  onStoryCreated,
+}) => {
   const { user } = useAuth();
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
   const [mediaFile, setMediaFile] = useState<File | null>(null);
   const [mediaPreview, setMediaPreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -38,17 +41,17 @@ const StoryUpload: React.FC<StoryUploadProps> = ({ onClose, onStoryCreated }) =>
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!user || (!content.trim() && !mediaFile)) {
-      toast.error('Agrega contenido o una imagen para tu historia');
+      toast.error("Agrega contenido o una imagen para tu historia");
       return;
     }
 
     try {
       setUploading(true);
-      
+
       // Simular subida de archivo si hay media
-      let mediaUrl = '';
+      let mediaUrl = "";
       if (mediaFile) {
         // En una implementación real, subirías el archivo a un servicio de almacenamiento
         mediaUrl = `https://example.com/media/${user.id}/${Date.now()}`;
@@ -59,15 +62,15 @@ const StoryUpload: React.FC<StoryUploadProps> = ({ onClose, onStoryCreated }) =>
         content: content.trim(),
         mediaUrl,
         userDisplayName: user.display_name,
-        userPhotoURL: user.photo_url
+        userPhotoURL: user.photo_url,
       });
 
-      toast.success('Historia publicada exitosamente');
+      toast.success("Historia publicada exitosamente");
       onStoryCreated();
       onClose();
     } catch (error) {
-      console.error('Error creating story:', error);
-      toast.error('Error al publicar la historia');
+      console.error("Error creating story:", error);
+      toast.error("Error al publicar la historia");
     } finally {
       setUploading(false);
     }

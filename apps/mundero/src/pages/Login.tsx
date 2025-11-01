@@ -1,29 +1,29 @@
-import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@ui/card'
-import { Button } from '@ui/button'
-import { useAuth } from '@/hooks/useAuth'
-import { Chrome, Loader2 } from 'lucide-react'
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
+import { Button } from "@ui/button";
+import { useAuth } from "@/hooks/useAuth";
+import { Chrome, Loader2 } from "lucide-react";
 
 export function Login() {
-  const { login } = useAuth()
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const { login } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleGoogleLogin = async () => {
-    setIsLoading(true)
-    setError(null)
-    
+    setIsLoading(true);
+    setError(null);
+
     try {
-      const result = await login()
+      const result = await login();
       if (!result.success) {
-        setError(result.error || 'Error al iniciar sesión')
+        setError(result.error || "Error al iniciar sesión");
       }
     } catch (err) {
-      setError('Error inesperado al iniciar sesión')
+      setError("Error inesperado al iniciar sesión");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -43,7 +43,7 @@ export function Login() {
               {error}
             </div>
           )}
-          
+
           <Button
             onClick={handleGoogleLogin}
             disabled={isLoading}
@@ -55,9 +55,9 @@ export function Login() {
             ) : (
               <Chrome className="w-4 h-4 mr-2" />
             )}
-            {isLoading ? 'Iniciando sesión...' : 'Continuar con Google'}
+            {isLoading ? "Iniciando sesión..." : "Continuar con Google"}
           </Button>
-          
+
           <div className="text-center text-sm text-muted-foreground">
             <p>Utiliza tu cuenta de Google para acceder</p>
             <p className="mt-2">LEGALITY360° • SERVAT Portal • Más apps</p>
@@ -65,5 +65,5 @@ export function Login() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

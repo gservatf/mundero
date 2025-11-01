@@ -25,7 +25,7 @@ export function useSettings() {
           console.warn("[useSettings] El documento settings/app no existe.");
         }
       },
-      (error) => console.error("[useSettings] Firestore error:", error)
+      (error) => console.error("[useSettings] Firestore error:", error),
     );
 
     return () => unsubscribe();
@@ -39,7 +39,10 @@ export function useSettings() {
       await updateDoc(refDoc, data);
       console.log("[useSettings] Configuraciones generales actualizadas.");
     } catch (error) {
-      console.error("[useSettings] Error al actualizar configuraciones:", error);
+      console.error(
+        "[useSettings] Error al actualizar configuraciones:",
+        error,
+      );
     } finally {
       setLoading(false);
     }

@@ -1,4 +1,5 @@
 # MUNDERO v2.1 - FASE 2 COMPLETADA ✅
+
 ## Hooks Reactivos para Panel de Usuario
 
 ### 📋 RESUMEN DE IMPLEMENTACIÓN
@@ -8,6 +9,7 @@
 ### 🎯 HOOKS IMPLEMENTADOS
 
 #### 1. useProfile.ts ✅
+
 - **Real-time Firebase listeners** con `onSnapshot`
 - **Estado reactivo** con `loading`, `error`, `profile`
 - **Funciones principales**:
@@ -18,6 +20,7 @@
 - **147 líneas** de código robusto
 
 #### 2. useAgreement.ts ✅
+
 - **Listeners en tiempo real** para estado de acuerdos
 - **Estado reactivo** con `agreementStatus`, `loading`, `error`
 - **Funciones principales**:
@@ -31,6 +34,7 @@
 - **170 líneas** con manejo avanzado de estados
 
 #### 3. useFeed.ts ✅
+
 - **Paginación inteligente** con `hasMore` y `loadMore()`
 - **Tres modos de feed**: `global`, `personal`, `public`
 - **Estado reactivo** con `posts`, `loading`, `error`, `isCreating`
@@ -50,13 +54,13 @@ const useHook = () => {
   const [state, setState] = useState<State>({
     data: null,
     loading: false,
-    error: null
+    error: null,
   });
 
   // Real-time listeners con Firebase onSnapshot
   useEffect(() => {
     const unsubscribe = service.listen(params, (data) => {
-      setState(prev => ({ ...prev, data }));
+      setState((prev) => ({ ...prev, data }));
     });
     return unsubscribe;
   }, [dependencies]);
@@ -98,12 +102,12 @@ src/modules/user-panel/hooks/
 
 ```typescript
 // Ejemplo de uso en componentes
-import { useProfile, useAgreement, useFeed } from '@/modules/user-panel/hooks';
+import { useProfile, useAgreement, useFeed } from "@/modules/user-panel/hooks";
 
 const UserPanel = () => {
   const { profile, updateProfile, loading } = useProfile();
   const { hasSignedAgreement, signAgreement } = useAgreement();
-  const { posts, createPost, loadMore } = useFeed({ mode: 'personal' });
+  const { posts, createPost, loadMore } = useFeed({ mode: "personal" });
 
   // Componente listo para usar
 };

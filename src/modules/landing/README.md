@@ -22,6 +22,7 @@ src/modules/landing/
 ### Descripción de Componentes
 
 #### `HeroSection.tsx`
+
 - **Header sticky** con blur y transparencia backdrop-blur-md
 - **Hero principal** con layout de dos columnas optimizado
 - **CTA principal** "Entrar con Google" con autenticación preservada
@@ -29,18 +30,21 @@ src/modules/landing/
 - **Tipografía moderna** con jerarquía LinkedIn-style
 
 #### `ValueSection.tsx`
+
 - **Constelación interactiva** con MUNDERO como hub central
 - **Empresas satélite**: LEGALTY, WE CONSULTING, PITAHAYA, PORTALES
 - **Grid de beneficios** con iconos (FiUsers, FiShield, FiTrendingUp, FiZap)
 - **Animaciones sutiles** con partículas de fondo y rotación
 
 #### `CTASection.tsx`
+
 - **Sección de testimonios** con valoraciones reales de usuarios
 - **CTA final emocional** con doble botón de acción
 - **Banner oscuro** con gradiente azul corporativo
 - **Llamada a la acción** aspiracional y profesional
 
 #### `Footer.tsx` v2.1
+
 - **Footer tipo LinkedIn** con 5 columnas organizadas
 - **Soporte completo** para modo oscuro/claro con transiciones
 - **Enlaces corporativos** (General, Explorar, Empresa, Recursos, Legal)
@@ -50,6 +54,7 @@ src/modules/landing/
 ## 🔧 Dependencias Utilizadas
 
 ### Principales
+
 - **React** ^18.0.0 - Framework base
 - **TypeScript** ^5.0.0 - Tipado estático
 - **TailwindCSS** ^3.0.0 - Framework de estilos utilitarios
@@ -57,6 +62,7 @@ src/modules/landing/
 - **React Icons** ^4.0.0 (Fi) - Iconografía consistente
 
 ### Hooks Personalizados
+
 - **useAuth** - Gestión de autenticación con Google (⚠️ NO MODIFICAR)
 
 ## 🎨 Notas de Diseño
@@ -65,17 +71,17 @@ src/modules/landing/
 
 ```css
 /* Colores principales Grupo Servat */
---blue-primary: #0E1E64;     /* Azul corporativo principal */
---blue-600: #2563eb;         /* Azul LinkedIn-style */
---blue-700: #1d4ed8;         /* Azul hover states */
---white: #ffffff;            /* Fondo principal */
---gray-50: #f9fafb;          /* Fondo secciones alternativas */
---gray-900: #111827;         /* Texto principal */
---gray-600: #4b5563;         /* Texto secundario */
+--blue-primary: #0e1e64; /* Azul corporativo principal */
+--blue-600: #2563eb; /* Azul LinkedIn-style */
+--blue-700: #1d4ed8; /* Azul hover states */
+--white: #ffffff; /* Fondo principal */
+--gray-50: #f9fafb; /* Fondo secciones alternativas */
+--gray-900: #111827; /* Texto principal */
+--gray-600: #4b5563; /* Texto secundario */
 
 /* Modo oscuro */
---slate-900: #0f172a;        /* Fondo oscuro */
---slate-700: #334155;        /* Bordes modo oscuro */
+--slate-900: #0f172a; /* Fondo oscuro */
+--slate-700: #334155; /* Bordes modo oscuro */
 ```
 
 ### Tipografía LinkedIn-Inspired
@@ -92,6 +98,7 @@ small: text-sm text-gray-500                            /* Texto auxiliar */
 ### Convenciones de Botones
 
 #### Botón Primario (CTA Principal)
+
 ```css
 .btn-primary {
   @apply bg-blue-600 hover:bg-blue-700 text-white 
@@ -102,6 +109,7 @@ small: text-sm text-gray-500                            /* Texto auxiliar */
 ```
 
 #### Botón Secundario (Outline)
+
 ```css
 .btn-secondary {
   @apply !bg-transparent !hover:bg-blue-50 
@@ -112,6 +120,7 @@ small: text-sm text-gray-500                            /* Texto auxiliar */
 ```
 
 #### Botón Ghost (Header)
+
 ```css
 .btn-ghost {
   @apply text-gray-600 hover:text-gray-900 hover:bg-gray-100 
@@ -150,32 +159,34 @@ const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true },
-  transition: { duration: 0.6 }
+  transition: { duration: 0.6 },
 };
 
 // Slide desde la derecha (hero)
 const slideInRight = {
   initial: { opacity: 0, x: 30 },
   animate: { opacity: 1, x: 0 },
-  transition: { delay: 0.2, duration: 0.8 }
+  transition: { delay: 0.2, duration: 0.8 },
 };
 
 // Rotación continua (constelación)
 const continuousRotation = {
   animate: { rotate: 360 },
-  transition: { duration: 30, repeat: Infinity, ease: "linear" }
+  transition: { duration: 30, repeat: Infinity, ease: "linear" },
 };
 ```
 
 ## 📱 Convenciones Responsive
 
 ### Breakpoints TailwindCSS
+
 - **sm**: 640px+ (móviles grandes)
 - **md**: 768px+ (tablets)
 - **lg**: 1024px+ (desktop)
 - **xl**: 1280px+ (desktop grande)
 
 ### Grid Adaptativo
+
 ```css
 /* Hero section responsive */
 .hero-grid {
@@ -196,16 +207,19 @@ const continuousRotation = {
 ## ⚠️ Notas Importantes
 
 ### NO MODIFICAR
+
 - **Hook useAuth**: Mantener intacta la lógica de autenticación
 - **Rutas globales**: No alterar el sistema de routing existente
 - **Estructura base**: Conservar la arquitectura de componentes
 
 ### Consideraciones de Rendimiento
+
 - Animaciones con `viewport={{ once: true }}` para optimización
 - Lazy loading implementado para componentes fuera del viewport inicial
 - Imágenes optimizadas en formato WebP cuando sea posible
 
 ### Accesibilidad WCAG 2.1 AA
+
 - Contraste de colores verificado
 - Navegación por teclado implementada
 - Etiquetas ARIA apropiadas
@@ -214,6 +228,7 @@ const continuousRotation = {
 ## 🔄 Versión Actual: 2.1 (Octubre 2025)
 
 ### Cambios en v2.1
+
 - ✅ Footer.tsx actualizado con modo oscuro completo
 - ✅ Transiciones suaves entre temas claro/oscuro
 - ✅ Versión 2.1 indicada en footer
@@ -221,6 +236,7 @@ const continuousRotation = {
 - ✅ README documentado completamente
 
 ### Cambios en v2.0
+
 - ✅ Rediseño completo LinkedIn-style
 - ✅ Header sticky con backdrop-blur
 - ✅ Constelación interactiva de empresas
@@ -228,6 +244,7 @@ const continuousRotation = {
 - ✅ Animaciones optimizadas con Framer Motion
 
 ### Próximas Mejoras v2.2
+
 - [ ] Integración con CMS para contenido dinámico
 - [ ] A/B testing para optimización de conversión
 - [ ] Métricas avanzadas con analytics
@@ -236,6 +253,7 @@ const continuousRotation = {
 ## 🚀 Uso e Integración
 
 ### Importación
+
 ```typescript
 import { LandingPage } from '@/modules/landing';
 
@@ -244,6 +262,7 @@ import { LandingPage } from '@/modules/landing';
 ```
 
 ### Personalización Segura
+
 1. **Textos**: Editar directamente en cada componente
 2. **Colores**: Modificar variables en `tailwind.config.js`
 3. **Animaciones**: Ajustar propiedades de Framer Motion
@@ -252,5 +271,5 @@ import { LandingPage } from '@/modules/landing';
 ---
 
 **Desarrollado por el equipo Grupo Servat**  
-*Landing v2.1 - Coherencia total con la identidad visual corporativa*  
-*Octubre 2025*
+_Landing v2.1 - Coherencia total con la identidad visual corporativa_  
+_Octubre 2025_

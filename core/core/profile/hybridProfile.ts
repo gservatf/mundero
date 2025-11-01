@@ -1,4 +1,4 @@
-import { supabase, UserProfile } from '../supabase/supabaseClient';
+import { supabase, UserProfile } from "../supabase/supabaseClient";
 
 export class HybridProfileService {
   /**
@@ -7,19 +7,19 @@ export class HybridProfileService {
   static async getUserProfile(userId: string): Promise<UserProfile | null> {
     try {
       const { data, error } = await supabase
-        .from('user_profiles')
-        .select('*')
-        .eq('id', userId)
+        .from("user_profiles")
+        .select("*")
+        .eq("id", userId)
         .single();
 
       if (error) {
-        console.error('Error fetching user profile:', error);
+        console.error("Error fetching user profile:", error);
         return null;
       }
 
       return data;
     } catch (error) {
-      console.error('Error in getUserProfile:', error);
+      console.error("Error in getUserProfile:", error);
       return null;
     }
   }
@@ -30,31 +30,31 @@ export class HybridProfileService {
   static async createUserProfile(
     userId: string,
     email: string,
-    additionalData?: Partial<UserProfile>
+    additionalData?: Partial<UserProfile>,
   ): Promise<UserProfile | null> {
     try {
       const profileData = {
         id: userId,
         email,
-        role: 'client' as const,
+        role: "client" as const,
         is_active: true,
         ...additionalData,
       };
 
       const { data, error } = await supabase
-        .from('user_profiles')
+        .from("user_profiles")
         .insert(profileData)
         .select()
         .single();
 
       if (error) {
-        console.error('Error creating user profile:', error);
+        console.error("Error creating user profile:", error);
         return null;
       }
 
       return data;
     } catch (error) {
-      console.error('Error in createUserProfile:', error);
+      console.error("Error in createUserProfile:", error);
       return null;
     }
   }
@@ -64,24 +64,24 @@ export class HybridProfileService {
    */
   static async updateUserProfile(
     userId: string,
-    updates: Partial<UserProfile>
+    updates: Partial<UserProfile>,
   ): Promise<UserProfile | null> {
     try {
       const { data, error } = await supabase
-        .from('user_profiles')
+        .from("user_profiles")
         .update(updates)
-        .eq('id', userId)
+        .eq("id", userId)
         .select()
         .single();
 
       if (error) {
-        console.error('Error updating user profile:', error);
+        console.error("Error updating user profile:", error);
         return null;
       }
 
       return data;
     } catch (error) {
-      console.error('Error in updateUserProfile:', error);
+      console.error("Error in updateUserProfile:", error);
       return null;
     }
   }
@@ -91,7 +91,7 @@ export class HybridProfileService {
    */
   static async syncUserProfile(
     userId: string,
-    email: string
+    email: string,
   ): Promise<UserProfile | null> {
     try {
       // First try to get existing profile
@@ -104,7 +104,7 @@ export class HybridProfileService {
 
       return profile;
     } catch (error) {
-      console.error('Error in syncUserProfile:', error);
+      console.error("Error in syncUserProfile:", error);
       return null;
     }
   }
@@ -114,7 +114,7 @@ export class HybridProfileService {
    */
   static getCachedProfile(): UserProfile | null {
     try {
-      const cached = localStorage.getItem('legality360_user_profile');
+      const cached = localStorage.getItem("legality360_user_profile");
       return cached ? JSON.parse(cached) : null;
     } catch {
       return null;
@@ -126,9 +126,9 @@ export class HybridProfileService {
    */
   static cacheProfile(profile: UserProfile): void {
     try {
-      localStorage.setItem('legality360_user_profile', JSON.stringify(profile));
+      localStorage.setItem("legality360_user_profile", JSON.stringify(profile));
     } catch (error) {
-      console.error('Error caching profile:', error);
+      console.error("Error caching profile:", error);
     }
   }
 
@@ -137,9 +137,9 @@ export class HybridProfileService {
    */
   static clearCachedProfile(): void {
     try {
-      localStorage.removeItem('legality360_user_profile');
+      localStorage.removeItem("legality360_user_profile");
     } catch (error) {
-      console.error('Error clearing cached profile:', error);
+      console.error("Error clearing cached profile:", error);
     }
   }
 }

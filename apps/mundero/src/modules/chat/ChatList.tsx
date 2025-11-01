@@ -1,6 +1,13 @@
 // src/modules/chat/ChatList.tsx
 import React, { useEffect, useState, useMemo } from "react";
-import { collection, query, where, onSnapshot, getFirestore, DocumentData } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  onSnapshot,
+  getFirestore,
+  DocumentData,
+} from "firebase/firestore";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 import { app } from "../../core/firebase/firebaseClient";
 
@@ -75,11 +82,11 @@ const ChatList: React.FC<ChatListProps> = ({ onSelect, className }) => {
           const A =
             typeof a.updatedAt === "number"
               ? a.updatedAt
-              : (a.updatedAt as any)?.seconds ?? 0;
+              : ((a.updatedAt as any)?.seconds ?? 0);
           const B =
             typeof b.updatedAt === "number"
               ? b.updatedAt
-              : (b.updatedAt as any)?.seconds ?? 0;
+              : ((b.updatedAt as any)?.seconds ?? 0);
           return B - A;
         });
 
@@ -90,10 +97,10 @@ const ChatList: React.FC<ChatListProps> = ({ onSelect, className }) => {
         console.error("🔥 onSnapshot(chats) error:", err);
         // Errores típicos: permission-denied, failed-precondition (índices), etc.
         setErrorMsg(
-          "No se pudo cargar tus chats. Verifica permisos/índices o intenta nuevamente."
+          "No se pudo cargar tus chats. Verifica permisos/índices o intenta nuevamente.",
         );
         setLoading(false);
-      }
+      },
     );
 
     return () => unsubscribe();

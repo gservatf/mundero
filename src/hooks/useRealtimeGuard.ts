@@ -6,14 +6,16 @@ export function useRealtimeGuard<T>(
   queryRef: Query<T> | null,
   onData: (data: any[]) => void,
   onError?: (err: any) => void,
-  deps: any[] = []
+  deps: any[] = [],
 ) {
   const { user, firebaseUser } = useAuth();
 
   useEffect(() => {
     const uid = firebaseUser?.uid || user?.id;
     if (!uid || !queryRef) {
-      console.warn("[useRealtimeGuard] UID o query aún no disponibles. Omitiendo listener.");
+      console.warn(
+        "[useRealtimeGuard] UID o query aún no disponibles. Omitiendo listener.",
+      );
       return;
     }
 
@@ -27,7 +29,7 @@ export function useRealtimeGuard<T>(
         (error) => {
           console.error("[useRealtimeGuard] Error Firestore:", error.message);
           if (onError) onError(error);
-        }
+        },
       );
       return () => unsubscribe();
     } catch (err) {

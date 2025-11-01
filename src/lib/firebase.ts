@@ -8,11 +8,11 @@
 
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApps, getApp } from "firebase/app";
-import { 
-  getAuth, 
-  GoogleAuthProvider, 
-  setPersistence, 
-  browserLocalPersistence 
+import {
+  getAuth,
+  GoogleAuthProvider,
+  setPersistence,
+  browserLocalPersistence,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
@@ -28,7 +28,7 @@ const firebaseConfig = {
   storageBucket: "mundero360.appspot.com", // ✅ corregido (.app → .appspot.com)
   messagingSenderId: "599385299146",
   appId: "1:599385299146:web:2f1ac9b1cab370e6a4fc33",
-  measurementId: "G-X736D9JQGX"
+  measurementId: "G-X736D9JQGX",
 };
 
 // -------------------------------------------------------------

@@ -32,17 +32,18 @@ function healEnv() {
     "VITE_FIREBASE_PROJECT_ID",
     "VITE_FIREBASE_APP_ID",
     "VITE_SUPABASE_URL",
-    "VITE_SUPABASE_ANON_KEY"
+    "VITE_SUPABASE_ANON_KEY",
   ];
 
-  const missingVars = criticalVars.filter(v => !envContent.includes(v));
+  const missingVars = criticalVars.filter((v) => !envContent.includes(v));
 
   if (missingVars.length > 0) {
     log(`⚠️ Variables faltantes detectadas: ${missingVars.join(", ")}`, "🩺");
 
     const backups = fs.existsSync(backupDir)
-      ? fs.readdirSync(backupDir)
-          .filter(f => f.startsWith(".env_"))
+      ? fs
+          .readdirSync(backupDir)
+          .filter((f) => f.startsWith(".env_"))
           .sort()
           .reverse()
       : [];
@@ -53,7 +54,9 @@ function healEnv() {
       fs.copyFileSync(lastBackup, envPath);
       log("✅ Variables críticas restauradas correctamente.");
     } else {
-      log("🚨 No se encontró backup disponible. Ejecuta pnpm run persistEnv manualmente.");
+      log(
+        "🚨 No se encontró backup disponible. Ejecuta pnpm run persistEnv manualmente.",
+      );
     }
   } else {
     log("✅ Variables Firebase + Supabase verificadas: sanas y completas.");

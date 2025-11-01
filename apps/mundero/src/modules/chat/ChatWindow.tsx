@@ -76,13 +76,15 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ chatId, className }) => {
         setLoading(false);
 
         // Auto-scroll
-        requestAnimationFrame(() => endRef.current?.scrollIntoView({ behavior: "smooth" }));
+        requestAnimationFrame(() =>
+          endRef.current?.scrollIntoView({ behavior: "smooth" }),
+        );
       },
       (err) => {
         console.error("onSnapshot(messages) error:", err);
         setErrorMsg("No se pudieron cargar los mensajes de este chat.");
         setLoading(false);
-      }
+      },
     );
 
     return () => unsub();
@@ -91,7 +93,9 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ chatId, className }) => {
   if (!chatId) {
     return (
       <div className={className}>
-        <div className="p-3 text-sm text-gray-500">Selecciona un chat para ver los mensajes.</div>
+        <div className="p-3 text-sm text-gray-500">
+          Selecciona un chat para ver los mensajes.
+        </div>
       </div>
     );
   }
@@ -124,7 +128,9 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ chatId, className }) => {
               <div
                 key={m.id}
                 className={`max-w-[75%] rounded-lg px-3 py-2 text-sm ${
-                  mine ? "ml-auto bg-blue-600 text-white" : "mr-auto bg-gray-100 text-gray-900"
+                  mine
+                    ? "ml-auto bg-blue-600 text-white"
+                    : "mr-auto bg-gray-100 text-gray-900"
                 }`}
               >
                 {m.text}

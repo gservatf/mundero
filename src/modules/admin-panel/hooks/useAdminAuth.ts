@@ -1,8 +1,14 @@
-import { useState, useEffect } from 'react';
-import { useAuth } from '../../../hooks/useAuth';
-import { adminUserService, AdminUser } from '../services/adminFirebase';
+import { useState, useEffect } from "react";
+import { useAuth } from "../../../hooks/useAuth";
+import { adminUserService, AdminUser } from "../services/adminFirebase";
 
-export type AdminRole = 'super_admin' | 'admin' | 'manager' | 'analyst' | 'affiliate' | 'client';
+export type AdminRole =
+  | "super_admin"
+  | "admin"
+  | "manager"
+  | "analyst"
+  | "affiliate"
+  | "client";
 
 export interface AdminPermissions {
   users: boolean;
@@ -37,57 +43,67 @@ export const useAdminAuth = () => {
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const [adminState, setAdminState] = useState<AdminAuthState>({
     isAdmin: false,
-    role: 'client',
-    permissions: getPermissions('client'),
+    role: "client",
+    permissions: getPermissions("client"),
     adminProfile: null,
     loading: true,
-    error: null
+    error: null,
   });
 
   useEffect(() => {
     const loadAdminProfile = async () => {
       if (!user || !isAuthenticated || authLoading) {
-        setAdminState(prev => ({
+        setAdminState((prev) => ({
           ...prev,
           isAdmin: false,
-          role: 'client',
-          permissions: getPermissions('client'),
+          role: "client",
+          permissions: getPermissions("client"),
           adminProfile: null,
           loading: authLoading,
-          error: null
+          error: null,
         }));
         return;
       }
 
       try {
-        setAdminState(prev => ({ ...prev, loading: true, error: null }));
+        setAdminState((prev) => ({ ...prev, loading: true, error: null }));
 
         // Cargar perfil administrativo del usuario
         const adminProfile = await adminUserService.getUser(user.id);
-        
+
         if (!adminProfile) {
           // Si no existe perfil, crear uno básico con mapeo de campos
           const basicProfile: AdminUser = {
             uid: user.id,
-            email: user.email || '',
-            displayName: user.display_name || (user as any).full_name || (user as any).displayName || '',
-            photoURL: user.photo_url || (user as any).avatar_url || (user as any).photoURL || '',
-            role: 'client',
-            status: 'active'
+            email: user.email || "",
+            displayName:
+              user.display_name ||
+              (user as any).full_name ||
+              (user as any).displayName ||
+              "",
+            photoURL:
+              user.photo_url ||
+              (user as any).avatar_url ||
+              (user as any).photoURL ||
+              "",
+            role: "client",
+            status: "active",
           };
 
           setAdminState({
             isAdmin: false,
-            role: 'client',
-            permissions: getPermissions('client'),
+            role: "client",
+            permissions: getPermissions("client"),
             adminProfile: basicProfile,
             loading: false,
-            error: null
+            error: null,
           });
           return;
         }
 
-        const isAdmin = ['super_admin', 'admin', 'manager', 'analyst'].includes(adminProfile.role);
+        const isAdmin = ["super_admin", "admin", "manager", "analyst"].includes(
+          adminProfile.role,
+        );
         const permissions = getPermissions(adminProfile.role);
 
         setAdminState({
@@ -96,25 +112,27 @@ export const useAdminAuth = () => {
           permissions,
           adminProfile,
           loading: false,
-          error: null
+          error: null,
         });
 
-        console.log('👤 Admin profile loaded:', {
+        console.log("👤 Admin profile loaded:", {
           role: adminProfile.role,
           isAdmin,
-          permissions
+          permissions,
         });
-
       } catch (error) {
-        console.error('❌ Error loading admin profile:', error);
-        setAdminState(prev => ({
+        console.error("❌ Error loading admin profile:", error);
+        setAdminState((prev) => ({
           ...prev,
           isAdmin: false,
-          role: 'client',
-          permissions: getPermissions('client'),
+          role: "client",
+          permissions: getPermissions("client"),
           adminProfile: null,
           loading: false,
-          error: error instanceof Error ? error.message : 'Error al cargar perfil administrativo'
+          error:
+            error instanceof Error
+              ? error.message
+              : "Error al cargar perfil administrativo",
         }));
       }
     };
@@ -133,28 +151,28 @@ export const useAdminAuth = () => {
    * Verifica si el usuario puede editar roles
    */
   const canEditRoles = (): boolean => {
-    return adminState.role === 'super_admin';
+    return adminState.role === "super_admin";
   };
 
   /**
    * Verifica si el usuario puede suspender/activar usuarios
    */
   const canManageUserStatus = (): boolean => {
-    return ['super_admin', 'admin'].includes(adminState.role);
+    return ["super_admin", "admin"].includes(adminState.role);
   };
 
   /**
    * Verifica si el usuario puede acceder a logs del sistema
    */
   const canViewLogs = (): boolean => {
-    return ['super_admin', 'admin'].includes(adminState.role);
+    return ["super_admin", "admin"].includes(adminState.role);
   };
 
   /**
    * Verifica si el usuario puede gestionar empresas
    */
   const canManageCompanies = (): boolean => {
-    return ['super_admin', 'admin', 'manager'].includes(adminState.role);
+    return ["super_admin", "admin", "manager"].includes(adminState.role);
   };
 
   /**
@@ -167,17 +185,17 @@ export const useAdminAuth = () => {
   /**
    * Obtiene el nivel de acceso del usuario
    */
-  const getAccessLevel = (): 'full' | 'limited' | 'readonly' | 'none' => {
+  const getAccessLevel = (): "full" | "limited" | "readonly" | "none" => {
     switch (adminState.role) {
-      case 'super_admin':
-        return 'full';
-      case 'admin':
-        return 'limited';
-      case 'manager':
-      case 'analyst':
-        return 'readonly';
+      case "super_admin":
+        return "full";
+      case "admin":
+        return "limited";
+      case "manager":
+      case "analyst":
+        return "readonly";
       default:
-        return 'none';
+        return "none";
     }
   };
 
@@ -186,11 +204,11 @@ export const useAdminAuth = () => {
    */
   const getRestrictionMessage = (action: string): string => {
     switch (adminState.role) {
-      case 'admin':
+      case "admin":
         return `Como administrador, no puedes ${action}. Solo los super administradores tienen este permiso.`;
-      case 'manager':
+      case "manager":
         return `Como manager, no puedes ${action}. Contacta a un administrador.`;
-      case 'analyst':
+      case "analyst":
         return `Como analista, solo tienes acceso de lectura. No puedes ${action}.`;
       default:
         return `No tienes permisos para ${action}.`;
@@ -207,20 +225,20 @@ export const useAdminAuth = () => {
     canManageCompanies,
     getAccessLevel,
     getRestrictionMessage,
-    
+
     // Compatibilidad con versión anterior
     user,
     loading: adminState.loading || authLoading,
     adminRole: adminState.role,
     hasAccess: adminState.isAdmin,
     hasPermission,
-    
+
     refresh: () => {
       // Trigger reload of admin profile
       if (user) {
-        setAdminState(prev => ({ ...prev, loading: true }));
+        setAdminState((prev) => ({ ...prev, loading: true }));
       }
-    }
+    },
   };
 };
 
@@ -243,7 +261,7 @@ function getPermissions(role: AdminRole): AdminPermissions {
       notifications: true,
       apps: true,
       referrals: true,
-      leads: true
+      leads: true,
     },
     admin: {
       dashboard: true,
@@ -259,7 +277,7 @@ function getPermissions(role: AdminRole): AdminPermissions {
       notifications: true,
       apps: false,
       referrals: true,
-      leads: true
+      leads: true,
     },
     manager: {
       dashboard: true,
@@ -275,7 +293,7 @@ function getPermissions(role: AdminRole): AdminPermissions {
       notifications: true,
       apps: false,
       referrals: true,
-      leads: true
+      leads: true,
     },
     analyst: {
       dashboard: true,
@@ -291,7 +309,7 @@ function getPermissions(role: AdminRole): AdminPermissions {
       notifications: false,
       apps: false,
       referrals: false,
-      leads: true
+      leads: true,
     },
     affiliate: {
       dashboard: true,
@@ -307,7 +325,7 @@ function getPermissions(role: AdminRole): AdminPermissions {
       notifications: false,
       apps: false,
       referrals: true,
-      leads: false
+      leads: false,
     },
     client: {
       dashboard: true,
@@ -323,8 +341,8 @@ function getPermissions(role: AdminRole): AdminPermissions {
       notifications: false,
       apps: false,
       referrals: false,
-      leads: false
-    }
+      leads: false,
+    },
   };
 
   return permissionMatrix[role];
@@ -335,12 +353,13 @@ function getPermissions(role: AdminRole): AdminPermissions {
  */
 export function getRoleDescription(role: AdminRole): string {
   const descriptions: Record<AdminRole, string> = {
-    super_admin: 'Acceso total al sistema, puede gestionar todo incluyendo roles',
-    admin: 'Acceso completo excepto configuración del sistema y roles',
-    manager: 'Puede gestionar usuarios y empresas, acceso a analíticas',
-    analyst: 'Solo lectura de analíticas y reportes',
-    affiliate: 'Acceso limitado como socio/afiliado',
-    client: 'Usuario cliente sin permisos administrativos'
+    super_admin:
+      "Acceso total al sistema, puede gestionar todo incluyendo roles",
+    admin: "Acceso completo excepto configuración del sistema y roles",
+    manager: "Puede gestionar usuarios y empresas, acceso a analíticas",
+    analyst: "Solo lectura de analíticas y reportes",
+    affiliate: "Acceso limitado como socio/afiliado",
+    client: "Usuario cliente sin permisos administrativos",
   };
 
   return descriptions[role];
@@ -351,12 +370,12 @@ export function getRoleDescription(role: AdminRole): string {
  */
 export function getRoleBadgeColor(role: AdminRole): string {
   const colors: Record<AdminRole, string> = {
-    super_admin: 'bg-red-100 text-red-800 border-red-200',
-    admin: 'bg-blue-100 text-blue-800 border-blue-200',
-    manager: 'bg-purple-100 text-purple-800 border-purple-200',
-    analyst: 'bg-green-100 text-green-800 border-green-200',
-    affiliate: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-    client: 'bg-gray-100 text-gray-800 border-gray-200'
+    super_admin: "bg-red-100 text-red-800 border-red-200",
+    admin: "bg-blue-100 text-blue-800 border-blue-200",
+    manager: "bg-purple-100 text-purple-800 border-purple-200",
+    analyst: "bg-green-100 text-green-800 border-green-200",
+    affiliate: "bg-yellow-100 text-yellow-800 border-yellow-200",
+    client: "bg-gray-100 text-gray-800 border-gray-200",
   };
 
   return colors[role];

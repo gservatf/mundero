@@ -1,21 +1,35 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Button } from '../components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { Badge } from '../components/ui/badge';
-import { useAuth } from '../hooks/useAuth';
-import { useSettings } from '../hooks/useSettings';
-import { AdminSettings } from '../components/AdminSettings';
-import UserManagement from '../components/UserManagement';
-import { ChatList } from '../components/ChatList';
-import { ChatWindow } from '../components/ChatWindow';
-import { StoriesCarousel } from '../components/StoriesCarousel';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../components/ui/tabs";
+import { Badge } from "../components/ui/badge";
+import { useAuth } from "../hooks/useAuth";
+import { useSettings } from "../hooks/useSettings";
+import { AdminSettings } from "../components/AdminSettings";
+import UserManagement from "../components/UserManagement";
+import { ChatList } from "../components/ChatList";
+import { ChatWindow } from "../components/ChatWindow";
+import { StoriesCarousel } from "../components/StoriesCarousel";
 // Onboarding System Components
-import { OnboardingFeedBanner, OnboardingTasksCard } from '../src/modules/user-panel/onboarding/OnboardingFeedBanner';
-import { OnboardingFeedContent } from '../src/modules/user-panel/onboarding/OnboardingFeedContent';
-import { useOnboardingProgress } from '../src/modules/user-panel/onboarding/useOnboardingProgress';
+import {
+  OnboardingFeedBanner,
+  OnboardingTasksCard,
+} from "../src/modules/user-panel/onboarding/OnboardingFeedBanner";
+import { OnboardingFeedContent } from "../src/modules/user-panel/onboarding/OnboardingFeedContent";
+import { useOnboardingProgress } from "../src/modules/user-panel/onboarding/useOnboardingProgress";
 import {
   FiUsers,
   FiSettings,
@@ -30,8 +44,8 @@ import {
   FiCalendar,
   FiDollarSign,
   FiAward,
-  FiExternalLink
-} from 'react-icons/fi';
+  FiExternalLink,
+} from "react-icons/fi";
 
 export const Dashboard: React.FC = () => {
   const { user, logout } = useAuth();
@@ -41,22 +55,29 @@ export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
 
   // Onboarding System Integration
-  const { progress: onboardingProgress, loading: onboardingLoading } = useOnboardingProgress();
+  const { progress: onboardingProgress, loading: onboardingLoading } =
+    useOnboardingProgress();
 
   // Determinar si el usuario es Super Admin
-  const isSuperAdmin = user?.email === 'admin@mundero.net' || user?.email === 'superadmin@gruposervat.com' || user?.role === 'SUPER_ADMIN';
+  const isSuperAdmin =
+    user?.email === "admin@mundero.net" ||
+    user?.email === "superadmin@gruposervat.com" ||
+    user?.role === "SUPER_ADMIN";
 
   // Determinar si el usuario tiene acceso a integraciones profesionales
-  const hasIntegrationsAccess = user?.integrations_access && user.integrations_access.length > 0;
+  const hasIntegrationsAccess =
+    user?.integrations_access && user.integrations_access.length > 0;
 
   // Determinar si el usuario tiene acceso al panel administrativo
-  const hasAdminAccess = user?.role && ['super_admin', 'admin', 'auditor', 'soporte', 'dev'].includes(user.role);
+  const hasAdminAccess =
+    user?.role &&
+    ["super_admin", "admin", "auditor", "soporte", "dev"].includes(user.role);
 
   const handleSignOut = async () => {
     try {
       await logout();
     } catch (error) {
-      console.error('Error al cerrar sesión:', error);
+      console.error("Error al cerrar sesión:", error);
     }
   };
 
@@ -71,7 +92,7 @@ export const Dashboard: React.FC = () => {
   };
 
   const handleGoToAdminMessages = () => {
-    navigate('/admin/messages');
+    navigate("/admin/messages");
   };
 
   const logoElement = () => {
@@ -92,8 +113,12 @@ export const Dashboard: React.FC = () => {
     );
   };
 
-  const appTitle = settingsLoading ? 'MUNDERO Hub' : (settings?.general?.title || 'MUNDERO Hub');
-  const welcomePhrase = settingsLoading ? 'Conecta. Accede. Evoluciona.' : (settings?.general?.welcomePhrase || 'Conecta. Accede. Evoluciona.');
+  const appTitle = settingsLoading
+    ? "MUNDERO Hub"
+    : settings?.general?.title || "MUNDERO Hub";
+  const welcomePhrase = settingsLoading
+    ? "Conecta. Accede. Evoluciona."
+    : settings?.general?.welcomePhrase || "Conecta. Accede. Evoluciona.";
 
   // Professional feed content for users with integrations access
   const renderProfessionalFeed = () => {
@@ -136,7 +161,7 @@ export const Dashboard: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {user?.integrations_access?.includes('legalty') && (
+              {user?.integrations_access?.includes("legalty") && (
                 <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
@@ -144,25 +169,33 @@ export const Dashboard: React.FC = () => {
                     </div>
                     <div>
                       <p className="font-medium">Legalty - Nuevos documentos</p>
-                      <p className="text-sm text-gray-600">3 contratos pendientes de revisión</p>
+                      <p className="text-sm text-gray-600">
+                        3 contratos pendientes de revisión
+                      </p>
                     </div>
                   </div>
                   <Badge className="bg-blue-100 text-blue-800">Nuevo</Badge>
                 </div>
               )}
 
-              {user?.integrations_access?.includes('we-consulting') && (
+              {user?.integrations_access?.includes("we-consulting") && (
                 <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
                       <FiBarChart className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <p className="font-medium">We Consulting - Reporte mensual</p>
-                      <p className="text-sm text-gray-600">Análisis de rendimiento disponible</p>
+                      <p className="font-medium">
+                        We Consulting - Reporte mensual
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Análisis de rendimiento disponible
+                      </p>
                     </div>
                   </div>
-                  <Badge className="bg-green-100 text-green-800">Disponible</Badge>
+                  <Badge className="bg-green-100 text-green-800">
+                    Disponible
+                  </Badge>
                 </div>
               )}
 
@@ -173,10 +206,14 @@ export const Dashboard: React.FC = () => {
                   </div>
                   <div>
                     <p className="font-medium">Próxima reunión</p>
-                    <p className="text-sm text-gray-600">Revisión trimestral - Mañana 10:00 AM</p>
+                    <p className="text-sm text-gray-600">
+                      Revisión trimestral - Mañana 10:00 AM
+                    </p>
                   </div>
                 </div>
-                <Badge className="bg-purple-100 text-purple-800">Programado</Badge>
+                <Badge className="bg-purple-100 text-purple-800">
+                  Programado
+                </Badge>
               </div>
             </div>
           </CardContent>
@@ -229,7 +266,9 @@ export const Dashboard: React.FC = () => {
               {logoElement()}
               <div>
                 <h1 className="text-xl font-bold text-gray-900">{appTitle}</h1>
-                <p className="text-sm text-gray-600 hidden sm:block">{welcomePhrase}</p>
+                <p className="text-sm text-gray-600 hidden sm:block">
+                  {welcomePhrase}
+                </p>
               </div>
             </div>
 
@@ -237,7 +276,7 @@ export const Dashboard: React.FC = () => {
               <div className="hidden sm:flex items-center gap-2">
                 <span className="text-sm text-gray-600">Hola,</span>
                 <span className="font-medium text-gray-900">
-                  {user?.display_name || user?.email?.split('@')[0]}
+                  {user?.display_name || user?.email?.split("@")[0]}
                 </span>
                 {hasIntegrationsAccess && (
                   <Badge variant="secondary" className="ml-2">
@@ -255,7 +294,7 @@ export const Dashboard: React.FC = () => {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => navigate('/admin')}
+                  onClick={() => navigate("/admin")}
                   className="flex items-center gap-2"
                 >
                   <FiSettings className="w-4 h-4" />
@@ -312,9 +351,11 @@ export const Dashboard: React.FC = () => {
               transition={{ duration: 0.5 }}
             >
               {/* Onboarding Banner - Solo mostrar si el progreso < 100% */}
-              {!onboardingLoading && onboardingProgress && onboardingProgress.completionPercentage < 100 && (
-                <OnboardingFeedBanner />
-              )}
+              {!onboardingLoading &&
+                onboardingProgress &&
+                onboardingProgress.completionPercentage < 100 && (
+                  <OnboardingFeedBanner />
+                )}
 
               {/* Stories Carousel */}
               <StoriesCarousel />
@@ -323,7 +364,9 @@ export const Dashboard: React.FC = () => {
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
                 <div className="lg:col-span-2 space-y-6">
                   {/* Contenido según el estado del onboarding */}
-                  {!onboardingLoading && onboardingProgress && onboardingProgress.completionPercentage < 100 ? (
+                  {!onboardingLoading &&
+                  onboardingProgress &&
+                  onboardingProgress.completionPercentage < 100 ? (
                     <OnboardingFeedContent />
                   ) : hasIntegrationsAccess ? (
                     renderProfessionalFeed()
@@ -339,15 +382,21 @@ export const Dashboard: React.FC = () => {
                         <div className="space-y-4">
                           <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                             <div>
-                              <p className="font-medium">Nuevo usuario registrado</p>
-                              <p className="text-sm text-gray-600">juan.perez@empresa.com</p>
+                              <p className="font-medium">
+                                Nuevo usuario registrado
+                              </p>
+                              <p className="text-sm text-gray-600">
+                                juan.perez@empresa.com
+                              </p>
                             </div>
                             <Badge>Nuevo</Badge>
                           </div>
                           <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
                             <div>
                               <p className="font-medium">Sistema actualizado</p>
-                              <p className="text-sm text-gray-600">Nuevas funcionalidades disponibles</p>
+                              <p className="text-sm text-gray-600">
+                                Nuevas funcionalidades disponibles
+                              </p>
                             </div>
                             <Badge variant="secondary">Activo</Badge>
                           </div>
@@ -359,9 +408,11 @@ export const Dashboard: React.FC = () => {
 
                 <div className="space-y-6">
                   {/* Mini Tasks Card de Onboarding */}
-                  {!onboardingLoading && onboardingProgress && onboardingProgress.completionPercentage < 100 && (
-                    <OnboardingTasksCard />
-                  )}
+                  {!onboardingLoading &&
+                    onboardingProgress &&
+                    onboardingProgress.completionPercentage < 100 && (
+                      <OnboardingTasksCard />
+                    )}
 
                   <Card>
                     <CardHeader>
@@ -382,8 +433,12 @@ export const Dashboard: React.FC = () => {
                       </div>
                       {hasIntegrationsAccess && (
                         <div className="flex justify-between border-t pt-2">
-                          <span className="text-gray-600">Acceso profesional</span>
-                          <Badge className="bg-green-100 text-green-800">Activo</Badge>
+                          <span className="text-gray-600">
+                            Acceso profesional
+                          </span>
+                          <Badge className="bg-green-100 text-green-800">
+                            Activo
+                          </Badge>
                         </div>
                       )}
                     </CardContent>
@@ -399,9 +454,16 @@ export const Dashboard: React.FC = () => {
                       </CardHeader>
                       <CardContent className="space-y-3">
                         {user?.integrations_access?.map((integration) => (
-                          <div key={integration} className="flex items-center justify-between">
-                            <span className="text-sm capitalize">{integration.replace('-', ' ')}</span>
-                            <Badge className="bg-blue-100 text-blue-800">Activo</Badge>
+                          <div
+                            key={integration}
+                            className="flex items-center justify-between"
+                          >
+                            <span className="text-sm capitalize">
+                              {integration.replace("-", " ")}
+                            </span>
+                            <Badge className="bg-blue-100 text-blue-800">
+                              Activo
+                            </Badge>
                           </div>
                         ))}
                       </CardContent>
@@ -429,7 +491,8 @@ export const Dashboard: React.FC = () => {
                       Sistema de Mensajes Administrativo
                     </CardTitle>
                     <CardDescription className="text-blue-700">
-                      Accede al sistema completo de mensajes del panel administrativo con funciones avanzadas
+                      Accede al sistema completo de mensajes del panel
+                      administrativo con funciones avanzadas
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -447,7 +510,9 @@ export const Dashboard: React.FC = () => {
               {/* Basic Chat Interface */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[600px]">
                 {/* Lista de chats - oculta en móvil cuando hay chat seleccionado */}
-                <div className={`lg:col-span-1 ${showMobileChat ? 'hidden lg:block' : 'block'}`}>
+                <div
+                  className={`lg:col-span-1 ${showMobileChat ? "hidden lg:block" : "block"}`}
+                >
                   <Card className="h-full">
                     <ChatList
                       onChatSelect={handleChatSelect}
@@ -457,7 +522,9 @@ export const Dashboard: React.FC = () => {
                 </div>
 
                 {/* Ventana de chat - se muestra en móvil cuando hay chat seleccionado */}
-                <div className={`lg:col-span-2 ${!showMobileChat ? 'hidden lg:block' : 'block'}`}>
+                <div
+                  className={`lg:col-span-2 ${!showMobileChat ? "hidden lg:block" : "block"}`}
+                >
                   <Card className="h-full">
                     {selectedChatId ? (
                       <ChatWindow
@@ -472,7 +539,14 @@ export const Dashboard: React.FC = () => {
                           <p className="text-sm">para comenzar a chatear</p>
                           {hasAdminAccess && (
                             <p className="text-sm mt-2 text-blue-600">
-                              O usa el <button onClick={handleGoToAdminMessages} className="underline">sistema administrativo</button> para funciones avanzadas
+                              O usa el{" "}
+                              <button
+                                onClick={handleGoToAdminMessages}
+                                className="underline"
+                              >
+                                sistema administrativo
+                              </button>{" "}
+                              para funciones avanzadas
                             </p>
                           )}
                         </div>
@@ -492,16 +566,21 @@ export const Dashboard: React.FC = () => {
               transition={{ duration: 0.5 }}
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
-              <Card className={`hover:shadow-lg transition-shadow ${hasIntegrationsAccess && user?.integrations_access?.includes('legalty') ? 'cursor-pointer' : 'opacity-50'}`}>
+              <Card
+                className={`hover:shadow-lg transition-shadow ${hasIntegrationsAccess && user?.integrations_access?.includes("legalty") ? "cursor-pointer" : "opacity-50"}`}
+              >
                 <CardHeader>
                   <CardTitle className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
                       <FiShield className="w-5 h-5 text-white" />
                     </div>
                     Legalty
-                    {hasIntegrationsAccess && user?.integrations_access?.includes('legalty') && (
-                      <Badge className="bg-green-100 text-green-800 ml-auto">Activo</Badge>
-                    )}
+                    {hasIntegrationsAccess &&
+                      user?.integrations_access?.includes("legalty") && (
+                        <Badge className="bg-green-100 text-green-800 ml-auto">
+                          Activo
+                        </Badge>
+                      )}
                   </CardTitle>
                   <CardDescription>
                     Plataforma legal empresarial
@@ -510,34 +589,49 @@ export const Dashboard: React.FC = () => {
                 <CardContent>
                   <Button
                     className="w-full"
-                    disabled={!hasIntegrationsAccess || !user?.integrations_access?.includes('legalty')}
+                    disabled={
+                      !hasIntegrationsAccess ||
+                      !user?.integrations_access?.includes("legalty")
+                    }
                   >
-                    {hasIntegrationsAccess && user?.integrations_access?.includes('legalty') ? 'Acceder' : 'Sin acceso'}
+                    {hasIntegrationsAccess &&
+                    user?.integrations_access?.includes("legalty")
+                      ? "Acceder"
+                      : "Sin acceso"}
                   </Button>
                 </CardContent>
               </Card>
 
-              <Card className={`hover:shadow-lg transition-shadow ${hasIntegrationsAccess && user?.integrations_access?.includes('we-consulting') ? 'cursor-pointer' : 'opacity-50'}`}>
+              <Card
+                className={`hover:shadow-lg transition-shadow ${hasIntegrationsAccess && user?.integrations_access?.includes("we-consulting") ? "cursor-pointer" : "opacity-50"}`}
+              >
                 <CardHeader>
                   <CardTitle className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
                       <FiBarChart className="w-5 h-5 text-white" />
                     </div>
                     We Consulting
-                    {hasIntegrationsAccess && user?.integrations_access?.includes('we-consulting') && (
-                      <Badge className="bg-green-100 text-green-800 ml-auto">Activo</Badge>
-                    )}
+                    {hasIntegrationsAccess &&
+                      user?.integrations_access?.includes("we-consulting") && (
+                        <Badge className="bg-green-100 text-green-800 ml-auto">
+                          Activo
+                        </Badge>
+                      )}
                   </CardTitle>
-                  <CardDescription>
-                    Consultoría empresarial
-                  </CardDescription>
+                  <CardDescription>Consultoría empresarial</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <Button
                     className="w-full"
-                    disabled={!hasIntegrationsAccess || !user?.integrations_access?.includes('we-consulting')}
+                    disabled={
+                      !hasIntegrationsAccess ||
+                      !user?.integrations_access?.includes("we-consulting")
+                    }
                   >
-                    {hasIntegrationsAccess && user?.integrations_access?.includes('we-consulting') ? 'Acceder' : 'Sin acceso'}
+                    {hasIntegrationsAccess &&
+                    user?.integrations_access?.includes("we-consulting")
+                      ? "Acceder"
+                      : "Sin acceso"}
                   </Button>
                 </CardContent>
               </Card>
@@ -550,9 +644,7 @@ export const Dashboard: React.FC = () => {
                     </div>
                     Más aplicaciones
                   </CardTitle>
-                  <CardDescription>
-                    Próximamente disponibles
-                  </CardDescription>
+                  <CardDescription>Próximamente disponibles</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <Button variant="secondary" className="w-full" disabled>

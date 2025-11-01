@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { FiMail, FiLock, FiEye, FiEyeOff, FiUser, FiCheck } from 'react-icons/fi';
-import { FcGoogle } from 'react-icons/fc';
-import { useMockAuth } from '../hooks/useMockData';
-import toast from 'react-hot-toast';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import {
+  FiMail,
+  FiLock,
+  FiEye,
+  FiEyeOff,
+  FiUser,
+  FiCheck,
+} from "react-icons/fi";
+import { FcGoogle } from "react-icons/fc";
+import { useMockAuth } from "../hooks/useMockData";
+import toast from "react-hot-toast";
 
 interface AuthFlowProps {
   onAuthSuccess?: (user: any) => void;
@@ -14,70 +21,73 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    firstName: '',
-    lastName: '',
-    acceptTerms: false
+    email: "",
+    password: "",
+    confirmPassword: "",
+    firstName: "",
+    lastName: "",
+    acceptTerms: false,
   });
 
-  const [errors, setErrors] = useState<{[key: string]: string}>({});
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   // Simulated user test data
   const testUsers = [
     {
-      email: 'admin@mundero.net',
-      password: 'admin123',
-      role: 'admin',
-      displayName: 'Administrador MUNDERO',
-      photoURL: 'https://ui-avatars.com/api/?name=Admin+MUNDERO&background=3b82f6&color=fff'
+      email: "admin@mundero.net",
+      password: "admin123",
+      role: "admin",
+      displayName: "Administrador MUNDERO",
+      photoURL:
+        "https://ui-avatars.com/api/?name=Admin+MUNDERO&background=3b82f6&color=fff",
     },
     {
-      email: 'user@mundero.net',
-      password: 'user123',
-      role: 'user',
-      displayName: 'Usuario Demo',
-      photoURL: 'https://ui-avatars.com/api/?name=Usuario+Demo&background=10b981&color=fff'
+      email: "user@mundero.net",
+      password: "user123",
+      role: "user",
+      displayName: "Usuario Demo",
+      photoURL:
+        "https://ui-avatars.com/api/?name=Usuario+Demo&background=10b981&color=fff",
     },
     {
-      email: 'empresa@mundero.net',
-      password: 'empresa123',
-      role: 'company',
-      displayName: 'Empresa Demo',
-      photoURL: 'https://ui-avatars.com/api/?name=Empresa+Demo&background=8b5cf6&color=fff'
-    }
+      email: "empresa@mundero.net",
+      password: "empresa123",
+      role: "company",
+      displayName: "Empresa Demo",
+      photoURL:
+        "https://ui-avatars.com/api/?name=Empresa+Demo&background=8b5cf6&color=fff",
+    },
   ];
 
   const validateForm = () => {
-    const newErrors: {[key: string]: string} = {};
+    const newErrors: { [key: string]: string } = {};
 
     if (!formData.email) {
-      newErrors.email = 'El email es requerido';
+      newErrors.email = "El email es requerido";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email inválido';
+      newErrors.email = "Email inválido";
     }
 
     if (!formData.password) {
-      newErrors.password = 'La contraseña es requerida';
+      newErrors.password = "La contraseña es requerida";
     } else if (formData.password.length < 6) {
-      newErrors.password = 'La contraseña debe tener al menos 6 caracteres';
+      newErrors.password = "La contraseña debe tener al menos 6 caracteres";
     }
 
     if (!isLogin) {
       if (!formData.firstName) {
-        newErrors.firstName = 'El nombre es requerido';
+        newErrors.firstName = "El nombre es requerido";
       }
       if (!formData.lastName) {
-        newErrors.lastName = 'El apellido es requerido';
+        newErrors.lastName = "El apellido es requerido";
       }
       if (formData.password !== formData.confirmPassword) {
-        newErrors.confirmPassword = 'Las contraseñas no coinciden';
+        newErrors.confirmPassword = "Las contraseñas no coinciden";
       }
       if (!formData.acceptTerms) {
-        newErrors.acceptTerms = 'Debes aceptar los términos y condiciones';
+        newErrors.acceptTerms = "Debes aceptar los términos y condiciones";
       }
     }
 
@@ -87,7 +97,7 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -96,12 +106,14 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
 
     try {
       // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 1500));
 
       if (isLogin) {
         // Check test users for login
         const testUser = testUsers.find(
-          user => user.email === formData.email && user.password === formData.password
+          (user) =>
+            user.email === formData.email &&
+            user.password === formData.password,
         );
 
         if (testUser) {
@@ -114,19 +126,22 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
             emailVerified: true,
             empresa: {
               id: `empresa-${testUser.role}`,
-              nombre: testUser.role === 'admin' ? 'MUNDERO Admin' : 'Empresa Demo S.A.C.',
-              ruc: testUser.role === 'admin' ? '20000000001' : '20123456789'
-            }
+              nombre:
+                testUser.role === "admin"
+                  ? "MUNDERO Admin"
+                  : "Empresa Demo S.A.C.",
+              ruc: testUser.role === "admin" ? "20000000001" : "20123456789",
+            },
           };
 
           login(mockUser);
           toast.success(`¡Bienvenido ${testUser.displayName}!`);
-          
+
           if (onAuthSuccess) {
             onAuthSuccess(mockUser);
           }
         } else {
-          toast.error('Credenciales incorrectas. Usa los usuarios de prueba.');
+          toast.error("Credenciales incorrectas. Usa los usuarios de prueba.");
         }
       } else {
         // Registration simulation
@@ -134,25 +149,25 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
           uid: `test-${Date.now()}`,
           email: formData.email,
           displayName: `${formData.firstName} ${formData.lastName}`,
-          photoURL: `https://ui-avatars.com/api/?name=${encodeURIComponent(formData.firstName + ' ' + formData.lastName)}&background=6366f1&color=fff`,
-          role: 'user',
+          photoURL: `https://ui-avatars.com/api/?name=${encodeURIComponent(formData.firstName + " " + formData.lastName)}&background=6366f1&color=fff`,
+          role: "user",
           emailVerified: false,
           empresa: {
             id: `empresa-${Date.now()}`,
-            nombre: 'Nueva Empresa',
-            ruc: '20000000000'
-          }
+            nombre: "Nueva Empresa",
+            ruc: "20000000000",
+          },
         };
 
         login(newUser);
-        toast.success('¡Cuenta creada exitosamente!');
-        
+        toast.success("¡Cuenta creada exitosamente!");
+
         if (onAuthSuccess) {
           onAuthSuccess(newUser);
         }
       }
     } catch (error) {
-      toast.error('Error en la autenticación');
+      toast.error("Error en la autenticación");
     } finally {
       setIsLoading(false);
     }
@@ -160,51 +175,52 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
 
   const handleGoogleAuth = async () => {
     setIsLoading(true);
-    
+
     try {
       // Simulate Google OAuth delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
       // Simulate successful Google authentication
       const googleUser = {
-        uid: 'google-test-user',
-        email: 'usuario@gmail.com',
-        displayName: 'Usuario Google',
-        photoURL: 'https://ui-avatars.com/api/?name=Usuario+Google&background=ea4335&color=fff',
-        role: 'user',
+        uid: "google-test-user",
+        email: "usuario@gmail.com",
+        displayName: "Usuario Google",
+        photoURL:
+          "https://ui-avatars.com/api/?name=Usuario+Google&background=ea4335&color=fff",
+        role: "user",
         emailVerified: true,
-        provider: 'google',
+        provider: "google",
         empresa: {
-          id: 'empresa-google',
-          nombre: 'Google User Company',
-          ruc: '20123456789'
-        }
+          id: "empresa-google",
+          nombre: "Google User Company",
+          ruc: "20123456789",
+        },
       };
 
       login(googleUser);
-      toast.success('¡Autenticación con Google exitosa!');
-      
+      toast.success("¡Autenticación con Google exitosa!");
+
       if (onAuthSuccess) {
         onAuthSuccess(googleUser);
       }
     } catch (error) {
-      toast.error('Error en la autenticación con Google');
+      toast.error("Error en la autenticación con Google");
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleInputChange = (field: string, value: any) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
-    
+
     // Clear error when user starts typing
     if (errors[field]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [field]: ''
+        [field]: "",
       }));
     }
   };
@@ -225,7 +241,7 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
             MUNDERO
           </h1>
           <p className="text-gray-600 mt-2">
-            {isLogin ? 'Inicia sesión en tu cuenta' : 'Crea tu cuenta nueva'}
+            {isLogin ? "Inicia sesión en tu cuenta" : "Crea tu cuenta nueva"}
           </p>
         </div>
 
@@ -236,11 +252,19 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
         >
           {/* Test Users Guide */}
           <div className="mb-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
-            <h4 className="font-medium text-blue-900 mb-2">👥 Usuarios de Prueba:</h4>
+            <h4 className="font-medium text-blue-900 mb-2">
+              👥 Usuarios de Prueba:
+            </h4>
             <div className="space-y-1 text-sm text-blue-800">
-              <div><strong>Admin:</strong> admin@mundero.net / admin123</div>
-              <div><strong>Usuario:</strong> user@mundero.net / user123</div>
-              <div><strong>Empresa:</strong> empresa@mundero.net / empresa123</div>
+              <div>
+                <strong>Admin:</strong> admin@mundero.net / admin123
+              </div>
+              <div>
+                <strong>Usuario:</strong> user@mundero.net / user123
+              </div>
+              <div>
+                <strong>Empresa:</strong> empresa@mundero.net / empresa123
+              </div>
             </div>
           </div>
 
@@ -249,7 +273,7 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
             {!isLogin && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
+                animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 className="grid grid-cols-2 gap-4"
               >
@@ -262,15 +286,19 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
                     <input
                       type="text"
                       value={formData.firstName}
-                      onChange={(e) => handleInputChange('firstName', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("firstName", e.target.value)
+                      }
                       className={`w-full pl-12 pr-4 py-3 bg-white border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 ${
-                        errors.firstName ? 'border-red-500' : 'border-gray-300'
+                        errors.firstName ? "border-red-500" : "border-gray-300"
                       }`}
                       placeholder="Tu nombre"
                     />
                   </div>
                   {errors.firstName && (
-                    <p className="text-red-600 text-sm mt-1">{errors.firstName}</p>
+                    <p className="text-red-600 text-sm mt-1">
+                      {errors.firstName}
+                    </p>
                   )}
                 </div>
 
@@ -283,15 +311,19 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
                     <input
                       type="text"
                       value={formData.lastName}
-                      onChange={(e) => handleInputChange('lastName', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("lastName", e.target.value)
+                      }
                       className={`w-full pl-12 pr-4 py-3 bg-white border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 ${
-                        errors.lastName ? 'border-red-500' : 'border-gray-300'
+                        errors.lastName ? "border-red-500" : "border-gray-300"
                       }`}
                       placeholder="Tu apellido"
                     />
                   </div>
                   {errors.lastName && (
-                    <p className="text-red-600 text-sm mt-1">{errors.lastName}</p>
+                    <p className="text-red-600 text-sm mt-1">
+                      {errors.lastName}
+                    </p>
                   )}
                 </div>
               </motion.div>
@@ -307,9 +339,9 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
                 <input
                   type="email"
                   value={formData.email}
-                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  onChange={(e) => handleInputChange("email", e.target.value)}
                   className={`w-full pl-12 pr-4 py-3 bg-white border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 ${
-                    errors.email ? 'border-red-500' : 'border-gray-300'
+                    errors.email ? "border-red-500" : "border-gray-300"
                   }`}
                   placeholder="tu@email.com"
                 />
@@ -327,11 +359,13 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
               <div className="relative">
                 <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   value={formData.password}
-                  onChange={(e) => handleInputChange('password', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("password", e.target.value)
+                  }
                   className={`w-full pl-12 pr-12 py-3 bg-white border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 ${
-                    errors.password ? 'border-red-500' : 'border-gray-300'
+                    errors.password ? "border-red-500" : "border-gray-300"
                   }`}
                   placeholder="Tu contraseña"
                 />
@@ -340,7 +374,11 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
-                  {showPassword ? <FiEyeOff className="w-5 h-5" /> : <FiEye className="w-5 h-5" />}
+                  {showPassword ? (
+                    <FiEyeOff className="w-5 h-5" />
+                  ) : (
+                    <FiEye className="w-5 h-5" />
+                  )}
                 </button>
               </div>
               {errors.password && (
@@ -352,7 +390,7 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
             {!isLogin && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
+                animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
               >
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -361,17 +399,23 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
                 <div className="relative">
                   <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                   <input
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     value={formData.confirmPassword}
-                    onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("confirmPassword", e.target.value)
+                    }
                     className={`w-full pl-12 pr-4 py-3 bg-white border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 ${
-                      errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
+                      errors.confirmPassword
+                        ? "border-red-500"
+                        : "border-gray-300"
                     }`}
                     placeholder="Confirma tu contraseña"
                   />
                 </div>
                 {errors.confirmPassword && (
-                  <p className="text-red-600 text-sm mt-1">{errors.confirmPassword}</p>
+                  <p className="text-red-600 text-sm mt-1">
+                    {errors.confirmPassword}
+                  </p>
                 )}
               </motion.div>
             )}
@@ -380,7 +424,7 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
             {!isLogin && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
+                animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 className="flex items-start space-x-3"
               >
@@ -389,17 +433,19 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
                     type="checkbox"
                     id="acceptTerms"
                     checked={formData.acceptTerms}
-                    onChange={(e) => handleInputChange('acceptTerms', e.target.checked)}
+                    onChange={(e) =>
+                      handleInputChange("acceptTerms", e.target.checked)
+                    }
                     className="sr-only"
                   />
                   <label
                     htmlFor="acceptTerms"
                     className={`flex items-center justify-center w-5 h-5 border-2 rounded cursor-pointer transition-colors ${
                       formData.acceptTerms
-                        ? 'bg-blue-600 border-blue-600'
+                        ? "bg-blue-600 border-blue-600"
                         : errors.acceptTerms
-                        ? 'border-red-500'
-                        : 'border-gray-300 hover:border-gray-400'
+                          ? "border-red-500"
+                          : "border-gray-300 hover:border-gray-400"
                     }`}
                   >
                     {formData.acceptTerms && (
@@ -409,17 +455,25 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
                 </div>
                 <div className="text-sm">
                   <span className="text-gray-600">
-                    Acepto los{' '}
-                    <a href="#" className="text-blue-600 hover:text-blue-700 font-medium">
+                    Acepto los{" "}
+                    <a
+                      href="#"
+                      className="text-blue-600 hover:text-blue-700 font-medium"
+                    >
                       términos y condiciones
-                    </a>{' '}
-                    y la{' '}
-                    <a href="#" className="text-blue-600 hover:text-blue-700 font-medium">
+                    </a>{" "}
+                    y la{" "}
+                    <a
+                      href="#"
+                      className="text-blue-600 hover:text-blue-700 font-medium"
+                    >
                       política de privacidad
                     </a>
                   </span>
                   {errors.acceptTerms && (
-                    <p className="text-red-600 text-sm mt-1">{errors.acceptTerms}</p>
+                    <p className="text-red-600 text-sm mt-1">
+                      {errors.acceptTerms}
+                    </p>
                   )}
                 </div>
               </motion.div>
@@ -434,10 +488,14 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
               {isLoading ? (
                 <div className="flex items-center justify-center space-x-2">
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  <span>{isLogin ? 'Iniciando sesión...' : 'Creando cuenta...'}</span>
+                  <span>
+                    {isLogin ? "Iniciando sesión..." : "Creando cuenta..."}
+                  </span>
                 </div>
+              ) : isLogin ? (
+                "Iniciar Sesión"
               ) : (
-                isLogin ? 'Iniciar Sesión' : 'Crear Cuenta'
+                "Crear Cuenta"
               )}
             </button>
 
@@ -447,7 +505,9 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
                 <div className="w-full border-t border-gray-300"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">o continúa con</span>
+                <span className="px-2 bg-white text-gray-500">
+                  o continúa con
+                </span>
               </div>
             </div>
 
@@ -466,12 +526,12 @@ const AuthFlow: React.FC<AuthFlowProps> = ({ onAuthSuccess }) => {
           {/* Toggle Auth Mode */}
           <div className="mt-6 text-center">
             <p className="text-gray-600">
-              {isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}{' '}
+              {isLogin ? "¿No tienes cuenta?" : "¿Ya tienes cuenta?"}{" "}
               <button
                 onClick={() => setIsLogin(!isLogin)}
                 className="text-blue-600 hover:text-blue-700 font-medium"
               >
-                {isLogin ? 'Regístrate' : 'Inicia sesión'}
+                {isLogin ? "Regístrate" : "Inicia sesión"}
               </button>
             </p>
           </div>

@@ -3,98 +3,100 @@
 // Create Solution Script - CLI Tool
 // FASE 7.0 - SOLUCIONES EMPRESARIALES
 
-const fs = require('fs');
-const path = require('path');
-const readline = require('readline');
+const fs = require("fs");
+const path = require("path");
+const readline = require("readline");
 
 const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
+  input: process.stdin,
+  output: process.stdout,
 });
 
 function question(query) {
-    return new Promise(resolve => rl.question(query, resolve));
+  return new Promise((resolve) => rl.question(query, resolve));
 }
 
 async function createSolution() {
-    console.log('🚀 Mundero Solution Creator');
-    console.log('=============================\n');
+  console.log("🚀 Mundero Solution Creator");
+  console.log("=============================\n");
 
-    try {
-        // Get solution details
-        const key = await question('Solution key (e.g., "my_solution"): ');
-        const name = await question('Solution name (e.g., "My Solution"): ');
-        const description = await question('Description: ');
-        const category = await question('Category (assessment/hr/marketing/analytics/other): ');
-        const author = await question('Author: ');
+  try {
+    // Get solution details
+    const key = await question('Solution key (e.g., "my_solution"): ');
+    const name = await question('Solution name (e.g., "My Solution"): ');
+    const description = await question("Description: ");
+    const category = await question(
+      "Category (assessment/hr/marketing/analytics/other): ",
+    );
+    const author = await question("Author: ");
 
-        if (!key || !name || !description) {
-            throw new Error('Key, name, and description are required');
-        }
+    if (!key || !name || !description) {
+      throw new Error("Key, name, and description are required");
+    }
 
-        const solutionDir = path.join(__dirname, '..', 'solutions', key);
+    const solutionDir = path.join(__dirname, "..", "solutions", key);
 
-        // Check if solution already exists
-        if (fs.existsSync(solutionDir)) {
-            throw new Error(`Solution "${key}" already exists`);
-        }
+    // Check if solution already exists
+    if (fs.existsSync(solutionDir)) {
+      throw new Error(`Solution "${key}" already exists`);
+    }
 
-        // Create solution directory structure
-        fs.mkdirSync(solutionDir, { recursive: true });
-        fs.mkdirSync(path.join(solutionDir, 'components'));
-        fs.mkdirSync(path.join(solutionDir, 'pages'));
-        fs.mkdirSync(path.join(solutionDir, 'assets'));
-        fs.mkdirSync(path.join(solutionDir, 'config'));
+    // Create solution directory structure
+    fs.mkdirSync(solutionDir, { recursive: true });
+    fs.mkdirSync(path.join(solutionDir, "components"));
+    fs.mkdirSync(path.join(solutionDir, "pages"));
+    fs.mkdirSync(path.join(solutionDir, "assets"));
+    fs.mkdirSync(path.join(solutionDir, "config"));
 
-        // Create manifest.json
-        const manifest = {
-            key,
-            name,
-            version: '1.0.0',
-            description,
-            author,
-            category: category || 'other',
-            entryPoint: './pages/Start.tsx',
-            routes: [
-                {
-                    path: '/start',
-                    component: './pages/Start.tsx',
-                    name: 'Start',
-                    protected: false
-                },
-                {
-                    path: '/form',
-                    component: './pages/Form.tsx',
-                    name: 'Form',
-                    protected: true
-                },
-                {
-                    path: '/result',
-                    component: './pages/Result.tsx',
-                    name: 'Result',
-                    protected: true
-                }
-            ],
-            permissions: ['read', 'write'],
-            config: {
-                theme: {
-                    primaryColor: '#3B82F6',
-                    secondaryColor: '#10B981'
-                },
-                features: {
-                    analytics: true,
-                    exports: true
-                }
-            }
-        };
+    // Create manifest.json
+    const manifest = {
+      key,
+      name,
+      version: "1.0.0",
+      description,
+      author,
+      category: category || "other",
+      entryPoint: "./pages/Start.tsx",
+      routes: [
+        {
+          path: "/start",
+          component: "./pages/Start.tsx",
+          name: "Start",
+          protected: false,
+        },
+        {
+          path: "/form",
+          component: "./pages/Form.tsx",
+          name: "Form",
+          protected: true,
+        },
+        {
+          path: "/result",
+          component: "./pages/Result.tsx",
+          name: "Result",
+          protected: true,
+        },
+      ],
+      permissions: ["read", "write"],
+      config: {
+        theme: {
+          primaryColor: "#3B82F6",
+          secondaryColor: "#10B981",
+        },
+        features: {
+          analytics: true,
+          exports: true,
+        },
+      },
+    };
 
-        fs.writeFileSync(
-            path.join(solutionDir, 'manifest.json'),
-            JSON.stringify(manifest, null, 2)
-        );
+    fs.writeFileSync(
+      path.join(solutionDir, "manifest.json"),
+      JSON.stringify(manifest, null, 2),
+    );
 
-        // Create Start.tsx
-        const startComponent = `// ${name} - Start Page
+    // Create Start.tsx
+    const startComponent = `// ${name} - Start Page
 // Auto-generated by Mundero Solution Creator
 
 import React from 'react';
@@ -132,13 +134,13 @@ export const StartPage: React.FC<StartPageProps> = ({
 export default StartPage;
 `;
 
-        fs.writeFileSync(
-            path.join(solutionDir, 'pages', 'Start.tsx'),
-            startComponent
-        );
+    fs.writeFileSync(
+      path.join(solutionDir, "pages", "Start.tsx"),
+      startComponent,
+    );
 
-        // Create Form.tsx
-        const formComponent = `// ${name} - Form Page
+    // Create Form.tsx
+    const formComponent = `// ${name} - Form Page
 // Auto-generated by Mundero Solution Creator
 
 import React, { useState } from 'react';
@@ -218,13 +220,13 @@ export const FormPage: React.FC<FormPageProps> = ({
 export default FormPage;
 `;
 
-        fs.writeFileSync(
-            path.join(solutionDir, 'pages', 'Form.tsx'),
-            formComponent
-        );
+    fs.writeFileSync(
+      path.join(solutionDir, "pages", "Form.tsx"),
+      formComponent,
+    );
 
-        // Create Result.tsx
-        const resultComponent = `// ${name} - Result Page
+    // Create Result.tsx
+    const resultComponent = `// ${name} - Result Page
 // Auto-generated by Mundero Solution Creator
 
 import React from 'react';
@@ -279,13 +281,13 @@ export const ResultPage: React.FC<ResultPageProps> = ({
 export default ResultPage;
 `;
 
-        fs.writeFileSync(
-            path.join(solutionDir, 'pages', 'Result.tsx'),
-            resultComponent
-        );
+    fs.writeFileSync(
+      path.join(solutionDir, "pages", "Result.tsx"),
+      resultComponent,
+    );
 
-        // Create README.md
-        const readme = `# ${name}
+    // Create README.md
+    const readme = `# ${name}
 
 ${description}
 
@@ -322,29 +324,27 @@ Category: ${category}
 Version: 1.0.0
 `;
 
-        fs.writeFileSync(
-            path.join(solutionDir, 'README.md'),
-            readme
-        );
+    fs.writeFileSync(path.join(solutionDir, "README.md"), readme);
 
-        console.log(`\n✅ Solution "${name}" created successfully!`);
-        console.log(`📁 Location: ${solutionDir}`);
-        console.log(`\nNext steps:`);
-        console.log(`1. Customize the components in ${path.join(solutionDir, 'pages')}`);
-        console.log(`2. Update manifest.json if needed`);
-        console.log(`3. Register the solution in Firestore`);
-        console.log(`4. Grant organization access`);
-
-    } catch (error) {
-        console.error(`\n❌ Error: ${error.message}`);
-    } finally {
-        rl.close();
-    }
+    console.log(`\n✅ Solution "${name}" created successfully!`);
+    console.log(`📁 Location: ${solutionDir}`);
+    console.log(`\nNext steps:`);
+    console.log(
+      `1. Customize the components in ${path.join(solutionDir, "pages")}`,
+    );
+    console.log(`2. Update manifest.json if needed`);
+    console.log(`3. Register the solution in Firestore`);
+    console.log(`4. Grant organization access`);
+  } catch (error) {
+    console.error(`\n❌ Error: ${error.message}`);
+  } finally {
+    rl.close();
+  }
 }
 
 // Run if called directly
 if (require.main === module) {
-    createSolution();
+  createSolution();
 }
 
 module.exports = { createSolution };

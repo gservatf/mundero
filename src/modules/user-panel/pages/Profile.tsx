@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { useAuth } from '@/hooks/useAuth';
-import { useProfile } from '../hooks/useProfile';
-import { useAgreement } from '../hooks/useAgreement';
-import AgreementModal from '../components/AgreementModal';
-import { useReputation } from '../reputation/useReputation';
-import { LevelChip } from '../reputation/components/LevelChip';
-import { ReputationBar } from '../reputation/components/ReputationBar';
-import { BadgesList } from '../reputation/components/BadgesList';
-import { REPUTATION_ENABLED } from '../reputation/reputationService';
-import { DEFAULT_LEVELS } from '../reputation/types';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { useAuth } from "@/hooks/useAuth";
+import { useProfile } from "../hooks/useProfile";
+import { useAgreement } from "../hooks/useAgreement";
+import AgreementModal from "../components/AgreementModal";
+import { useReputation } from "../reputation/useReputation";
+import { LevelChip } from "../reputation/components/LevelChip";
+import { ReputationBar } from "../reputation/components/ReputationBar";
+import { BadgesList } from "../reputation/components/BadgesList";
+import { REPUTATION_ENABLED } from "../reputation/reputationService";
+import { DEFAULT_LEVELS } from "../reputation/types";
 
 // Gamification imports
-import { UserLevelDisplay } from '../reputation/UserLevelDisplay';
-import { LevelSystemIntegration } from '../reputation/LevelSystemIntegration';
-import { useChallenges } from '../reputation/challenges/useChallenges';
-import { useDuels } from '../reputation/duels/useDuels';
-import { useRewards } from '../reputation/rewards/useRewards';
+import { UserLevelDisplay } from "../reputation/UserLevelDisplay";
+import { LevelSystemIntegration } from "../reputation/LevelSystemIntegration";
+import { useChallenges } from "../reputation/challenges/useChallenges";
+import { useDuels } from "../reputation/duels/useDuels";
+import { useRewards } from "../reputation/rewards/useRewards";
 
 // Onboarding integration
-import { OnboardingProfileSection } from '../onboarding/OnboardingProfileSection';
+import { OnboardingProfileSection } from "../onboarding/OnboardingProfileSection";
 import {
   FiUser,
   FiMail,
@@ -41,73 +41,89 @@ import {
   FiGift,
   FiClock,
   FiUsers,
-  FiArrowRight
-} from 'react-icons/fi';
+  FiArrowRight,
+} from "react-icons/fi";
 
 export const Profile: React.FC = () => {
   const { user } = useAuth();
-  const { userProfile, updateProfile, loading: profileLoading, error: profileError } = useProfile();
+  const {
+    userProfile,
+    updateProfile,
+    loading: profileLoading,
+    error: profileError,
+  } = useProfile();
   const {
     requiresAgreement,
     hasSignedAgreement,
     agreementStatus,
     loading: agreementLoading,
-    error: agreementError
+    error: agreementError,
   } = useAgreement();
 
   // Hooks siempre al nivel superior - usar ID condicional
-  const reputationData = useReputation(REPUTATION_ENABLED && user?.id ? user.id : undefined);
+  const reputationData = useReputation(
+    REPUTATION_ENABLED && user?.id ? user.id : undefined,
+  );
   const userReputation = reputationData?.data || null;
   const reputationLoading = reputationData?.loading || false;
 
   // Gamification hooks
-  const { userChallenges: activeChallenges, loading: challengesLoading } = useChallenges();
+  const { userChallenges: activeChallenges, loading: challengesLoading } =
+    useChallenges();
   const { userDuels: activeDuels, loading: duelsLoading } = useDuels();
-  const { rewards, userStats: rewardsStats, loading: rewardsLoading } = useRewards(user?.id || '');
+  const {
+    rewards,
+    userStats: rewardsStats,
+    loading: rewardsLoading,
+  } = useRewards(user?.id || "");
 
   const [isEditing, setIsEditing] = useState(false);
   const [showAgreementModal, setShowAgreementModal] = useState(false);
-  const [currentAgreementType, setCurrentAgreementType] = useState<'terms_of_service' | 'privacy_policy' | 'data_processing' | 'marketing'>('terms_of_service');
+  const [currentAgreementType, setCurrentAgreementType] = useState<
+    "terms_of_service" | "privacy_policy" | "data_processing" | "marketing"
+  >("terms_of_service");
 
   // Check if agreement is required on mount and when agreement status changes
   useEffect(() => {
     if (requiresAgreement && !agreementLoading) {
       setShowAgreementModal(true);
-      setCurrentAgreementType('terms_of_service'); // Start with terms
+      setCurrentAgreementType("terms_of_service"); // Start with terms
     }
   }, [requiresAgreement, agreementLoading]);
 
   const [profileData, setProfileData] = useState({
-    displayName: user?.display_name || userProfile?.displayName || '',
-    email: user?.email || userProfile?.email || '',
-    jobTitle: 'Desarrollador Senior',
-    country: 'Perú',
-    description: userProfile?.bio || 'Profesional apasionado por la tecnología y la innovación en el ecosistema Grupo Servat.',
-    skills: ['React', 'TypeScript', 'Node.js', 'Firebase'],
+    displayName: user?.display_name || userProfile?.displayName || "",
+    email: user?.email || userProfile?.email || "",
+    jobTitle: "Desarrollador Senior",
+    country: "Perú",
+    description:
+      userProfile?.bio ||
+      "Profesional apasionado por la tecnología y la innovación en el ecosistema Grupo Servat.",
+    skills: ["React", "TypeScript", "Node.js", "Firebase"],
     experience: [
       {
         id: 1,
-        company: 'Grupo Servat',
-        position: 'Desarrollador Senior',
-        period: '2023 - Presente',
-        description: 'Desarrollo de aplicaciones web y móviles'
-      }
+        company: "Grupo Servat",
+        position: "Desarrollador Senior",
+        period: "2023 - Presente",
+        description: "Desarrollo de aplicaciones web y móviles",
+      },
     ],
     education: [
       {
         id: 1,
-        institution: 'Universidad Nacional',
-        degree: 'Ingeniería de Sistemas',
-        period: '2018 - 2022'
-      }
+        institution: "Universidad Nacional",
+        degree: "Ingeniería de Sistemas",
+        period: "2018 - 2022",
+      },
     ],
-    certifications: []
+    certifications: [],
   });
 
   // Update profile data when profile loads
   useEffect(() => {
     if (userProfile) {
-      setProfileData(prev => ({
+      setProfileData((prev) => ({
         ...prev,
         displayName: userProfile.displayName || prev.displayName,
         email: userProfile.email || prev.email,
@@ -116,12 +132,12 @@ export const Profile: React.FC = () => {
     }
   }, [userProfile]);
 
-  const [newSkill, setNewSkill] = useState('');
+  const [newSkill, setNewSkill] = useState("");
   const [newExperience, setNewExperience] = useState({
-    company: '',
-    position: '',
-    period: '',
-    description: ''
+    company: "",
+    position: "",
+    period: "",
+    description: "",
   });
 
   const profileCompleteness = () => {
@@ -131,7 +147,7 @@ export const Profile: React.FC = () => {
       profileData.country,
       profileData.description,
       profileData.skills.length > 0,
-      profileData.experience.length > 0
+      profileData.experience.length > 0,
     ];
     const completed = fields.filter(Boolean).length;
     return Math.round((completed / fields.length) * 100);
@@ -145,24 +161,24 @@ export const Profile: React.FC = () => {
       });
       setIsEditing(false);
     } catch (error) {
-      console.error('Error updating profile:', error);
+      console.error("Error updating profile:", error);
     }
   };
 
   const handleAddSkill = () => {
     if (newSkill.trim()) {
-      setProfileData(prev => ({
+      setProfileData((prev) => ({
         ...prev,
-        skills: [...prev.skills, newSkill.trim()]
+        skills: [...prev.skills, newSkill.trim()],
       }));
-      setNewSkill('');
+      setNewSkill("");
     }
   };
 
   const handleRemoveSkill = (index: number) => {
-    setProfileData(prev => ({
+    setProfileData((prev) => ({
       ...prev,
-      skills: prev.skills.filter((_: string, i: number) => i !== index)
+      skills: prev.skills.filter((_: string, i: number) => i !== index),
     }));
   };
 
@@ -200,12 +216,13 @@ export const Profile: React.FC = () => {
               Acuerdos Requeridos
             </h2>
             <p className="text-gray-600 mb-6">
-              Para acceder a tu perfil, necesitas aceptar nuestros términos y condiciones.
+              Para acceder a tu perfil, necesitas aceptar nuestros términos y
+              condiciones.
             </p>
             <div className="space-y-2 text-sm text-gray-500">
               <div className="flex items-center justify-between">
                 <span>Términos de Servicio</span>
-                {hasSignedAgreement('terms_of_service') ? (
+                {hasSignedAgreement("terms_of_service") ? (
                   <FiCheck className="w-4 h-4 text-green-600" />
                 ) : (
                   <FiAlertTriangle className="w-4 h-4 text-amber-600" />
@@ -213,7 +230,7 @@ export const Profile: React.FC = () => {
               </div>
               <div className="flex items-center justify-between">
                 <span>Política de Privacidad</span>
-                {hasSignedAgreement('privacy_policy') ? (
+                {hasSignedAgreement("privacy_policy") ? (
                   <FiCheck className="w-4 h-4 text-green-600" />
                 ) : (
                   <FiAlertTriangle className="w-4 h-4 text-amber-600" />
@@ -221,7 +238,7 @@ export const Profile: React.FC = () => {
               </div>
               <div className="flex items-center justify-between">
                 <span>Procesamiento de Datos</span>
-                {hasSignedAgreement('data_processing') ? (
+                {hasSignedAgreement("data_processing") ? (
                   <FiCheck className="w-4 h-4 text-green-600" />
                 ) : (
                   <FiAlertTriangle className="w-4 h-4 text-amber-600" />
@@ -251,9 +268,7 @@ export const Profile: React.FC = () => {
           <h2 className="text-xl font-semibold text-red-900 mb-2">
             Error al cargar el perfil
           </h2>
-          <p className="text-red-700 mb-4">
-            {profileError || agreementError}
-          </p>
+          <p className="text-red-700 mb-4">{profileError || agreementError}</p>
           <button
             onClick={() => window.location.reload()}
             className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
@@ -270,15 +285,19 @@ export const Profile: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Mi Perfil Profesional</h1>
-          <p className="text-gray-600 mt-2">Gestiona tu identidad profesional en el ecosistema</p>
+          <h1 className="text-3xl font-bold text-gray-900">
+            Mi Perfil Profesional
+          </h1>
+          <p className="text-gray-600 mt-2">
+            Gestiona tu identidad profesional en el ecosistema
+          </p>
         </div>
         <button
           onClick={() => setIsEditing(!isEditing)}
           className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
         >
           <FiEdit3 className="w-4 h-4" />
-          <span>{isEditing ? 'Cancelar' : 'Editar Perfil'}</span>
+          <span>{isEditing ? "Cancelar" : "Editar Perfil"}</span>
         </button>
       </div>
 
@@ -290,8 +309,12 @@ export const Profile: React.FC = () => {
         className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
       >
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-gray-900">Completitud del Perfil</h3>
-          <span className="text-2xl font-bold text-blue-600">{completeness}%</span>
+          <h3 className="font-semibold text-gray-900">
+            Completitud del Perfil
+          </h3>
+          <span className="text-2xl font-bold text-blue-600">
+            {completeness}%
+          </span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-3">
           <div
@@ -301,9 +324,8 @@ export const Profile: React.FC = () => {
         </div>
         <p className="text-sm text-gray-600 mt-2">
           {completeness === 100
-            ? '¡Perfil completo! Tienes acceso a todas las funcionalidades.'
-            : 'Completa tu perfil para acceder a más funcionalidades.'
-          }
+            ? "¡Perfil completo! Tienes acceso a todas las funcionalidades."
+            : "Completa tu perfil para acceder a más funcionalidades."}
         </p>
       </motion.div>
 
@@ -320,7 +342,7 @@ export const Profile: React.FC = () => {
             <div className="flex items-start space-x-6">
               <div className="relative">
                 <img
-                  src={user?.photo_url || '/default-avatar.png'}
+                  src={user?.photo_url || "/default-avatar.png"}
                   alt={profileData.displayName}
                   className="w-24 h-24 rounded-full border-4 border-white shadow-lg"
                 />
@@ -335,27 +357,47 @@ export const Profile: React.FC = () => {
                     <input
                       type="text"
                       value={profileData.displayName}
-                      onChange={(e) => setProfileData(prev => ({ ...prev, displayName: e.target.value }))}
+                      onChange={(e) =>
+                        setProfileData((prev) => ({
+                          ...prev,
+                          displayName: e.target.value,
+                        }))
+                      }
                       className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="Nombre completo"
                     />
                     <input
                       type="text"
                       value={profileData.jobTitle}
-                      onChange={(e) => setProfileData(prev => ({ ...prev, jobTitle: e.target.value }))}
+                      onChange={(e) =>
+                        setProfileData((prev) => ({
+                          ...prev,
+                          jobTitle: e.target.value,
+                        }))
+                      }
                       className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="Cargo principal"
                     />
                     <input
                       type="text"
                       value={profileData.country}
-                      onChange={(e) => setProfileData(prev => ({ ...prev, country: e.target.value }))}
+                      onChange={(e) =>
+                        setProfileData((prev) => ({
+                          ...prev,
+                          country: e.target.value,
+                        }))
+                      }
                       className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="País"
                     />
                     <textarea
                       value={profileData.description}
-                      onChange={(e) => setProfileData(prev => ({ ...prev, description: e.target.value }))}
+                      onChange={(e) =>
+                        setProfileData((prev) => ({
+                          ...prev,
+                          description: e.target.value,
+                        }))
+                      }
                       className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                       rows={3}
                       placeholder="Descripción profesional"
@@ -379,8 +421,12 @@ export const Profile: React.FC = () => {
                   </div>
                 ) : (
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900">{profileData.displayName}</h2>
-                    <p className="text-lg text-gray-600 mt-1">{profileData.jobTitle}</p>
+                    <h2 className="text-2xl font-bold text-gray-900">
+                      {profileData.displayName}
+                    </h2>
+                    <p className="text-lg text-gray-600 mt-1">
+                      {profileData.jobTitle}
+                    </p>
                     <div className="flex items-center space-x-4 mt-3 text-sm text-gray-500">
                       <div className="flex items-center space-x-1">
                         <FiMail className="w-4 h-4" />
@@ -391,7 +437,9 @@ export const Profile: React.FC = () => {
                         <span>{profileData.country}</span>
                       </div>
                     </div>
-                    <p className="text-gray-700 mt-4">{profileData.description}</p>
+                    <p className="text-gray-700 mt-4">
+                      {profileData.description}
+                    </p>
                   </div>
                 )}
               </div>
@@ -405,7 +453,9 @@ export const Profile: React.FC = () => {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
           >
-            <h3 className="font-semibold text-gray-900 mb-4">Habilidades y Competencias</h3>
+            <h3 className="font-semibold text-gray-900 mb-4">
+              Habilidades y Competencias
+            </h3>
             <div className="flex flex-wrap gap-2 mb-4">
               {profileData.skills.map((skill: string, index: number) => (
                 <div
@@ -432,7 +482,7 @@ export const Profile: React.FC = () => {
                   onChange={(e) => setNewSkill(e.target.value)}
                   placeholder="Nueva habilidad"
                   className="flex-1 p-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  onKeyPress={(e) => e.key === 'Enter' && handleAddSkill()}
+                  onKeyPress={(e) => e.key === "Enter" && handleAddSkill()}
                 />
                 <button
                   onClick={handleAddSkill}
@@ -451,7 +501,9 @@ export const Profile: React.FC = () => {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
           >
-            <h3 className="font-semibold text-gray-900 mb-4">Experiencia Laboral</h3>
+            <h3 className="font-semibold text-gray-900 mb-4">
+              Experiencia Laboral
+            </h3>
             <div className="space-y-4">
               {profileData.experience.map((exp) => (
                 <div key={exp.id} className="border-l-4 border-blue-500 pl-4">
@@ -486,7 +538,10 @@ export const Profile: React.FC = () => {
                   <span className="text-sm text-gray-600">Nivel actual</span>
                   <LevelChip
                     level={userReputation.level}
-                    name={DEFAULT_LEVELS.find(l => l.id === userReputation.level)?.name || 'Explorador'}
+                    name={
+                      DEFAULT_LEVELS.find((l) => l.id === userReputation.level)
+                        ?.name || "Explorador"
+                    }
                     size="small"
                   />
                 </div>
@@ -502,15 +557,24 @@ export const Profile: React.FC = () => {
                   <ReputationBar
                     points={userReputation.totalPoints}
                     level={userReputation.level}
-                    nextLevelPoints={DEFAULT_LEVELS.find(l => l.id === userReputation.level + 1)?.minPoints}
-                    currentLevelPoints={DEFAULT_LEVELS.find(l => l.id === userReputation.level)?.minPoints}
+                    nextLevelPoints={
+                      DEFAULT_LEVELS.find(
+                        (l) => l.id === userReputation.level + 1,
+                      )?.minPoints
+                    }
+                    currentLevelPoints={
+                      DEFAULT_LEVELS.find((l) => l.id === userReputation.level)
+                        ?.minPoints
+                    }
                   />
                 </div>
 
                 {/* Badges ganados */}
                 {userReputation.badges && userReputation.badges.length > 0 && (
                   <div>
-                    <span className="text-sm text-gray-600 block mb-2">Distintivos ganados</span>
+                    <span className="text-sm text-gray-600 block mb-2">
+                      Distintivos ganados
+                    </span>
                     <BadgesList badges={userReputation.badges} />
                   </div>
                 )}
@@ -543,7 +607,7 @@ export const Profile: React.FC = () => {
             <OnboardingProfileSection
               onStartOnboarding={() => {
                 // TODO: Implementar navegación al onboarding
-                console.log('Starting onboarding...');
+                console.log("Starting onboarding...");
               }}
             />
           </motion.div>
@@ -558,7 +622,9 @@ export const Profile: React.FC = () => {
             >
               <div className="flex items-center space-x-2 mb-6">
                 <FiZap className="w-6 h-6 text-purple-600" />
-                <h3 className="font-bold text-gray-900 text-lg">Gamificación</h3>
+                <h3 className="font-bold text-gray-900 text-lg">
+                  Gamificación
+                </h3>
               </div>
 
               {/* Nivel y Experiencia */}
@@ -585,45 +651,58 @@ export const Profile: React.FC = () => {
                     Retos Activos
                   </h4>
                   <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-medium">
-                    {activeChallenges?.filter(c => c.status === 'active').length || 0}
+                    {activeChallenges?.filter((c) => c.status === "active")
+                      .length || 0}
                   </span>
                 </div>
 
                 {!challengesLoading && activeChallenges?.length > 0 ? (
                   <div className="space-y-2">
-                    {activeChallenges.filter(c => c.status === 'active').slice(0, 2).map((challenge) => (
-                      <motion.div
-                        key={challenge.id}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="bg-white/80 rounded-lg p-3 border border-green-200"
-                      >
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-medium text-gray-900 truncate">
-                            {challenge.title}
-                          </span>
-                          <span className="text-xs text-green-600 font-medium">
-                            {challenge.points} pts
-                          </span>
-                        </div>
-                        <div className="w-full bg-green-100 rounded-full h-2">
-                          <motion.div
-                            initial={{ width: 0 }}
-                            animate={{ width: `${challenge.progress}%` }}
-                            transition={{ duration: 1, delay: 0.2 }}
-                            className="h-2 bg-gradient-to-r from-green-500 to-green-600 rounded-full"
-                          />
-                        </div>
-                        <div className="text-xs text-green-700 mt-1">
-                          {user?.id && challenge.progress[user.id] ?
-                            Math.round((challenge.progress[user.id].current / challenge.objective.target) * 100)
-                            : 0}% completado
-                        </div>
-                      </motion.div>
-                    ))}
-                    {activeChallenges.filter(c => c.status === 'active').length > 2 && (
+                    {activeChallenges
+                      .filter((c) => c.status === "active")
+                      .slice(0, 2)
+                      .map((challenge) => (
+                        <motion.div
+                          key={challenge.id}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="bg-white/80 rounded-lg p-3 border border-green-200"
+                        >
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-sm font-medium text-gray-900 truncate">
+                              {challenge.title}
+                            </span>
+                            <span className="text-xs text-green-600 font-medium">
+                              {challenge.points} pts
+                            </span>
+                          </div>
+                          <div className="w-full bg-green-100 rounded-full h-2">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={{ width: `${challenge.progress}%` }}
+                              transition={{ duration: 1, delay: 0.2 }}
+                              className="h-2 bg-gradient-to-r from-green-500 to-green-600 rounded-full"
+                            />
+                          </div>
+                          <div className="text-xs text-green-700 mt-1">
+                            {user?.id && challenge.progress[user.id]
+                              ? Math.round(
+                                  (challenge.progress[user.id].current /
+                                    challenge.objective.target) *
+                                    100,
+                                )
+                              : 0}
+                            % completado
+                          </div>
+                        </motion.div>
+                      ))}
+                    {activeChallenges.filter((c) => c.status === "active")
+                      .length > 2 && (
                       <p className="text-xs text-gray-600 text-center">
-                        +{activeChallenges.filter(c => c.status === 'active').length - 2} retos más
+                        +
+                        {activeChallenges.filter((c) => c.status === "active")
+                          .length - 2}{" "}
+                        retos más
                       </p>
                     )}
                   </div>
@@ -642,7 +721,8 @@ export const Profile: React.FC = () => {
                     <FiUsers className="w-4 h-4 mr-2 text-red-600" />
                     Duelo en Curso
                   </h4>
-                  {activeDuels?.filter(d => d.status === 'active').length > 0 && (
+                  {activeDuels?.filter((d) => d.status === "active").length >
+                    0 && (
                     <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full font-medium">
                       Activo
                     </span>
@@ -651,61 +731,93 @@ export const Profile: React.FC = () => {
 
                 {!duelsLoading && activeDuels?.length > 0 ? (
                   <div className="space-y-3">
-                    {activeDuels.filter(d => d.status === 'active').slice(0, 1).map((duel) => (
-                      <motion.div
-                        key={duel.id}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="bg-white/80 rounded-lg p-3 border border-red-200"
-                      >
-                        <div className="flex items-center justify-between mb-3">
-                          <span className="text-sm font-medium text-gray-900">
-                            vs Oponente {duel.opponentId.slice(-6)}
-                          </span>
-                          <span className="text-xs text-red-600 font-medium">
-                            {duel.category}
-                          </span>
-                        </div>
+                    {activeDuels
+                      .filter((d) => d.status === "active")
+                      .slice(0, 1)
+                      .map((duel) => (
+                        <motion.div
+                          key={duel.id}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="bg-white/80 rounded-lg p-3 border border-red-200"
+                        >
+                          <div className="flex items-center justify-between mb-3">
+                            <span className="text-sm font-medium text-gray-900">
+                              vs Oponente {duel.opponentId.slice(-6)}
+                            </span>
+                            <span className="text-xs text-red-600 font-medium">
+                              {duel.category}
+                            </span>
+                          </div>
 
-                        {/* Barras de progreso comparativas */}
-                        <div className="space-y-2">
-                          <div>
-                            <div className="flex justify-between text-xs mb-1">
-                              <span>Tú</span>
-                              <span>{user?.id && duel.progress[user.id] ? Math.round((duel.progress[user.id].current / (duel.targetValue || 100)) * 100) : 0}%</span>
+                          {/* Barras de progreso comparativas */}
+                          <div className="space-y-2">
+                            <div>
+                              <div className="flex justify-between text-xs mb-1">
+                                <span>Tú</span>
+                                <span>
+                                  {user?.id && duel.progress[user.id]
+                                    ? Math.round(
+                                        (duel.progress[user.id].current /
+                                          (duel.targetValue || 100)) *
+                                          100,
+                                      )
+                                    : 0}
+                                  %
+                                </span>
+                              </div>
+                              <div className="w-full bg-gray-200 rounded-full h-2">
+                                <motion.div
+                                  initial={{ width: 0 }}
+                                  animate={{
+                                    width: `${user?.id && duel.progress[user.id] ? Math.round((duel.progress[user.id].current / (duel.targetValue || 100)) * 100) : 0}%`,
+                                  }}
+                                  transition={{ duration: 1 }}
+                                  className="h-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"
+                                />
+                              </div>
                             </div>
-                            <div className="w-full bg-gray-200 rounded-full h-2">
-                              <motion.div
-                                initial={{ width: 0 }}
-                                animate={{ width: `${user?.id && duel.progress[user.id] ? Math.round((duel.progress[user.id].current / (duel.targetValue || 100)) * 100) : 0}%` }}
-                                transition={{ duration: 1 }}
-                                className="h-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"
-                              />
+
+                            <div>
+                              <div className="flex justify-between text-xs mb-1">
+                                <span>
+                                  Oponente {duel.opponentId.slice(-6)}
+                                </span>
+                                <span>
+                                  {duel.opponentId &&
+                                  duel.progress[duel.opponentId]
+                                    ? Math.round(
+                                        (duel.progress[duel.opponentId]
+                                          .current /
+                                          (duel.targetValue || 100)) *
+                                          100,
+                                      )
+                                    : 0}
+                                  %
+                                </span>
+                              </div>
+                              <div className="w-full bg-gray-200 rounded-full h-2">
+                                <motion.div
+                                  initial={{ width: 0 }}
+                                  animate={{
+                                    width: `${duel.opponentId && duel.progress[duel.opponentId] ? Math.round((duel.progress[duel.opponentId].current / (duel.targetValue || 100)) * 100) : 0}%`,
+                                  }}
+                                  transition={{ duration: 1, delay: 0.2 }}
+                                  className="h-2 bg-gradient-to-r from-red-500 to-red-600 rounded-full"
+                                />
+                              </div>
                             </div>
                           </div>
 
-                          <div>
-                            <div className="flex justify-between text-xs mb-1">
-                              <span>Oponente {duel.opponentId.slice(-6)}</span>
-                              <span>{duel.opponentId && duel.progress[duel.opponentId] ? Math.round((duel.progress[duel.opponentId].current / (duel.targetValue || 100)) * 100) : 0}%</span>
-                            </div>
-                            <div className="w-full bg-gray-200 rounded-full h-2">
-                              <motion.div
-                                initial={{ width: 0 }}
-                                animate={{ width: `${duel.opponentId && duel.progress[duel.opponentId] ? Math.round((duel.progress[duel.opponentId].current / (duel.targetValue || 100)) * 100) : 0}%` }}
-                                transition={{ duration: 1, delay: 0.2 }}
-                                className="h-2 bg-gradient-to-r from-red-500 to-red-600 rounded-full"
-                              />
-                            </div>
+                          <div className="text-xs text-gray-600 mt-2 text-center">
+                            <FiClock className="w-3 h-3 inline mr-1" />
+                            {duel.durationHours
+                              ? Math.ceil(duel.durationHours / 24)
+                              : "N/A"}{" "}
+                            días restantes
                           </div>
-                        </div>
-
-                        <div className="text-xs text-gray-600 mt-2 text-center">
-                          <FiClock className="w-3 h-3 inline mr-1" />
-                          {duel.durationHours ? Math.ceil(duel.durationHours / 24) : 'N/A'} días restantes
-                        </div>
-                      </motion.div>
-                    ))}
+                        </motion.div>
+                      ))}
                   </div>
                 ) : (
                   <div className="text-center py-4 text-gray-500">
@@ -741,9 +853,14 @@ export const Profile: React.FC = () => {
                         </div>
                         <div>
                           <div className="text-lg font-bold text-green-600">
-                            {rewards?.filter(r => r.pointsCost <= rewardsStats.availablePoints).length || 0}
+                            {rewards?.filter(
+                              (r) =>
+                                r.pointsCost <= rewardsStats.availablePoints,
+                            ).length || 0}
                           </div>
-                          <div className="text-xs text-gray-600">Disponibles</div>
+                          <div className="text-xs text-gray-600">
+                            Disponibles
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -768,17 +885,23 @@ export const Profile: React.FC = () => {
 
               {/* Quick Stats */}
               <div className="bg-white/50 rounded-lg p-3 border border-purple-200">
-                <h5 className="text-xs font-semibold text-gray-700 mb-2 text-center">Estadísticas Rápidas</h5>
+                <h5 className="text-xs font-semibold text-gray-700 mb-2 text-center">
+                  Estadísticas Rápidas
+                </h5>
                 <div className="grid grid-cols-3 gap-2 text-center">
                   <div>
                     <div className="text-sm font-bold text-purple-600">
-                      {activeChallenges?.filter(c => c.status === 'completed').length || 0}
+                      {activeChallenges?.filter((c) => c.status === "completed")
+                        .length || 0}
                     </div>
                     <div className="text-xs text-gray-600">Retos</div>
                   </div>
                   <div>
                     <div className="text-sm font-bold text-blue-600">
-                      {activeDuels?.filter(d => d.status === 'finished' && d.winnerId === user?.id).length || 0}
+                      {activeDuels?.filter(
+                        (d) =>
+                          d.status === "finished" && d.winnerId === user?.id,
+                      ).length || 0}
                     </div>
                     <div className="text-xs text-gray-600">Duelos</div>
                   </div>
@@ -812,7 +935,9 @@ export const Profile: React.FC = () => {
               <div className="flex items-center space-x-3 p-3 bg-green-50 rounded-lg">
                 <FiShield className="w-5 h-5 text-green-600" />
                 <div>
-                  <p className="font-medium text-green-800">Usuario Verificado</p>
+                  <p className="font-medium text-green-800">
+                    Usuario Verificado
+                  </p>
                   <p className="text-xs text-green-600">Email verificado</p>
                 </div>
               </div>
@@ -835,7 +960,9 @@ export const Profile: React.FC = () => {
             transition={{ delay: 0.6, duration: 0.6 }}
             className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
           >
-            <h3 className="font-semibold text-gray-900 mb-4">Enlaces Rápidos</h3>
+            <h3 className="font-semibold text-gray-900 mb-4">
+              Enlaces Rápidos
+            </h3>
             <div className="space-y-2">
               <a
                 href="#"

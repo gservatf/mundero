@@ -2,21 +2,21 @@
 // FASE 7.0 - SOLUCIONES EMPRESARIALES
 
 export interface EmailTemplate {
-    id: string;
-    name: string;
-    subject: string;
-    htmlContent: string;
-    textContent: string;
-    variables: string[];
+  id: string;
+  name: string;
+  subject: string;
+  htmlContent: string;
+  textContent: string;
+  variables: string[];
 }
 
 export const emailTemplates: Record<string, EmailTemplate> = {
-    // Solution Access Request Email
-    solution_access_request: {
-        id: 'solution_access_request',
-        name: 'Solution Access Request',
-        subject: 'New Solution Access Request - {{solutionKey}}',
-        htmlContent: `
+  // Solution Access Request Email
+  solution_access_request: {
+    id: "solution_access_request",
+    name: "Solution Access Request",
+    subject: "New Solution Access Request - {{solutionKey}}",
+    htmlContent: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                 <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
                     <h1 style="color: #333; margin: 0;">Solution Access Request</h1>
@@ -56,7 +56,7 @@ export const emailTemplates: Record<string, EmailTemplate> = {
                 </div>
             </div>
         `,
-        textContent: `
+    textContent: `
 Solution Access Request
 
 Organization: {{organizationId}}
@@ -69,15 +69,21 @@ Review this request: {{actionUrl}}
 ---
 Mundero Platform - Solution Management
         `,
-        variables: ['organizationId', 'solutionKey', 'reason', 'requestedAt', 'actionUrl']
-    },
+    variables: [
+      "organizationId",
+      "solutionKey",
+      "reason",
+      "requestedAt",
+      "actionUrl",
+    ],
+  },
 
-    // Funnel Completion Email
-    funnel_completion: {
-        id: 'funnel_completion',
-        name: 'Funnel Completion Notification',
-        subject: 'New Submission: {{funnelName}}',
-        htmlContent: `
+  // Funnel Completion Email
+  funnel_completion: {
+    id: "funnel_completion",
+    name: "Funnel Completion Notification",
+    subject: "New Submission: {{funnelName}}",
+    htmlContent: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                 <div style="background: #28a745; color: white; padding: 20px; border-radius: 8px 8px 0 0;">
                     <h1 style="margin: 0;">New Funnel Submission</h1>
@@ -125,7 +131,7 @@ Mundero Platform - Solution Management
                 </div>
             </div>
         `,
-        textContent: `
+    textContent: `
 New Funnel Submission
 
 Funnel: {{funnelName}}
@@ -145,15 +151,22 @@ View full submission: {{viewUrl}}
 ---
 Mundero Platform - Funnel Management
         `,
-        variables: ['funnelName', 'submittedAt', 'submissionId', 'organizationId', 'responses', 'viewUrl']
-    },
+    variables: [
+      "funnelName",
+      "submittedAt",
+      "submissionId",
+      "organizationId",
+      "responses",
+      "viewUrl",
+    ],
+  },
 
-    // Lead Welcome Email
-    lead_welcome: {
-        id: 'lead_welcome',
-        name: 'Lead Welcome Email',
-        subject: 'Welcome to {{organizationName}} - Next Steps',
-        htmlContent: `
+  // Lead Welcome Email
+  lead_welcome: {
+    id: "lead_welcome",
+    name: "Lead Welcome Email",
+    subject: "Welcome to {{organizationName}} - Next Steps",
+    htmlContent: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                 <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 8px 8px 0 0;">
                     <h1 style="margin: 0;">Welcome!</h1>
@@ -193,7 +206,7 @@ Mundero Platform - Funnel Management
                 </div>
             </div>
         `,
-        textContent: `
+    textContent: `
 Welcome to {{organizationName}}!
 
 Hello {{name}},
@@ -214,15 +227,21 @@ The {{organizationName}} Team
 ---
 {{organizationName}} | Powered by Mundero
         `,
-        variables: ['name', 'organizationName', 'solutionName', 'resourcesUrl', 'contactUrl']
-    },
+    variables: [
+      "name",
+      "organizationName",
+      "solutionName",
+      "resourcesUrl",
+      "contactUrl",
+    ],
+  },
 
-    // HR New Postulant Email
-    hr_new_postulant: {
-        id: 'hr_new_postulant',
-        name: 'HR New Postulant Notification',
-        subject: 'New Job Application - {{position}}',
-        htmlContent: `
+  // HR New Postulant Email
+  hr_new_postulant: {
+    id: "hr_new_postulant",
+    name: "HR New Postulant Notification",
+    subject: "New Job Application - {{position}}",
+    htmlContent: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                 <div style="background: #6f42c1; color: white; padding: 20px; border-radius: 8px 8px 0 0;">
                     <h1 style="margin: 0;">New Job Application</h1>
@@ -276,7 +295,7 @@ The {{organizationName}} Team
                 </div>
             </div>
         `,
-        textContent: `
+    textContent: `
 New Job Application
 
 Candidate: {{candidateName}}
@@ -296,36 +315,51 @@ Review application: {{reviewUrl}}
 ---
 HR Management System - Powered by Mundero
         `,
-        variables: ['candidateName', 'position', 'email', 'phone', 'experience', 'appliedAt', 'additionalInfo', 'reviewUrl']
-    }
+    variables: [
+      "candidateName",
+      "position",
+      "email",
+      "phone",
+      "experience",
+      "appliedAt",
+      "additionalInfo",
+      "reviewUrl",
+    ],
+  },
 };
 
 // Email service interface
 export interface EmailService {
-    send(template: string, to: string, data: Record<string, any>): Promise<void>;
-    sendRaw(to: string, subject: string, content: string): Promise<void>;
+  send(template: string, to: string, data: Record<string, any>): Promise<void>;
+  sendRaw(to: string, subject: string, content: string): Promise<void>;
 }
 
 // Template renderer utility
 export class EmailTemplateRenderer {
-    static render(templateId: string, data: Record<string, any>): { subject: string; html: string; text: string } {
-        const template = emailTemplates[templateId];
-        if (!template) {
-            throw new Error(`Email template '${templateId}' not found`);
-        }
-
-        return {
-            subject: this.interpolate(template.subject, data),
-            html: this.interpolate(template.htmlContent, data),
-            text: this.interpolate(template.textContent, data)
-        };
+  static render(
+    templateId: string,
+    data: Record<string, any>,
+  ): { subject: string; html: string; text: string } {
+    const template = emailTemplates[templateId];
+    if (!template) {
+      throw new Error(`Email template '${templateId}' not found`);
     }
 
-    private static interpolate(template: string, data: Record<string, any>): string {
-        return template.replace(/\{\{(\w+)\}\}/g, (match, key) => {
-            return data[key] || match;
-        });
-    }
+    return {
+      subject: this.interpolate(template.subject, data),
+      html: this.interpolate(template.htmlContent, data),
+      text: this.interpolate(template.textContent, data),
+    };
+  }
+
+  private static interpolate(
+    template: string,
+    data: Record<string, any>,
+  ): string {
+    return template.replace(/\{\{(\w+)\}\}/g, (match, key) => {
+      return data[key] || match;
+    });
+  }
 }
 
 export default emailTemplates;

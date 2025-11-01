@@ -1,14 +1,18 @@
-import { useState, useEffect } from 'react'
-import { getAuth, onAuthStateChanged, User } from 'firebase/auth'
-import { loginWithGoogle, signOut, getCurrentUser } from '../core/auth/useGoogleAuth'
-import { app } from '../core/firebase/firebaseClient'
-import { UserProfile } from '@/types'
+import { useState, useEffect } from "react";
+import { getAuth, onAuthStateChanged, User } from "firebase/auth";
+import {
+  loginWithGoogle,
+  signOut,
+  getCurrentUser,
+} from "../core/auth/useGoogleAuth";
+import { app } from "../core/firebase/firebaseClient";
+import { UserProfile } from "@/types";
 
 export interface AuthState {
-  user: User | null
-  profile: UserProfile | null
-  loading: boolean
-  error: string | null
+  user: User | null;
+  profile: UserProfile | null;
+  loading: boolean;
+  error: string | null;
 }
 
 export function useAuth() {
@@ -16,90 +20,93 @@ export function useAuth() {
     user: null,
     profile: null,
     loading: true,
-    error: null
-  })
+    error: null,
+  });
 
   useEffect(() => {
-    const auth = getAuth(app)
-    
-    console.log('🔐 Configurando auth listener...')
-    
+    const auth = getAuth(app);
+
+    console.log("🔐 Configurando auth listener...");
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      console.log('👤 Auth state changed:', user ? user.email : 'No user')
-      
+      console.log("👤 Auth state changed:", user ? user.email : "No user");
+
       if (user) {
         try {
-          const currentUser = await getCurrentUser()
+          const currentUser = await getCurrentUser();
           setAuthState({
             user: user,
             profile: currentUser?.profile || null,
             loading: false,
-            error: null
-          })
+            error: null,
+          });
         } catch (error) {
-          const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+          const errorMessage =
+            error instanceof Error ? error.message : "Unknown error";
           setAuthState({
             user: user,
             profile: null,
             loading: false,
-            error: errorMessage
-          })
+            error: errorMessage,
+          });
         }
       } else {
         setAuthState({
           user: null,
           profile: null,
           loading: false,
-          error: null
-        })
+          error: null,
+        });
       }
-    })
+    });
 
-    return () => unsubscribe()
-  }, [])
+    return () => unsubscribe();
+  }, []);
 
   const login = async () => {
-    setAuthState(prev => ({ ...prev, loading: true, error: null }))
-    
+    setAuthState((prev) => ({ ...prev, loading: true, error: null }));
+
     try {
-      const result = await loginWithGoogle()
-      
+      const result = await loginWithGoogle();
+
       if (result.error) {
-        setAuthState(prev => ({
+        setAuthState((prev) => ({
           ...prev,
           loading: false,
-          error: result.error!
-        }))
-        return { success: false, error: result.error }
+          error: result.error!,
+        }));
+        return { success: false, error: result.error };
       }
 
-      return { success: true }
+      return { success: true };
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Login failed'
-      setAuthState(prev => ({
+      const errorMessage =
+        error instanceof Error ? error.message : "Login failed";
+      setAuthState((prev) => ({
         ...prev,
         loading: false,
-        error: errorMessage
-      }))
-      return { success: false, error: errorMessage }
+        error: errorMessage,
+      }));
+      return { success: false, error: errorMessage };
     }
-  }
+  };
 
   const logout = async () => {
     try {
-      await signOut()
-      return { success: true }
+      await signOut();
+      return { success: true };
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Logout failed'
-      setAuthState(prev => ({ ...prev, error: errorMessage }))
-      return { success: false, error: errorMessage }
+      const errorMessage =
+        error instanceof Error ? error.message : "Logout failed";
+      setAuthState((prev) => ({ ...prev, error: errorMessage }));
+      return { success: false, error: errorMessage };
     }
-  }
+  };
 
   return {
     ...authState,
     login,
     logout,
-    isAuthenticated: !!authState.user
-  }
+    isAuthenticated: !!authState.user,
+  };
 }

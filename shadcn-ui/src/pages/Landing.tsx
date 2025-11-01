@@ -1,19 +1,19 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { 
-  Users, 
-  AppWindow, 
-  ShieldCheck, 
-  ArrowRight, 
-  Globe, 
+import React from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  Users,
+  AppWindow,
+  ShieldCheck,
+  ArrowRight,
+  Globe,
   Sparkles,
   Network,
-  TrendingUp
-} from 'lucide-react';
-import { Link } from 'react-router-dom';
+  TrendingUp,
+} from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Landing = () => {
   const containerVariants = {
@@ -22,9 +22,9 @@ const Landing = () => {
       opacity: 1,
       transition: {
         delayChildren: 0.3,
-        staggerChildren: 0.2
-      }
-    }
+        staggerChildren: 0.2,
+      },
+    },
   };
 
   const itemVariants = {
@@ -33,30 +33,33 @@ const Landing = () => {
       y: 0,
       opacity: 1,
       transition: {
-        duration: 0.6
-      }
-    }
+        duration: 0.6,
+      },
+    },
   };
 
   const features = [
     {
       icon: Users,
       title: "Conecta con Profesionales",
-      description: "Amplía tu red con personas que comparten tus intereses y ambiciones.",
-      gradient: "from-blue-500 to-cyan-500"
+      description:
+        "Amplía tu red con personas que comparten tus intereses y ambiciones.",
+      gradient: "from-blue-500 to-cyan-500",
     },
     {
       icon: AppWindow,
       title: "Accede a Herramientas Digitales",
-      description: "Explora un ecosistema de aplicaciones y recursos para tu desarrollo profesional.",
-      gradient: "from-purple-500 to-pink-500"
+      description:
+        "Explora un ecosistema de aplicaciones y recursos para tu desarrollo profesional.",
+      gradient: "from-purple-500 to-pink-500",
     },
     {
       icon: ShieldCheck,
       title: "Avanza Seguro",
-      description: "Protege tus datos con autenticación Google y controles de privacidad avanzados.",
-      gradient: "from-green-500 to-emerald-500"
-    }
+      description:
+        "Protege tus datos con autenticación Google y controles de privacidad avanzados.",
+      gradient: "from-green-500 to-emerald-500",
+    },
   ];
 
   return (
@@ -69,7 +72,7 @@ const Landing = () => {
       </div>
 
       {/* Navbar */}
-      <motion.nav 
+      <motion.nav
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8 }}
@@ -85,12 +88,32 @@ const Landing = () => {
                 MUNDERO
               </span>
             </div>
-            
+
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#inicio" className="text-slate-300 hover:text-white transition-colors duration-300">Inicio</a>
-              <a href="#descubre" className="text-slate-300 hover:text-white transition-colors duration-300">Descubre</a>
-              <a href="#conecta" className="text-slate-300 hover:text-white transition-colors duration-300">Conecta</a>
-              <a href="#soporte" className="text-slate-300 hover:text-white transition-colors duration-300">Soporte</a>
+              <a
+                href="#inicio"
+                className="text-slate-300 hover:text-white transition-colors duration-300"
+              >
+                Inicio
+              </a>
+              <a
+                href="#descubre"
+                className="text-slate-300 hover:text-white transition-colors duration-300"
+              >
+                Descubre
+              </a>
+              <a
+                href="#conecta"
+                className="text-slate-300 hover:text-white transition-colors duration-300"
+              >
+                Conecta
+              </a>
+              <a
+                href="#soporte"
+                className="text-slate-300 hover:text-white transition-colors duration-300"
+              >
+                Soporte
+              </a>
             </div>
 
             <Link to="/login">
@@ -108,7 +131,7 @@ const Landing = () => {
         <div className="container mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
-            <motion.div 
+            <motion.div
               variants={containerVariants}
               initial="hidden"
               animate="visible"
@@ -119,13 +142,13 @@ const Landing = () => {
                   <Globe className="w-4 h-4 mr-2" />
                   Red Profesional Global
                 </Badge>
-                
+
                 <h1 className="text-5xl md:text-7xl font-bold leading-tight">
                   <span className="bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent">
                     MUNDERO
                   </span>
                 </h1>
-                
+
                 <h2 className="text-xl md:text-2xl text-slate-300 font-light leading-relaxed">
                   Tu red profesional para crecer, conectar y acceder al futuro.
                 </h2>
@@ -133,22 +156,23 @@ const Landing = () => {
 
               <motion.div variants={itemVariants} className="space-y-6">
                 <p className="text-lg text-slate-400 leading-relaxed max-w-lg">
-                  Descubre oportunidades, comparte tu perfil y accede a aplicaciones que impulsan tu desarrollo profesional.
+                  Descubre oportunidades, comparte tu perfil y accede a
+                  aplicaciones que impulsan tu desarrollo profesional.
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link to="/register">
-                    <Button 
-                      size="lg" 
+                    <Button
+                      size="lg"
                       className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-2xl shadow-blue-500/25 text-lg px-8 py-4 group"
                     >
                       Únete Gratis
                       <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </Link>
-                  
-                  <Button 
-                    variant="outline" 
+
+                  <Button
+                    variant="outline"
                     size="lg"
                     className="border-slate-600 text-slate-300 hover:bg-slate-800 hover:text-white px-8 py-4"
                   >
@@ -157,73 +181,80 @@ const Landing = () => {
                 </div>
               </motion.div>
 
-              <motion.div variants={itemVariants} className="flex items-center space-x-6 pt-4">
+              <motion.div
+                variants={itemVariants}
+                className="flex items-center space-x-6 pt-4"
+              >
                 <div className="flex -space-x-3">
                   {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 border-2 border-slate-900 flex items-center justify-center text-white font-semibold text-sm">
+                    <div
+                      key={i}
+                      className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 border-2 border-slate-900 flex items-center justify-center text-white font-semibold text-sm"
+                    >
                       {String.fromCharCode(64 + i)}
                     </div>
                   ))}
                 </div>
                 <div className="text-sm text-slate-400">
-                  <span className="text-white font-semibold">+10,000</span> profesionales conectados
+                  <span className="text-white font-semibold">+10,000</span>{" "}
+                  profesionales conectados
                 </div>
               </motion.div>
             </motion.div>
 
             {/* Right Image */}
-            <motion.div 
+            <motion.div
               initial={{ x: 100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 0.5 }}
               className="relative"
             >
               <motion.div
-                animate={{ 
-                  y: [-10, 10, -10]
+                animate={{
+                  y: [-10, 10, -10],
                 }}
                 transition={{
                   duration: 6,
                   repeat: Infinity,
-                  repeatType: "loop"
+                  repeatType: "loop",
                 }}
                 className="relative z-10"
               >
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-3xl blur-3xl"></div>
-                  <img 
-                    src="/mundero.png" 
-                    alt="MUNDERO Professional Network" 
+                  <img
+                    src="/mundero.png"
+                    alt="MUNDERO Professional Network"
                     className="relative z-10 w-full max-w-lg mx-auto rounded-3xl shadow-2xl"
                   />
                 </div>
               </motion.div>
-              
+
               {/* Floating Elements */}
-              <motion.div 
-                animate={{ 
-                  y: [-20, 20, -20], 
-                  rotate: [0, 5, 0] 
+              <motion.div
+                animate={{
+                  y: [-20, 20, -20],
+                  rotate: [0, 5, 0],
                 }}
-                transition={{ 
-                  duration: 8, 
+                transition={{
+                  duration: 8,
                   repeat: Infinity,
-                  repeatType: "loop"
+                  repeatType: "loop",
                 }}
                 className="absolute top-10 -left-10 w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/25"
               >
                 <TrendingUp className="w-8 h-8 text-white" />
               </motion.div>
-              
-              <motion.div 
-                animate={{ 
-                  y: [20, -20, 20], 
-                  rotate: [0, -5, 0] 
+
+              <motion.div
+                animate={{
+                  y: [20, -20, 20],
+                  rotate: [0, -5, 0],
                 }}
-                transition={{ 
-                  duration: 10, 
+                transition={{
+                  duration: 10,
                   repeat: Infinity,
-                  repeatType: "loop"
+                  repeatType: "loop",
                 }}
                 className="absolute bottom-10 -right-10 w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/25"
               >
@@ -237,7 +268,7 @@ const Landing = () => {
       {/* Features Section */}
       <section className="py-20 px-6 relative">
         <div className="container mx-auto">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -250,7 +281,8 @@ const Landing = () => {
               </span>
             </h3>
             <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-              MUNDERO te ofrece las herramientas y conexiones que necesitas para llevar tu carrera al siguiente nivel.
+              MUNDERO te ofrece las herramientas y conexiones que necesitas para
+              llevar tu carrera al siguiente nivel.
             </p>
           </motion.div>
 
@@ -267,14 +299,16 @@ const Landing = () => {
               >
                 <Card className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm hover:bg-slate-800/70 transition-all duration-300 h-full">
                   <CardContent className="p-8 text-center space-y-6">
-                    <div className={`w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300`}>
+                    <div
+                      className={`w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300`}
+                    >
                       <feature.icon className="w-8 h-8 text-white" />
                     </div>
-                    
+
                     <h4 className="text-xl font-semibold text-white group-hover:text-blue-300 transition-colors">
                       {feature.title}
                     </h4>
-                    
+
                     <p className="text-slate-400 leading-relaxed">
                       {feature.description}
                     </p>
@@ -302,23 +336,24 @@ const Landing = () => {
                   "El futuro del trabajo comienza con conexiones reales."
                 </span>
               </h3>
-              
+
               <p className="text-slate-300 text-lg mb-8 max-w-2xl mx-auto">
-                Únete a la comunidad de profesionales que están construyendo el futuro del trabajo colaborativo.
+                Únete a la comunidad de profesionales que están construyendo el
+                futuro del trabajo colaborativo.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link to="/register">
-                  <Button 
-                    size="lg" 
+                  <Button
+                    size="lg"
                     className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-2xl shadow-blue-500/25 text-lg px-8 py-4"
                   >
                     Comenzar Ahora
                   </Button>
                 </Link>
-                
-                <Button 
-                  variant="outline" 
+
+                <Button
+                  variant="outline"
                   size="lg"
                   className="border-slate-500 text-slate-300 hover:bg-slate-700 hover:text-white px-8 py-4"
                 >
@@ -342,14 +377,22 @@ const Landing = () => {
                 MUNDERO
               </span>
             </div>
-            
+
             <div className="flex flex-wrap justify-center gap-6 text-sm text-slate-400">
-              <a href="#" className="hover:text-white transition-colors">Términos</a>
-              <a href="#" className="hover:text-white transition-colors">Privacidad</a>
-              <a href="#" className="hover:text-white transition-colors">Soporte</a>
-              <a href="#" className="hover:text-white transition-colors">Idioma</a>
+              <a href="#" className="hover:text-white transition-colors">
+                Términos
+              </a>
+              <a href="#" className="hover:text-white transition-colors">
+                Privacidad
+              </a>
+              <a href="#" className="hover:text-white transition-colors">
+                Soporte
+              </a>
+              <a href="#" className="hover:text-white transition-colors">
+                Idioma
+              </a>
             </div>
-            
+
             <p className="text-sm text-slate-500 text-center md:text-right">
               © 2025 MUNDERO — La red donde tu talento se conecta con el mundo.
             </p>

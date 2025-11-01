@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useAgreement } from '../hooks/useAgreement';
-import AgreementModal from '../components/AgreementModal';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { useAgreement } from "../hooks/useAgreement";
+import AgreementModal from "../components/AgreementModal";
 import {
   FiPlus,
   FiTarget,
@@ -11,90 +11,102 @@ import {
   FiEdit3,
   FiCalendar,
   FiPhone,
-  FiMail
-} from 'react-icons/fi';
+  FiMail,
+} from "react-icons/fi";
 
 export const LeadCenter: React.FC = () => {
   const { requiresAgreement } = useAgreement();
-  
+
   // Hooks siempre al nivel superior
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [newLead, setNewLead] = useState({
-    company: '',
-    contact: '',
-    email: '',
-    phone: '',
-    status: 'Nuevo',
-    notes: '',
-    followUpDate: ''
+    company: "",
+    contact: "",
+    email: "",
+    phone: "",
+    status: "Nuevo",
+    notes: "",
+    followUpDate: "",
   });
 
   // Control de acceso - bloquear si requiere acuerdo
   if (requiresAgreement) {
-    return <AgreementModal isOpen={true} onClose={() => { }} />;
+    return <AgreementModal isOpen={true} onClose={() => {}} />;
   }
 
   const leads = [
     {
       id: 1,
-      company: 'TechCorp SAC',
-      contact: 'María González',
-      email: 'maria@techcorp.com',
-      phone: '+51 999 888 777',
-      status: 'Seguimiento',
-      notes: 'Interesada en servicios de LEGALTY',
-      createdAt: '2024-01-15',
-      followUpDate: '2024-01-25',
-      lastActivity: '2024-01-20'
+      company: "TechCorp SAC",
+      contact: "María González",
+      email: "maria@techcorp.com",
+      phone: "+51 999 888 777",
+      status: "Seguimiento",
+      notes: "Interesada en servicios de LEGALTY",
+      createdAt: "2024-01-15",
+      followUpDate: "2024-01-25",
+      lastActivity: "2024-01-20",
     },
     {
       id: 2,
-      company: 'StartupXYZ',
-      contact: 'Carlos Mendoza',
-      email: 'carlos@startupxyz.com',
-      phone: '+51 888 777 666',
-      status: 'Nuevo',
-      notes: 'Necesita consultoría empresarial',
-      createdAt: '2024-01-18',
-      followUpDate: '2024-01-22',
-      lastActivity: '2024-01-18'
-    }
+      company: "StartupXYZ",
+      contact: "Carlos Mendoza",
+      email: "carlos@startupxyz.com",
+      phone: "+51 888 777 666",
+      status: "Nuevo",
+      notes: "Necesita consultoría empresarial",
+      createdAt: "2024-01-18",
+      followUpDate: "2024-01-22",
+      lastActivity: "2024-01-18",
+    },
   ];
 
   const handleCreateLead = () => {
     // TODO: Create lead in Firebase
-    console.log('Creating lead:', newLead);
+    console.log("Creating lead:", newLead);
     setShowCreateForm(false);
     setNewLead({
-      company: '',
-      contact: '',
-      email: '',
-      phone: '',
-      status: 'Nuevo',
-      notes: '',
-      followUpDate: ''
+      company: "",
+      contact: "",
+      email: "",
+      phone: "",
+      status: "Nuevo",
+      notes: "",
+      followUpDate: "",
     });
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Nuevo': return 'bg-blue-100 text-blue-800';
-      case 'Seguimiento': return 'bg-yellow-100 text-yellow-800';
-      case 'Calificado': return 'bg-green-100 text-green-800';
-      case 'Cliente': return 'bg-purple-100 text-purple-800';
-      case 'Vencido': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case "Nuevo":
+        return "bg-blue-100 text-blue-800";
+      case "Seguimiento":
+        return "bg-yellow-100 text-yellow-800";
+      case "Calificado":
+        return "bg-green-100 text-green-800";
+      case "Cliente":
+        return "bg-purple-100 text-purple-800";
+      case "Vencido":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'Nuevo': return <FiTarget className="w-4 h-4" />;
-      case 'Seguimiento': return <FiClock className="w-4 h-4" />;
-      case 'Calificado': return <FiCheck className="w-4 h-4" />;
-      case 'Cliente': return <FiCheck className="w-4 h-4" />;
-      case 'Vencido': return <FiX className="w-4 h-4" />;
-      default: return <FiTarget className="w-4 h-4" />;
+      case "Nuevo":
+        return <FiTarget className="w-4 h-4" />;
+      case "Seguimiento":
+        return <FiClock className="w-4 h-4" />;
+      case "Calificado":
+        return <FiCheck className="w-4 h-4" />;
+      case "Cliente":
+        return <FiCheck className="w-4 h-4" />;
+      case "Vencido":
+        return <FiX className="w-4 h-4" />;
+      default:
+        return <FiTarget className="w-4 h-4" />;
     }
   };
 
@@ -104,7 +116,9 @@ export const LeadCenter: React.FC = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Centro de Leads</h1>
-          <p className="text-gray-600 mt-2">Gestiona tus oportunidades de negocio</p>
+          <p className="text-gray-600 mt-2">
+            Gestiona tus oportunidades de negocio
+          </p>
         </div>
         <button
           onClick={() => setShowCreateForm(true)}
@@ -127,39 +141,51 @@ export const LeadCenter: React.FC = () => {
             animate={{ scale: 1, opacity: 1 }}
             className="bg-white rounded-xl p-6 w-full max-w-2xl mx-4"
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Nuevo Lead</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              Nuevo Lead
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <input
                 type="text"
                 placeholder="Nombre de la empresa"
                 value={newLead.company}
-                onChange={(e) => setNewLead(prev => ({ ...prev, company: e.target.value }))}
+                onChange={(e) =>
+                  setNewLead((prev) => ({ ...prev, company: e.target.value }))
+                }
                 className="p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
               <input
                 type="text"
                 placeholder="Persona de contacto"
                 value={newLead.contact}
-                onChange={(e) => setNewLead(prev => ({ ...prev, contact: e.target.value }))}
+                onChange={(e) =>
+                  setNewLead((prev) => ({ ...prev, contact: e.target.value }))
+                }
                 className="p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
               <input
                 type="email"
                 placeholder="Email"
                 value={newLead.email}
-                onChange={(e) => setNewLead(prev => ({ ...prev, email: e.target.value }))}
+                onChange={(e) =>
+                  setNewLead((prev) => ({ ...prev, email: e.target.value }))
+                }
                 className="p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
               <input
                 type="tel"
                 placeholder="Teléfono"
                 value={newLead.phone}
-                onChange={(e) => setNewLead(prev => ({ ...prev, phone: e.target.value }))}
+                onChange={(e) =>
+                  setNewLead((prev) => ({ ...prev, phone: e.target.value }))
+                }
                 className="p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
               <select
                 value={newLead.status}
-                onChange={(e) => setNewLead(prev => ({ ...prev, status: e.target.value }))}
+                onChange={(e) =>
+                  setNewLead((prev) => ({ ...prev, status: e.target.value }))
+                }
                 className="p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="Nuevo">Nuevo</option>
@@ -170,14 +196,21 @@ export const LeadCenter: React.FC = () => {
                 type="date"
                 placeholder="Fecha de seguimiento"
                 value={newLead.followUpDate}
-                onChange={(e) => setNewLead(prev => ({ ...prev, followUpDate: e.target.value }))}
+                onChange={(e) =>
+                  setNewLead((prev) => ({
+                    ...prev,
+                    followUpDate: e.target.value,
+                  }))
+                }
                 className="p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
             <textarea
               placeholder="Notas adicionales"
               value={newLead.notes}
-              onChange={(e) => setNewLead(prev => ({ ...prev, notes: e.target.value }))}
+              onChange={(e) =>
+                setNewLead((prev) => ({ ...prev, notes: e.target.value }))
+              }
               className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none mb-6"
               rows={3}
             />
@@ -215,7 +248,7 @@ export const LeadCenter: React.FC = () => {
             <div>
               <p className="text-sm text-gray-600">En Seguimiento</p>
               <p className="text-2xl font-bold text-gray-900">
-                {leads.filter(lead => lead.status === 'Seguimiento').length}
+                {leads.filter((lead) => lead.status === "Seguimiento").length}
               </p>
             </div>
             <FiClock className="w-8 h-8 text-yellow-600" />
@@ -226,7 +259,7 @@ export const LeadCenter: React.FC = () => {
             <div>
               <p className="text-sm text-gray-600">Calificados</p>
               <p className="text-2xl font-bold text-gray-900">
-                {leads.filter(lead => lead.status === 'Calificado').length}
+                {leads.filter((lead) => lead.status === "Calificado").length}
               </p>
             </div>
             <FiCheck className="w-8 h-8 text-green-600" />
@@ -237,7 +270,7 @@ export const LeadCenter: React.FC = () => {
             <div>
               <p className="text-sm text-gray-600">Convertidos</p>
               <p className="text-2xl font-bold text-gray-900">
-                {leads.filter(lead => lead.status === 'Cliente').length}
+                {leads.filter((lead) => lead.status === "Cliente").length}
               </p>
             </div>
             <FiCheck className="w-8 h-8 text-purple-600" />
@@ -258,11 +291,15 @@ export const LeadCenter: React.FC = () => {
             {/* Lead Header */}
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h3 className="font-semibold text-gray-900 text-lg">{lead.company}</h3>
+                <h3 className="font-semibold text-gray-900 text-lg">
+                  {lead.company}
+                </h3>
                 <p className="text-gray-600">{lead.contact}</p>
               </div>
               <div className="flex items-center space-x-2">
-                <span className={`flex items-center space-x-1 px-2 py-1 rounded-full text-xs ${getStatusColor(lead.status)}`}>
+                <span
+                  className={`flex items-center space-x-1 px-2 py-1 rounded-full text-xs ${getStatusColor(lead.status)}`}
+                >
                   {getStatusIcon(lead.status)}
                   <span>{lead.status}</span>
                 </span>
@@ -276,7 +313,10 @@ export const LeadCenter: React.FC = () => {
             <div className="space-y-2 mb-4">
               <div className="flex items-center space-x-2 text-sm text-gray-600">
                 <FiMail className="w-4 h-4" />
-                <a href={`mailto:${lead.email}`} className="hover:text-blue-600">
+                <a
+                  href={`mailto:${lead.email}`}
+                  className="hover:text-blue-600"
+                >
                   {lead.email}
                 </a>
               </div>
@@ -308,7 +348,9 @@ export const LeadCenter: React.FC = () => {
                   <FiCalendar className="w-3 h-3" />
                   <span>Próximo seguimiento:</span>
                 </div>
-                <span className="font-medium text-blue-600">{lead.followUpDate}</span>
+                <span className="font-medium text-blue-600">
+                  {lead.followUpDate}
+                </span>
               </div>
             </div>
           </motion.div>

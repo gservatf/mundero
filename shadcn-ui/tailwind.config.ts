@@ -56,7 +56,7 @@ const config: Config = {
           primary: "#0f172a",
           secondary: "#3b82f6",
           accent: "#06b6d4",
-        }
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

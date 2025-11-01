@@ -1,20 +1,31 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FiPlus, FiUser, FiMail, FiPhone, FiHome, FiDollarSign, FiCheck, FiClock, FiX, FiAlertCircle } from 'react-icons/fi';
-import { useMockData, useMockAuth } from '../hooks/useMockData';
-import toast from 'react-hot-toast';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import {
+  FiPlus,
+  FiUser,
+  FiMail,
+  FiPhone,
+  FiHome,
+  FiDollarSign,
+  FiCheck,
+  FiClock,
+  FiX,
+  FiAlertCircle,
+} from "react-icons/fi";
+import { useMockData, useMockAuth } from "../hooks/useMockData";
+import toast from "react-hot-toast";
 
 const ReferralSystem = () => {
   const { referrals } = useMockData();
   const { user } = useMockAuth();
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
-    nombre: '',
-    email: '',
-    telefono: '',
-    empresa: '',
-    servicio: 'legalty',
-    notas: ''
+    nombre: "",
+    email: "",
+    telefono: "",
+    empresa: "",
+    servicio: "legalty",
+    notas: "",
   });
 
   // Verificar si el usuario está registrado
@@ -22,27 +33,31 @@ const ReferralSystem = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!isUserRegistered) {
-      toast.error('Debes estar registrado y tener un perfil completo para hacer referidos');
+      toast.error(
+        "Debes estar registrado y tener un perfil completo para hacer referidos",
+      );
       return;
     }
 
-    toast.success('Referido registrado correctamente');
+    toast.success("Referido registrado correctamente");
     setShowForm(false);
     setFormData({
-      nombre: '',
-      email: '',
-      telefono: '',
-      empresa: '',
-      servicio: 'legalty',
-      notas: ''
+      nombre: "",
+      email: "",
+      telefono: "",
+      empresa: "",
+      servicio: "legalty",
+      notas: "",
     });
   };
 
   const handleNewReferralClick = () => {
     if (!isUserRegistered) {
-      toast.error('Debes estar registrado y tener un perfil completo para hacer referidos');
+      toast.error(
+        "Debes estar registrado y tener un perfil completo para hacer referidos",
+      );
       return;
     }
     setShowForm(true);
@@ -50,11 +65,11 @@ const ReferralSystem = () => {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'converted':
+      case "converted":
         return <FiCheck className="w-4 h-4 text-green-500" />;
-      case 'pending':
+      case "pending":
         return <FiClock className="w-4 h-4 text-yellow-500" />;
-      case 'rejected':
+      case "rejected":
         return <FiX className="w-4 h-4 text-red-500" />;
       default:
         return <FiClock className="w-4 h-4 text-gray-500" />;
@@ -63,27 +78,27 @@ const ReferralSystem = () => {
 
   const getStatusText = (status: string) => {
     switch (status) {
-      case 'converted':
-        return 'Convertido';
-      case 'pending':
-        return 'Pendiente';
-      case 'rejected':
-        return 'Rechazado';
+      case "converted":
+        return "Convertido";
+      case "pending":
+        return "Pendiente";
+      case "rejected":
+        return "Rechazado";
       default:
-        return 'En proceso';
+        return "En proceso";
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'converted':
-        return 'bg-green-100 text-green-700';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-700';
-      case 'rejected':
-        return 'bg-red-100 text-red-700';
+      case "converted":
+        return "bg-green-100 text-green-700";
+      case "pending":
+        return "bg-yellow-100 text-yellow-700";
+      case "rejected":
+        return "bg-red-100 text-red-700";
       default:
-        return 'bg-gray-100 text-gray-700';
+        return "bg-gray-100 text-gray-700";
     }
   };
 
@@ -92,16 +107,20 @@ const ReferralSystem = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900">Sistema de Referidos</h3>
-          <p className="text-sm text-gray-600">Gestiona tus referidos y comisiones</p>
+          <h3 className="text-lg font-semibold text-gray-900">
+            Sistema de Referidos
+          </h3>
+          <p className="text-sm text-gray-600">
+            Gestiona tus referidos y comisiones
+          </p>
         </div>
         <button
           onClick={handleNewReferralClick}
           disabled={!isUserRegistered}
           className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
             isUserRegistered
-              ? 'bg-blue-600 text-white hover:bg-blue-700'
-              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              ? "bg-blue-600 text-white hover:bg-blue-700"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
           }`}
         >
           <FiPlus className="w-4 h-4" />
@@ -115,10 +134,15 @@ const ReferralSystem = () => {
           <div className="flex items-start space-x-3">
             <FiAlertCircle className="w-5 h-5 text-yellow-600 mt-0.5" />
             <div>
-              <h4 className="font-medium text-yellow-900">Registro Requerido</h4>
+              <h4 className="font-medium text-yellow-900">
+                Registro Requerido
+              </h4>
               <p className="text-yellow-800 text-sm mt-1">
-                Para poder hacer referidos, debes estar registrado en la plataforma y tener un perfil completo. 
-                {!user ? ' Por favor inicia sesión primero.' : ' Completa tu perfil en la sección "Mi Perfil".'}
+                Para poder hacer referidos, debes estar registrado en la
+                plataforma y tener un perfil completo.
+                {!user
+                  ? " Por favor inicia sesión primero."
+                  : ' Completa tu perfil en la sección "Mi Perfil".'}
               </p>
             </div>
           </div>
@@ -138,37 +162,41 @@ const ReferralSystem = () => {
             <FiUser className="w-6 h-6 text-blue-500" />
           </div>
         </div>
-        
+
         <div className="bg-white p-4 rounded-lg border">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Convertidos</p>
               <p className="text-xl font-bold text-green-600">
-                {isUserRegistered ? referrals.filter(r => r.status === 'converted').length : 0}
+                {isUserRegistered
+                  ? referrals.filter((r) => r.status === "converted").length
+                  : 0}
               </p>
             </div>
             <FiCheck className="w-6 h-6 text-green-500" />
           </div>
         </div>
-        
+
         <div className="bg-white p-4 rounded-lg border">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Pendientes</p>
               <p className="text-xl font-bold text-yellow-600">
-                {isUserRegistered ? referrals.filter(r => r.status === 'pending').length : 0}
+                {isUserRegistered
+                  ? referrals.filter((r) => r.status === "pending").length
+                  : 0}
               </p>
             </div>
             <FiClock className="w-6 h-6 text-yellow-500" />
           </div>
         </div>
-        
+
         <div className="bg-white p-4 rounded-lg border">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Comisiones</p>
               <p className="text-xl font-bold text-purple-600">
-                {isUserRegistered ? '$2,450' : '$0'}
+                {isUserRegistered ? "$2,450" : "$0"}
               </p>
             </div>
             <FiDollarSign className="w-6 h-6 text-purple-500" />
@@ -199,8 +227,12 @@ const ReferralSystem = () => {
                         </span>
                       </div>
                       <div>
-                        <h5 className="font-medium text-gray-900">{referral.nombre}</h5>
-                        <p className="text-sm text-gray-500">{referral.email}</p>
+                        <h5 className="font-medium text-gray-900">
+                          {referral.nombre}
+                        </h5>
+                        <p className="text-sm text-gray-500">
+                          {referral.email}
+                        </p>
                         <div className="flex items-center space-x-4 mt-1">
                           <span className="text-xs text-gray-400 flex items-center">
                             <FiHome className="w-3 h-3 mr-1" />
@@ -212,27 +244,33 @@ const ReferralSystem = () => {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center space-x-4">
                       <div className="text-right">
                         <p className="text-sm font-medium text-gray-900">
                           ${referral.comisionPotencial}
                         </p>
-                        <p className="text-xs text-gray-500">Comisión potencial</p>
+                        <p className="text-xs text-gray-500">
+                          Comisión potencial
+                        </p>
                       </div>
-                      
+
                       <div className="flex items-center space-x-2">
                         {getStatusIcon(referral.status)}
-                        <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(referral.status)}`}>
+                        <span
+                          className={`px-2 py-1 text-xs rounded-full ${getStatusColor(referral.status)}`}
+                        >
                           {getStatusText(referral.status)}
                         </span>
                       </div>
                     </div>
                   </div>
-                  
+
                   {referral.notas && (
                     <div className="mt-3 pl-14">
-                      <p className="text-sm text-gray-600 italic">"{referral.notas}"</p>
+                      <p className="text-sm text-gray-600 italic">
+                        "{referral.notas}"
+                      </p>
                     </div>
                   )}
                 </motion.div>
@@ -240,9 +278,12 @@ const ReferralSystem = () => {
             ) : (
               <div className="p-8 text-center">
                 <FiUser className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No tienes referidos aún</h3>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  No tienes referidos aún
+                </h3>
                 <p className="text-gray-600 mb-4">
-                  Comienza a referir clientes y gana comisiones por cada conversión exitosa.
+                  Comienza a referir clientes y gana comisiones por cada
+                  conversión exitosa.
                 </p>
                 <button
                   onClick={handleNewReferralClick}
@@ -255,7 +296,9 @@ const ReferralSystem = () => {
           ) : (
             <div className="p-8 text-center">
               <FiAlertCircle className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Registro Requerido</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                Registro Requerido
+              </h3>
               <p className="text-gray-600">
                 Debes estar registrado para ver y gestionar tus referidos.
               </p>
@@ -277,7 +320,9 @@ const ReferralSystem = () => {
             className="bg-white rounded-xl p-6 w-full max-w-md"
           >
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Nuevo Referido</h3>
+              <h3 className="text-lg font-semibold text-gray-900">
+                Nuevo Referido
+              </h3>
               <button
                 onClick={() => setShowForm(false)}
                 className="text-gray-400 hover:text-gray-600"
@@ -303,7 +348,9 @@ const ReferralSystem = () => {
                   <input
                     type="text"
                     value={formData.nombre}
-                    onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, nombre: e.target.value })
+                    }
                     className="w-full pl-10 pr-3 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                     placeholder="Nombre del referido"
                     required
@@ -320,7 +367,9 @@ const ReferralSystem = () => {
                   <input
                     type="email"
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
                     className="w-full pl-10 pr-3 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                     placeholder="email@ejemplo.com"
                     required
@@ -337,7 +386,9 @@ const ReferralSystem = () => {
                   <input
                     type="tel"
                     value={formData.telefono}
-                    onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, telefono: e.target.value })
+                    }
                     className="w-full pl-10 pr-3 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                     placeholder="+51 999 999 999"
                   />
@@ -353,7 +404,9 @@ const ReferralSystem = () => {
                   <input
                     type="text"
                     value={formData.empresa}
-                    onChange={(e) => setFormData({ ...formData, empresa: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, empresa: e.target.value })
+                    }
                     className="w-full pl-10 pr-3 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                     placeholder="Nombre de la empresa"
                     required
@@ -367,7 +420,9 @@ const ReferralSystem = () => {
                 </label>
                 <select
                   value={formData.servicio}
-                  onChange={(e) => setFormData({ ...formData, servicio: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, servicio: e.target.value })
+                  }
                   className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                   required
                 >
@@ -384,7 +439,9 @@ const ReferralSystem = () => {
                 </label>
                 <textarea
                   value={formData.notas}
-                  onChange={(e) => setFormData({ ...formData, notas: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, notas: e.target.value })
+                  }
                   className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                   rows={3}
                   placeholder="Información adicional sobre el referido..."

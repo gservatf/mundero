@@ -1,6 +1,7 @@
 # Módulo de Mensajes - Panel Administrativo MUNDERO
 
 ## Descripción
+
 Módulo de comunicación interna en tiempo real para el Panel Administrativo de MUNDERO, permitiendo chat entre usuarios, administradores y empresas del ecosistema.
 
 ## Estructura del Módulo
@@ -23,6 +24,7 @@ Módulo de comunicación interna en tiempo real para el Panel Administrativo de 
 ## Funcionalidades Implementadas
 
 ### ✅ Completadas
+
 1. **Gestión de Conversaciones**
    - Carga en tiempo real de conversaciones del usuario
    - Ordenamiento por último mensaje
@@ -49,6 +51,7 @@ Módulo de comunicación interna en tiempo real para el Panel Administrativo de 
    - Estado de "escribiendo..." (implementación base)
 
 ### 🔄 En Desarrollo
+
 1. **Archivos e Imágenes**
    - Botones preparados pero funcionalidad deshabilitada
    - Estructura lista para Firebase Storage
@@ -59,6 +62,7 @@ Módulo de comunicación interna en tiempo real para el Panel Administrativo de 
 ## Estructura de Datos Firebase
 
 ### Colección `/chats/{chatId}`
+
 ```typescript
 {
   members: string[];              // [uid1, uid2]
@@ -71,6 +75,7 @@ Módulo de comunicación interna en tiempo real para el Panel Administrativo de 
 ```
 
 ### Subcolección `/chats/{chatId}/messages/{messageId}`
+
 ```typescript
 {
   senderId: string;
@@ -84,6 +89,7 @@ Módulo de comunicación interna en tiempo real para el Panel Administrativo de 
 ```
 
 ### Notificaciones `/notifications/{recipientId}` (Realtime DB)
+
 ```typescript
 {
   type: "message";
@@ -99,11 +105,11 @@ Módulo de comunicación interna en tiempo real para el Panel Administrativo de 
 ```javascript
 // Reglas para chats
 match /chats/{chatId} {
-  allow read, write: if request.auth != null && 
+  allow read, write: if request.auth != null &&
     request.auth.uid in resource.data.members;
-  
+
   match /messages/{messageId} {
-    allow read, write: if request.auth != null && 
+    allow read, write: if request.auth != null &&
       request.auth.uid in get(/databases/$(database)/documents/chats/$(chatId)).data.members;
   }
 }
@@ -112,15 +118,13 @@ match /chats/{chatId} {
 ## Uso del Módulo
 
 ### Importación
+
 ```typescript
-import { 
-  ChatList, 
-  ChatWindow, 
-  useChat 
-} from '../modules/admin-panel/messages';
+import { ChatList, ChatWindow, useChat } from "../modules/admin-panel/messages";
 ```
 
 ### Implementación Básica
+
 ```typescript
 const MessagesPage = () => {
   const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
@@ -128,14 +132,14 @@ const MessagesPage = () => {
   return (
     <div className="flex h-full">
       <div className="w-1/3 border-r">
-        <ChatList 
+        <ChatList
           onChatSelect={setSelectedChatId}
           selectedChatId={selectedChatId}
         />
       </div>
       <div className="flex-1">
         {selectedChatId ? (
-          <ChatWindow 
+          <ChatWindow
             chatId={selectedChatId}
             onBack={() => setSelectedChatId(null)}
           />
@@ -153,6 +157,7 @@ const MessagesPage = () => {
 ## Hook useChat
 
 ### Estado Disponible
+
 - `chats`: Lista de conversaciones
 - `messages`: Mensajes del chat actual
 - `participants`: Participantes del chat
@@ -160,6 +165,7 @@ const MessagesPage = () => {
 - `sendingMessage`: Estado de envío
 
 ### Acciones Disponibles
+
 - `selectChat(chatId)`: Seleccionar conversación
 - `sendMessage(text, recipientId?)`: Enviar mensaje
 - `createChat(recipientId)`: Crear nueva conversación
@@ -169,6 +175,7 @@ const MessagesPage = () => {
 ## Integración con el Panel Admin
 
 El módulo está diseñado para integrarse seamlessly con:
+
 - Sistema de autenticación existente (`useAuth`)
 - Componentes UI de shadcn/ui
 - Estructura de roles y permisos de MUNDERO

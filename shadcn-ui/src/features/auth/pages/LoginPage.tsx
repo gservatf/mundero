@@ -1,18 +1,25 @@
-import { useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
-import { Eye, EyeOff, Mail, Lock, LogIn } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { useHybridAuth } from '../hooks/useHybridAuth';
+import { useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+import { Eye, EyeOff, Mail, Lock, LogIn } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useHybridAuth } from "../hooks/useHybridAuth";
 
 export default function LoginPage() {
-  const { login, isLoading, error, isAuthenticated, clearError } = useHybridAuth();
+  const { login, isLoading, error, isAuthenticated, clearError } =
+    useHybridAuth();
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
 
@@ -24,7 +31,7 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     clearError();
-    
+
     if (!formData.email || !formData.password) {
       return;
     }
@@ -38,14 +45,14 @@ export default function LoginPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
     if (error) clearError();
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-4">
       <div className="absolute inset-0 bg-black/20" />
-      
+
       <Card className="w-full max-w-md relative backdrop-blur-xl bg-white/10 border-white/20 shadow-2xl">
         <CardHeader className="text-center space-y-2">
           <div className="mx-auto w-16 h-16 bg-gradient-to-br from-purple-400 to-blue-400 rounded-2xl flex items-center justify-center mb-4">
@@ -95,7 +102,7 @@ export default function LoginPage() {
                 <Input
                   id="password"
                   name="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   value={formData.password}
                   onChange={handleInputChange}
                   placeholder="••••••••"
@@ -107,7 +114,11 @@ export default function LoginPage() {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-300 hover:text-white transition-colors"
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showPassword ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
                 </button>
               </div>
             </div>
@@ -132,14 +143,14 @@ export default function LoginPage() {
                   Iniciando sesión...
                 </div>
               ) : (
-                'Iniciar Sesión'
+                "Iniciar Sesión"
               )}
             </Button>
           </form>
 
           <div className="text-center">
             <p className="text-purple-200">
-              ¿No tienes cuenta?{' '}
+              ¿No tienes cuenta?{" "}
               <Link
                 to="/register"
                 className="text-purple-300 hover:text-white font-semibold transition-colors"

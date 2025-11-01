@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, ArrowLeft, Network, Sparkles } from 'lucide-react';
-import { FcGoogle } from 'react-icons/fc';
-import { useHybridAuth } from '../hooks/useHybridAuth';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Loader2, ArrowLeft, Network, Sparkles } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
+import { useHybridAuth } from "../hooks/useHybridAuth";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -17,9 +17,9 @@ const Register = () => {
     try {
       setIsRegistering(true);
       await signInWithGoogle();
-      navigate('/dashboard');
+      navigate("/dashboard");
     } catch (error) {
-      console.error('Error al registrarse con Google:', error);
+      console.error("Error al registrarse con Google:", error);
     } finally {
       setIsRegistering(false);
     }
@@ -40,8 +40,8 @@ const Register = () => {
         className="w-full max-w-md relative z-10"
       >
         {/* Back Button */}
-        <Link 
-          to="/" 
+        <Link
+          to="/"
           className="inline-flex items-center text-slate-400 hover:text-white transition-colors mb-6 group"
         >
           <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
@@ -61,7 +61,8 @@ const Register = () => {
               Únete a MUNDERO
             </h1>
             <p className="text-slate-400 text-sm leading-relaxed">
-              Accede con tu cuenta de Google y conecta con el ecosistema profesional.
+              Accede con tu cuenta de Google y conecta con el ecosistema
+              profesional.
             </p>
           </CardHeader>
 
@@ -119,9 +120,9 @@ const Register = () => {
             {/* Login Link */}
             <div className="text-center pt-4 border-t border-slate-700/50">
               <p className="text-slate-400 text-sm">
-                ¿Ya tienes una cuenta?{' '}
-                <Link 
-                  to="/login" 
+                ¿Ya tienes una cuenta?{" "}
+                <Link
+                  to="/login"
                   className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
                 >
                   Inicia sesión
@@ -133,9 +134,11 @@ const Register = () => {
 
         {/* Footer Note */}
         <p className="text-center text-slate-500 text-xs mt-6 leading-relaxed">
-          Al registrarte, aceptas nuestros términos de servicio y política de privacidad.
+          Al registrarte, aceptas nuestros términos de servicio y política de
+          privacidad.
           <br />
-          Los datos adicionales se completarán en cada aplicación según sea necesario.
+          Los datos adicionales se completarán en cada aplicación según sea
+          necesario.
         </p>
       </motion.div>
     </div>
