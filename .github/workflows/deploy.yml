@@ -30,8 +30,10 @@ jobs:
       - name: Debug environment variables
         run: |
           echo "🔍 Checking environment variables..."
-          echo "VITE_FIREBASE_PROJECT_ID is set: $([bool]$env:VITE_FIREBASE_PROJECT_ID)"
-          echo "VITE_FIREBASE_API_KEY length: $($env:VITE_FIREBASE_API_KEY.Length)"
+          echo "VITE_FIREBASE_PROJECT_ID is set: ${VITE_FIREBASE_PROJECT_ID:+YES}"
+          echo "VITE_FIREBASE_API_KEY length: ${#VITE_FIREBASE_API_KEY}"
+          echo "All environment variables:"
+          env | grep VITE_ || echo "No VITE_ variables found"
         env:
           VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
           VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
