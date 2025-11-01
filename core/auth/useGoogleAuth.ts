@@ -5,7 +5,7 @@ import {
   signOut as firebaseSignOut,
 } from "firebase/auth";
 import { supabase } from "../core/supabase/supabaseClient";
-import { firebaseApp } from "../core/firebase/firebaseClient";
+import firebaseApp from "../core/firebase/firebaseClient";
 
 export interface GoogleAuthResult {
   user: any;

@@ -1,9 +1,7 @@
+// validate-firebase.js
 import { initializeApp } from "firebase/app";
-import { getAnalytics, isSupported } from "firebase/analytics";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
 
+// Carga la configuración base directamente
 const firebaseConfig = {
   apiKey: process.env.VITE_FIREBASE_API_KEY || "AIzaSyDH36xJWH3Xxmv7BsIrrHHP9ts3EOmOtK0",
   authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN || "mundero360.firebaseapp.com",
@@ -14,17 +12,17 @@ const firebaseConfig = {
   measurementId: process.env.VITE_FIREBASE_MEASUREMENT_ID || "G-X736D9JQGX",
 };
 
-const app = initializeApp(firebaseConfig);
-
-// Previene errores en entornos sin Analytics (SSR o desarrollo)
-if (typeof window !== "undefined") {
-  isSupported().then((supported) => {
-    if (supported) getAnalytics(app);
-  });
+// Validación directa sin iniciar servicios
+if (!firebaseConfig.projectId) {
+  console.error("❌ FALTA el projectId en firebaseConfig");
+  process.exit(1);
 }
 
-export const auth = getAuth(app);
-export const provider = new GoogleAuthProvider();
-export const db = getFirestore(app);
-export const storage = getStorage(app);
-export default app;
+try {
+  const app = initializeApp(firebaseConfig);
+  console.log(`✅ Firebase inicializado correctamente con projectId: ${firebaseConfig.projectId}`);
+  process.exit(0);
+} catch (error) {
+  console.error("🔥 Error al inicializar Firebase:", error.message);
+  process.exit(1);
+}
