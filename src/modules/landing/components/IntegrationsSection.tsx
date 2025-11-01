@@ -1,30 +1,18 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-// Importar logos
-import weConsulting from '@/assets/logos/empresas/logo-echado-we-consulting.png';
-import legality from '@/assets/logos/empresas/logo-legality.png';
-import studio41 from '@/assets/logos/empresas/logo-s41.png';
-import arkadiam from '@/assets/logos/empresas/logo-ak-arquitectos.png';
-import swyftassist from '@/assets/logos/empresas/logo-swyftassist.png';
-import portales from '@/assets/logos/empresas/logo-portales.png';
-import pitahaya from '@/assets/logos/empresas/logo-pithaya.png';
-import todoinmueble from '@/assets/logos/empresas/logo-todoinmueble.png';
-import escuela from '@/assets/logos/empresas/logo-escuela-angloamericana.png';
-import grupoServat from '@/assets/logos/empresas/logo-grupo-servat.png';
-
 export const IntegrationsSection: React.FC = () => {
   const integrations = [
-    weConsulting,
-    legality,
-    studio41,
-    arkadiam,
-    swyftassist,
-    portales,
-    pitahaya,
-    todoinmueble,
-    escuela,
-    grupoServat,
+    '/images/empresas/logo-echado-we-consulting.png',
+    '/images/empresas/logo-legality.png',
+    '/images/empresas/logo-s41.png',
+    '/images/empresas/logo-ak-arquitectos.png',
+    '/images/empresas/logo-swyftassist.png',
+    '/images/empresas/logo-portales.png',
+    '/images/empresas/logo-pithaya.png',
+    '/images/empresas/logo-todoinmueble.png',
+    '/images/empresas/logo-escuela-angloamericana.png',
+    '/images/empresas/logo-grupo-servat.png',
   ];
 
   return (
