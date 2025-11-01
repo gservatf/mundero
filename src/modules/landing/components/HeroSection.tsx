@@ -7,7 +7,7 @@ export const HeroSection: React.FC = () => {
         {/* Texto principal */}
         <div className="flex flex-col items-start text-left">
           <img
-            src="https://mundero360.web.app/images/logo-echado-azul.png"
+            src="/images/logo-echado-azul.png"
             alt="Mundero"
             className="h-12 md:h-16 w-auto mt-4 mb-8"
             loading="lazy"
@@ -37,7 +37,7 @@ export const HeroSection: React.FC = () => {
         {/* Imagen */}
         <div className="flex justify-center md:justify-end">
           <img
-            src="https://mundero360.web.app/images/mundero.png"
+            src="/images/mundero.png"
             alt="Red de conexiones Mundero"
             className="w-full max-w-md md:max-w-lg object-contain"
             loading="lazy"

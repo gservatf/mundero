@@ -3,16 +3,16 @@ import { motion } from 'framer-motion';
 
 export const IntegrationsSection: React.FC = () => {
   const integrations = [
-    'https://mundero360.web.app/images/empresas/logo-echado-we-consulting.png',
-    'https://mundero360.web.app/images/empresas/logo-legality.png',
-    'https://mundero360.web.app/images/empresas/logo-s41.png',
-    'https://mundero360.web.app/images/empresas/logo-ak-arquitectos.png',
-    'https://mundero360.web.app/images/empresas/logo-swyftassist.png',
-    'https://mundero360.web.app/images/empresas/logo-portales.png',
-    'https://mundero360.web.app/images/empresas/logo-pithaya.png',
-    'https://mundero360.web.app/images/empresas/logo-todoinmueble.png',
-    'https://mundero360.web.app/images/empresas/logo-escuela-angloamericana.png',
-    'https://mundero360.web.app/images/empresas/logo-grupo-servat.png',
+    '/images/empresas/logo-echado-we-consulting.png',
+    '/images/empresas/logo-legality.png',
+    '/images/empresas/logo-s41.png',
+    '/images/empresas/logo-ak-arquitectos.png',
+    '/images/empresas/logo-swyftassist.png',
+    '/images/empresas/logo-portales.png',
+    '/images/empresas/logo-pithaya.png',
+    '/images/empresas/logo-todoinmueble.png',
+    '/images/empresas/logo-escuela-angloamericana.png',
+    '/images/empresas/logo-grupo-servat.png',
   ];
 
   return (
