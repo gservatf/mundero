@@ -1,73 +1,85 @@
-import React from "react";
+import React from 'react';
+import { motion } from 'framer-motion';
 
-// Importa todos los logos desde src/assets/logos/empresas/
-import weConsultingLogo from "@/assets/logos/empresas/logo-echado-we-consulting.png";
-import legalityLogo from "@/assets/logos/empresas/logo-legality.png";
-import studio41Logo from "@/assets/logos/empresas/logo-s41.png";
-import arkadiamLogo from "@/assets/logos/empresas/logo-ak-arquitectos.png";
-import swyftAssistLogo from "@/assets/logos/empresas/logo-swyftassist.png";
-import portalesLogo from "@/assets/logos/empresas/logo-portales.png";
-import pitahayaLogo from "@/assets/logos/empresas/logo-pithaya.png";
-import todoInmuebleLogo from "@/assets/logos/empresas/logo-todoinmueble.png";
-import angloAmericanaLogo from "@/assets/logos/empresas/logo-escuela-angloamericana.png";
-import grupoServatLogo from "@/assets/logos/empresas/logo-grupo-servat.png";
+// Importa los logos desde /assets/logos/empresas/
+import weConsulting from '@/assets/logos/empresas/logo-echado-we-consulting.png';
+import legality from '@/assets/logos/empresas/logo-legality.png';
+import studio41 from '@/assets/logos/empresas/logo-s41.png';
+import arkadiam from '@/assets/logos/empresas/logo-ak-arquitectos.png';
+import swyftassist from '@/assets/logos/empresas/logo-swyftassist.png';
+import portales from '@/assets/logos/empresas/logo-portales.png';
+import pitahaya from '@/assets/logos/empresas/logo-pithaya.png';
+import todoinmueble from '@/assets/logos/empresas/logo-todoinmueble.png';
+import escuela from '@/assets/logos/empresas/logo-escuela-angloamericana.png';
+import grupoServat from '@/assets/logos/empresas/logo-grupo-servat.png';
 
 export const IntegrationsSection: React.FC = () => {
   const integrations = [
-    { name: "We Consulting", logo: weConsultingLogo },
-    { name: "Legality", logo: legalityLogo },
-    { name: "Studio41", logo: studio41Logo },
-    { name: "Arkadiam Group", logo: arkadiamLogo },
-    { name: "Swyft Assist", logo: swyftAssistLogo },
-    { name: "Portales Inmobiliario", logo: portalesLogo },
-    { name: "Pitahaya Investments", logo: pitahayaLogo },
-    { name: "TodoInmueble.pe", logo: todoInmuebleLogo },
-    { name: "Escuela Angloamericana", logo: angloAmericanaLogo },
-    { name: "Grupo Servat", logo: grupoServatLogo },
+    { name: 'We Consulting', logo: weConsulting },
+    { name: 'Legality', logo: legality },
+    { name: 'Studio41', logo: studio41 },
+    { name: 'Arkadiam Group', logo: arkadiam },
+    { name: 'Swyft Assist', logo: swyftassist },
+    { name: 'Portales Inmobiliario', logo: portales },
+    { name: 'Pitahaya Investments', logo: pitahaya },
+    { name: 'Todoinmueble.pe', logo: todoinmueble },
+    { name: 'Escuela Angloamericana', logo: escuela },
+    { name: 'Grupo Servat', logo: grupoServat },
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-br from-gray-50 via-white to-gray-100 text-center">
-      <div className="max-w-6xl mx-auto px-6">
-        {/* Título */}
-        <h2 className="text-4xl font-bold text-gray-900 mb-6">
-          Soluciones integradas del ecosistema{" "}
+    <section className="bg-gradient-to-b from-white to-slate-50 dark:from-slate-900 dark:to-slate-800 py-20">
+      <div className="max-w-7xl mx-auto px-6 text-center">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4"
+        >
+          Soluciones integradas del ecosistema{' '}
           <span className="text-blue-600">Servat</span>
-        </h2>
-        <p className="text-lg text-gray-600 mb-16 max-w-3xl mx-auto">
-          Mundero conecta tu perfil profesional con las aplicaciones del grupo.
-          Un ecosistema vivo donde cada empresa aporta una solución única.
-        </p>
+        </motion.h2>
 
-        {/* Grid de logos */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-10 justify-items-center items-center">
-          {integrations.map((item) => (
-            <div
-              key={item.name}
-              className="flex flex-col items-center justify-center group transition-transform duration-300 hover:scale-105"
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+          className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mb-12"
+        >
+          Mundero conecta tu perfil profesional con las aplicaciones del grupo. 
+          Un ecosistema vivo donde cada empresa aporta una solución única.
+        </motion.p>
+
+        {/* GRID DE LOGOS */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-10 items-center justify-items-center">
+          {integrations.map((integration, index) => (
+            <motion.div
+              key={integration.name}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: index * 0.05, duration: 0.4 }}
+              className="flex flex-col items-center"
             >
-              <div className="w-32 h-20 flex items-center justify-center bg-white shadow-md rounded-xl p-4 hover:shadow-lg transition-shadow duration-300">
-                <img
-                  src={item.logo}
-                  alt={item.name}
-                  className="max-h-12 object-contain"
-                />
-              </div>
-              <span className="mt-3 text-sm text-gray-700 font-medium group-hover:text-blue-600 transition-colors duration-300">
-                {item.name}
-              </span>
-            </div>
+              <img
+                src={integration.logo}
+                alt={integration.name}
+                className="h-20 md:h-24 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 drop-shadow-sm hover:drop-shadow-lg"
+                loading="lazy"
+              />
+              <p className="mt-3 text-sm md:text-base font-medium text-slate-700 dark:text-slate-200">
+                {integration.name}
+              </p>
+            </motion.div>
           ))}
         </div>
 
-        {/* CTA inferior */}
-        <div className="mt-16">
-          <p className="text-gray-500 text-sm">
-            Más soluciones se integrarán próximamente en Mundero. El futuro del
-            trabajo conectado está en expansión.
-          </p>
-        </div>
+        <p className="mt-14 text-sm text-slate-500 dark:text-slate-400">
+          Más soluciones se integrarán próximamente en Mundero. 
+          El futuro del trabajo conectado está en expansión.
+        </p>
       </div>
     </section>
   );
 };
+
+export default IntegrationsSection;

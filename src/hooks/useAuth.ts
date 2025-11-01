@@ -4,8 +4,9 @@ import {
   onAuthStateChanged,
   signInWithPopup,
   signOut,
+  GoogleAuthProvider,
 } from "firebase/auth";
-import { auth, googleProvider } from "../lib/firebase";
+import { auth } from "../lib/firebaseConfig";
 import toast from "react-hot-toast";
 
 export interface UserProfile {
@@ -68,7 +69,9 @@ export const useAuth = () => {
   const signInWithGoogle = async () => {
     try {
       setLoading(true);
-      const result = await signInWithPopup(auth, googleProvider);
+      const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: "select_account" });
+      const result = await signInWithPopup(auth, provider);
 
       toast.success(`¡Bienvenido ${result.user.displayName}!`);
 
