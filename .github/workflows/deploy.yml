@@ -27,6 +27,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Debug environment variables
+        run: |
+          echo "🔍 Checking environment variables..."
+          echo "VITE_FIREBASE_PROJECT_ID is set: $([bool]$env:VITE_FIREBASE_PROJECT_ID)"
+          echo "VITE_FIREBASE_API_KEY length: $($env:VITE_FIREBASE_API_KEY.Length)"
+        env:
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+
       - name: Build project
         run: pnpm run build
         env:
