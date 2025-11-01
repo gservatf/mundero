@@ -4,20 +4,21 @@
 
 Para que el workflow de GitHub Actions funcione correctamente, necesitas configurar los siguientes secrets en tu repositorio:
 
-### 1. FIREBASE_TOKEN
+### 1. FIREBASE_TOKEN (Deploy)
+- Name: `FIREBASE_TOKEN`
+- Value: [Token generado con `firebase login:ci`]
 
-1. **Generar el token de Firebase:**
-   ```bash
-   firebase login:ci
-   ```
-   Esto abrirá el navegador para autenticarte y luego mostrará un token.
-
-2. **Agregar el secret en GitHub:**
-   - Ve a tu repositorio en GitHub
-   - Settings → Secrets and variables → Actions
-   - Click "New repository secret"
-   - Name: `FIREBASE_TOKEN`
-   - Value: [el token generado anteriormente]
+### 2. Variables de Firebase (Build)
+| Secret Name | Example Value |
+|---|---|
+| `VITE_FIREBASE_API_KEY` | `AIzaSyDH36xJWH3Xxmv7BsIrrHHP9ts3EOmOtK0` |
+| `VITE_FIREBASE_AUTH_DOMAIN` | `mundero360.firebaseapp.com` |
+| `VITE_FIREBASE_PROJECT_ID` | `mundero360` |
+| `VITE_FIREBASE_STORAGE_BUCKET` | `mundero360.appspot.com` |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID` | `599385299146` |
+| `VITE_FIREBASE_APP_ID` | `1:599385299146:web:2f1ac9b1cab370e6a4fc33` |
+| `VITE_FIREBASE_MEASUREMENT_ID` | `G-X736D9JQGX` |
+| `VITE_MUNDERO_API_KEY` | `clave-secreta-interna` |
 
 ### 2. Environment Protection (Opcional pero recomendado)
 
