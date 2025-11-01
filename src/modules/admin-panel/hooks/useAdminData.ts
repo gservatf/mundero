@@ -5,6 +5,7 @@ import {
   type AdminUser,
   type AdminCompany,
 } from "../services/adminFirebase";
+import { solutionsService } from "../../solutions/services/solutionsService";
 import { apiClient } from "../../../lib/apiClient";
 import { useAdminAuth } from "./useAdminAuth";
 
@@ -134,9 +135,10 @@ export const useAdminData = () => {
 
       try {
         // Load data from Firebase
-        const [usersResult, companiesResult] = await Promise.allSettled([
+        const [usersResult, companiesResult, solutionsResult] = await Promise.allSettled([
           adminUserService.getUsers(1000),
           adminCompanyService.getCompanies(1000),
+          solutionsService.getAllSolutions(),
         ]);
 
         const users =
@@ -145,6 +147,8 @@ export const useAdminData = () => {
           companiesResult.status === "fulfilled"
             ? companiesResult.value.companies
             : [];
+        const solutions =
+          solutionsResult.status === "fulfilled" ? solutionsResult.value : [];
 
         // Try to get integration stats from API
         let totalIntegrations = 0;
@@ -163,7 +167,9 @@ export const useAdminData = () => {
           }
         } catch (error) {
           console.warn("Failed to load integration stats:", error);
-          // Continue without integration stats
+          // Use solutions count as fallback for integrations
+          totalIntegrations = solutions.length;
+          activeIntegrations = solutions.filter(s => s.active === true).length;
         }
 
         const stats: DashboardStats = {

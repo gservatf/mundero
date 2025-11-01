@@ -14,7 +14,7 @@ import {
   orderBy,
   Timestamp,
 } from "firebase/firestore";
-import { db } from "../../../lib/firebase";
+import { db } from "../../../lib/firebaseConfig";
 import type {
   Solution,
   OrgSolution,
