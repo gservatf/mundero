@@ -5,14 +5,14 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 // Validación de variables de entorno requeridas
-const requiredEnvVars = [
+const requiredVars = [
   'VITE_FIREBASE_API_KEY',
-  'VITE_FIREBASE_AUTH_DOMAIN',
+  'VITE_FIREBASE_AUTH_DOMAIN', 
   'VITE_FIREBASE_PROJECT_ID',
   'VITE_FIREBASE_STORAGE_BUCKET',
   'VITE_FIREBASE_MESSAGING_SENDER_ID',
-  'VITE_FIREBASE_APP_ID',
-  'VITE_MUNDERO_API_KEY'
+  'VITE_FIREBASE_APP_ID'
+  // Note: VITE_MUNDERO_API_KEY is optional for now
 ];
 
 const missingVars = requiredEnvVars.filter(v => !import.meta.env[v]);
