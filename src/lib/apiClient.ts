@@ -64,8 +64,9 @@ class ApiClient {
       "https://mundero.net";
 
     this.apiKey =
-      (globalThis as any)?.process?.env?.MUNDERO_API_KEY ||
-      (window as any)?.__ENV__?.MUNDERO_API_KEY ||
+      (globalThis as any)?.process?.env?.VITE_MUNDERO_API_KEY ||
+      (window as any)?.__ENV__?.VITE_MUNDERO_API_KEY ||
+      import.meta.env.VITE_MUNDERO_API_KEY ||
       "";
 
     this.version = "v1";
@@ -76,7 +77,7 @@ class ApiClient {
       "prod";
 
     if (!this.apiKey && this.mode === "prod") {
-      console.warn("⚠️ MUNDERO_API_KEY not found in environment variables");
+      console.warn("⚠️ VITE_MUNDERO_API_KEY not found in environment variables");
     }
   }
 
